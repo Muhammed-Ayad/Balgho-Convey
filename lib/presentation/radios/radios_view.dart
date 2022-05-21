@@ -47,6 +47,7 @@ class RadiosView extends StatelessWidget {
               ),
             );
           }
+          // update json data 
           return ListView.builder(
             primary: false,
             shrinkWrap: true,
