@@ -1,72 +1,69 @@
+
 {
   "Radios": [
     {
-      "Name": "---تراتيل قصيرة متميزة---",
-      "URL": "http://live.mp3quran.net:9702/;"
-    },
-    {
-      "Name": "--تفسير القران الكريم--",
-      "URL": "http://live.mp3quran.net:9718/;"
-    },
-    {
-      "Name": "--سورة البقرة - لعدد من القراء",
-      "URL": "http://live.mp3quran.net:9722/;"
-    },
-    {
-      "Name": "-الإذاعة العامة - اذاعة متنوعة لمختلف القراء",
-      "URL": "http://live.mp3quran.net:8006/;"
-    },
-    {
-      "Name": "-المختصر في تفسير القرآن الكريم-",
-      "URL": "http://live.mp3quran.net:9698/;"
-    },
-    {
-      "Name": "-تلاوات خاشعة-",
-      "URL": "http://live.mp3quran.net:9992/;"
-    },
-    {
-      "Name": "-صور من حياة الصحابة-",
+      "Name": "---إذاعة صور من حياة الصحابة رضوان الله عليهم---",
       "URL": "https://qurango.net/radio/sahabah"
     },
     {
-      "Name": "آيات السكينة",
+      "Name": "---تراتيل قصيرة متميزة---",
+      "URL": "https://Qurango.net/radio/tarateel"
+    },
+    {
+      "Name": "--إذاعة آيات السكينة--",
       "URL": "https://qurango.net/radio/sakeenah"
     },
     {
+      "Name": "--تفسير القران الكريم--",
+      "URL": "https://qurango.net/radio/tafseer"
+    },
+    {
+      "Name": "--سورة البقرة - لعدد من القراء",
+      "URL": "https://qurango.net/radio/albaqarah"
+    },
+    {
+      "Name": "-الإذاعة العامة - اذاعة متنوعة لمختلف القراء",
+      "URL": "https://Qurango.net/radio/mix"
+    },
+    {
+      "Name": "-تلاوات خاشعة-",
+      "URL": "https://qurango.net/radio/salma"
+    },
+    {
       "Name": "أحمد الحواشي",
-      "URL": "http://live.mp3quran.net:9928/;"
+      "URL": "https://Qurango.net/radio/ahmad_alhawashi"
     },
     {
       "Name": "أحمد الطرابلسي",
-      "URL": "http://live.mp3quran.net:9926/;"
+      "URL": "https://Qurango.net/radio/ahmed_altrabulsi"
+    },
+    {
+      "Name": "أحمد الطرابلسي - رواية قالون عن نافع",
+      "URL": "https://Qurango.net/radio/ahmad_khader_altarabulsi"
     },
     {
       "Name": "أحمد بن علي العجمي",
-      "URL": "http://live.mp3quran.net:8008/;"
-    },
-    {
-      "Name": "أحمد خضر الطرابلسي",
-      "URL": "http://live.mp3quran.net:9924/;"
+      "URL": "https://Qurango.net/radio/ahmad_alajmy"
     },
     {
       "Name": "أحمد خليل شاهين",
-      "URL": "http://live.mp3quran.net:9710/;"
+      "URL": "https://Qurango.net/radio/ahmad_shaheen"
     },
     {
       "Name": "أحمد ديبان",
-      "URL": "http://live.mp3quran.net:8024/;"
+      "URL": "https://Qurango.net/radio/ahmad_deban"
     },
     {
       "Name": "أحمد صابر",
-      "URL": "http://live.mp3quran.net:9922/;"
+      "URL": "https://Qurango.net/radio/ahmad_saber"
     },
     {
       "Name": "أحمد عامر",
-      "URL": "http://live.mp3quran.net:9920/;"
+      "URL": "https://Qurango.net/radio/ahmed_amer"
     },
     {
       "Name": "أحمد نعينع",
-      "URL": "http://live.mp3quran.net:9904/;"
+      "URL": "https://Qurango.net/radio/ahmad_nauina"
     },
     {
       "Name": "أذكار الصباح",
@@ -78,463 +75,543 @@
     },
     {
       "Name": "أكرم العلاقمي",
-      "URL": "http://live.mp3quran.net:9918/;"
+      "URL": "https://Qurango.net/radio/akram_alalaqmi"
     },
     {
       "Name": "إبراهيم الأخضر",
-      "URL": "http://live.mp3quran.net:9946/;"
+      "URL": "https://Qurango.net/radio/ibrahim_alakdar"
     },
     {
       "Name": "إدريس أبكر",
-      "URL": "http://live.mp3quran.net:9968/;"
+      "URL": "https://Qurango.net/radio/idrees_abkr"
     },
     {
-      "Name": "ابراهيم الدوسري",
-      "URL": "http://live.mp3quran.net:9902/;"
+      "Name": "ابراهيم الدوسري - رواية ورش عن نافع",
+      "URL": "https://Qurango.net/radio/ibrahim_aldosari"
     },
     {
-      "Name": "الدوكالي محمد العالم",
-      "URL": "http://live.mp3quran.net:9916/;"
+      "Name": "الدوكالي محمد العالم - رواية قالون عن نافع",
+      "URL": "https://Qurango.net/radio/addokali_mohammad_alalim"
     },
     {
       "Name": "الرقية الشرعية",
-      "URL": "http://live.mp3quran.net:9936/;"
+      "URL": "https://qurango.net/radio/roqiah"
     },
     {
       "Name": "الزين محمد أحمد",
-      "URL": "http://live.mp3quran.net:9914/;"
+      "URL": "https://Qurango.net/radio/alzain_mohammad_ahmad"
     },
     {
-      "Name": "العيون الكوشي",
-      "URL": "http://live.mp3quran.net:9912/;"
+      "Name": "العيون الكوشي - رواية ورش عن نافع",
+      "URL": "https://Qurango.net/radio/aloyoon_alkoshi"
     },
     {
-      "Name": "الفاتح محمد الزبير",
-      "URL": "http://live.mp3quran.net:9910/;"
+      "Name": "الفاتح محمد الزبير- رواية الدوري عن أبي عمرو",
+      "URL": "https://Qurango.net/radio/alfateh_alzubair"
     },
     {
       "Name": "الفتاوى",
-      "URL": "http://live.mp3quran.net:8014/;"
+      "URL": "https://qurango.net/radio/fatwa"
     },
     {
-      "Name": "القارئ ياسين",
-      "URL": "http://live.mp3quran.net:9908/;"
+      "Name": "القارئ ياسين- رواية ورش عن نافع",
+      "URL": "https://Qurango.net/radio/alqaria_yassen"
+    },
+    {
+      "Name": "المختصر في السيرة النبوية - حلقات مختصرة عن سيرة نبيّنا محمد صلى الله عليه وسلم",
+      "URL": "https://Qurango.net/radio/almukhtasar_fi_alsiyra"
+    },
+    {
+      "Name": "المختصر في تفسير القرآن الكريم",
+      "URL": "https://qurango.net/radio/mukhtasartafsir"
     },
     {
       "Name": "بندر بليله",
       "URL": "https://Qurango.net/radio/bandar_balilah"
     },
     {
+      "Name": "ترجمة معاني القرآن الكريم باللغة الأوردية - القارئ عبدالباسط عبدالصمد",
+      "URL": "https://qurango.net/radio/translation_quran_urdu_basit"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الأسبانية",
+      "URL": "https://qurango.net/radio/translation_quran_spanish_afs"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الألبانية",
+      "URL": "https://qurango.net/radio/translation_quran_albanian"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الألمانية",
+      "URL": "https://qurango.net/radio/translation_quran_german"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الأمازيغية",
+      "URL": "https://qurango.net/radio/translation_quran_tamazight"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الأوردية - القارئ عبدالرحمن السديس و سعود الشريم",
+      "URL": "https://qurango.net/radio/translation_quran_urdu_sds_shur"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الأوردية - القارئ محمد المنشاوي",
+      "URL": "https://qurango.net/radio/translation_quran_urdu_minsh"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الإنجليزية -  القارئ عبدالباسط عبدالصمد",
+      "URL": "https://qurango.net/radio/translation_quran_english_basit"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الإنجليزية -  القارئ عبدالله صفر",
+      "URL": "https://qurango.net/radio/translation_quran_english_bsfr"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الإنجليزية - ترجمة والك-  القارئ عبدالباسط عبدالصمد",
+      "URL": "https://qurango.net/radio/translation_quran_english_walk_basit"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة البرتغالية",
+      "URL": "https://qurango.net/radio/translation_quran_portuguese"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة البوسنية",
+      "URL": "https://qurango.net/radio/translation_quran_bosnia"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة التركية",
+      "URL": "https://qurango.net/radio/translation_quran_turkish"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الصينية",
+      "URL": "https://qurango.net/radio/translation_quran_chinese"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الفارسية",
+      "URL": "https://qurango.net/radio/translation_quran_farsi"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الفرنسية",
+      "URL": "https://qurango.net/radio/translation_quran_french"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة الكردية",
+      "URL": "https://qurango.net/radio/translation_quran_kurdish"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة المجرية",
+      "URL": "https://qurango.net/radio/translation_quran_hungarian"
+    },
+    {
+      "Name": "ترجمة معاني القرآن باللغة اليونانية",
+      "URL": "https://qurango.net/radio/translation_quran_greek"
+    },
+    {
       "Name": "تكبيرات العيد",
-      "URL": "http://live.mp3quran.net:9728/;"
+      "URL": "https://qurango.net/radio/eid"
     },
     {
       "Name": "توفيق الصايغ",
-      "URL": "http://live.mp3quran.net:9906/;"
+      "URL": "https://Qurango.net/radio/tawfeeq_assayegh"
     },
     {
       "Name": "جمال شاكر عبدالله",
-      "URL": "http://live.mp3quran.net:9900/;"
+      "URL": "https://Qurango.net/radio/jamal_shaker_abdullah"
     },
     {
       "Name": "جمعان العصيمي",
-      "URL": "http://live.mp3quran.net:9950/;"
+      "URL": "https://Qurango.net/radio/jamaan_alosaimi"
     },
     {
       "Name": "حاتم فريد الواعر",
-      "URL": "http://live.mp3quran.net:9898/;"
+      "URL": "https://Qurango.net/radio/abdullah_alkandari"
     },
     {
       "Name": "خالد الجليل",
-      "URL": "http://live.mp3quran.net:9708/;"
+      "URL": "https://Qurango.net/radio/khalid_aljileel"
     },
     {
       "Name": "خالد القحطاني",
-      "URL": "http://live.mp3quran.net:9970/;"
+      "URL": "https://Qurango.net/radio/khaled_alqahtani"
     },
     {
       "Name": "خالد المهنا",
-      "URL": "http://live.mp3quran.net:9896/;"
+      "URL": "https://Qurango.net/radio/khalid_almohana"
     },
     {
       "Name": "خالد عبدالكافي",
-      "URL": "http://live.mp3quran.net:9894/;"
+      "URL": "https://Qurango.net/radio/khalid_abdulkafi"
     },
     {
       "Name": "خليفة الطنيجي",
-      "URL": "http://live.mp3quran.net:9892/;"
+      "URL": "https://Qurango.net/radio/khalifa_altunaiji"
     },
     {
       "Name": "زكي داغستاني",
-      "URL": "http://live.mp3quran.net:9890/;"
+      "URL": "https://Qurango.net/radio/zaki_daghistani"
     },
     {
       "Name": "سعد الغامدي",
-      "URL": "http://live.mp3quran.net:8004/;"
+      "URL": "https://Qurango.net/radio/saad_alghamdi"
     },
     {
       "Name": "سعود الشريم",
-      "URL": "http://live.mp3quran.net:9986/;"
+      "URL": "https://Qurango.net/radio/saud_alshuraim"
     },
     {
       "Name": "سهل ياسين",
-      "URL": "http://live.mp3quran.net:9888/;"
+      "URL": "https://Qurango.net/radio/sahl_yassin"
     },
     {
       "Name": "سيد رمضان",
-      "URL": "http://live.mp3quran.net:9886/;"
+      "URL": "https://Qurango.net/radio/sayeed_ramadan"
     },
     {
       "Name": "شيخ أبو بكر الشاطري",
-      "URL": "http://live.mp3quran.net:9966/;"
+      "URL": "https://Qurango.net/radio/shaik_abu_bakr_al_shatri"
     },
     {
       "Name": "شيرزاد عبدالرحمن طاهر",
-      "URL": "http://live.mp3quran.net:9884/;"
+      "URL": "https://Qurango.net/radio/shirazad_taher"
     },
     {
       "Name": "صابر عبدالحكم",
-      "URL": "http://live.mp3quran.net:9952/;"
-    },
-    {
-      "Name": "صالح الهبدان",
-      "URL": "http://live.mp3quran.net:8026/;"
+      "URL": "https://Qurango.net/radio/saber_abdulhakm"
     },
     {
       "Name": "صلاح البدير",
-      "URL": "http://live.mp3quran.net:9882/;"
+      "URL": "https://Qurango.net/radio/salah_albudair"
     },
     {
       "Name": "صلاح الهاشم",
-      "URL": "http://live.mp3quran.net:9880/;"
+      "URL": "https://Qurango.net/radio/salah_alhashim"
     },
     {
       "Name": "صلاح بو خاطر",
-      "URL": "http://live.mp3quran.net:9878/;"
+      "URL": "https://Qurango.net/radio/slaah_bukhatir"
     },
     {
-      "Name": "طارق عبدالغني دعوب",
-      "URL": "http://live.mp3quran.net:9876/;"
+      "Name": "طارق دعوب - رواية ثالون عن نافع",
+      "URL": "https://Qurango.net/radio/tareq_abdulgani_daawob"
     },
     {
       "Name": "عادل الكلباني",
-      "URL": "http://live.mp3quran.net:9874/;"
+      "URL": "https://Qurango.net/radio/adel_alkhalbany"
     },
     {
       "Name": "عادل ريان",
-      "URL": "http://live.mp3quran.net:9872/;"
+      "URL": "https://Qurango.net/radio/adel_ryyan"
     },
     {
       "Name": "عبدالبارئ الثبيتي",
-      "URL": "http://live.mp3quran.net:9870/;"
+      "URL": "https://Qurango.net/radio/abdelbari_altoubayti"
     },
     {
       "Name": "عبدالبارئ محمد",
-      "URL": "http://live.mp3quran.net:9868/;"
-    },
-    {
-      "Name": "عبدالباسط عبدالصمد",
-      "URL": "http://live.mp3quran.net:9980/;"
+      "URL": "https://Qurango.net/radio/abdulbari_mohammad"
     },
     {
       "Name": "عبدالباسط عبدالصمد ",
-      "URL": "http://live.mp3quran.net:9974/;"
+      "URL": "https://qurango.net/radio/abdulbasit_abdulsamad_mojawwad"
     },
     {
-      "Name": "عبدالباسط عبدالصمد",
-      "URL": "http://live.mp3quran.net:9956/;"
+      "Name": "عبدالباسط عبدالصمد ",
+      "URL": "https://Qurango.net/radio/abdulbasit_abdulsamad"
+    },
+    {
+      "Name": "عبدالباسط عبدالصمد - رواية ورش عن نافع",
+      "URL": "https://Qurango.net/radio/abdulbasit_abdulsamad_warsh"
     },
     {
       "Name": "عبدالرحمن السديس",
-      "URL": "http://live.mp3quran.net:9988/;"
+      "URL": "https://Qurango.net/radio/abdulrahman_alsudaes"
     },
     {
       "Name": "عبدالرحمن الماجد",
-      "URL": "http://live.mp3quran.net:9726/;"
+      "URL": "https://Qurango.net/radio/abdulrahman_almajed"
     },
     {
-      "Name": "عبدالرشيد صوفي",
-      "URL": "http://live.mp3quran.net:9866/;"
+      "Name": "عبدالرشيد صوفي - رواية السوسي عن أبي عمرو",
+      "URL": "https://Qurango.net/radio/abdulrasheed_soufi_assosi"
     },
     {
-      "Name": "عبدالرشيد صوفي",
-      "URL": "http://live.mp3quran.net:9864/;"
+      "Name": "عبدالرشيد صوفي - رواية خلف عن حمزة",
+      "URL": "https://Qurango.net/radio/abdulrasheed_soufi_khalaf"
     },
     {
       "Name": "عبدالعزيز الأحمد",
-      "URL": "http://live.mp3quran.net:9862/;"
+      "URL": "https://Qurango.net/radio/abdul_aziz_alahmad"
     },
     {
       "Name": "عبدالله الخلف",
-      "URL": "http://live.mp3quran.net:9704/;"
+      "URL": "https://Qurango.net/radio/abdullah_alkhalaf"
     },
     {
       "Name": "عبدالله الكندري",
-      "URL": "http://live.mp3quran.net:9860/;"
+      "URL": "https://Qurango.net/radio/abdullah_alkandari"
     },
     {
       "Name": "عبدالله المطرود",
-      "URL": "http://live.mp3quran.net:9858/;"
+      "URL": "https://Qurango.net/radio/abdullah_almattrod"
     },
     {
       "Name": "عبدالله الموسى",
-      "URL": "http://live.mp3quran.net:9706/;"
+      "URL": "https://Qurango.net/radio/abdullah_almousa"
     },
     {
       "Name": "عبدالله بصفر",
-      "URL": "http://live.mp3quran.net:9954/;"
+      "URL": "https://Qurango.net/radio/abdullah_basfer"
     },
     {
       "Name": "عبدالله خياط",
-      "URL": "http://live.mp3quran.net:9948/;"
+      "URL": "https://Qurango.net/radio/abdullah_khayyat"
     },
     {
       "Name": "عبدالله عواد الجهني",
-      "URL": "http://live.mp3quran.net:9944/;"
+      "URL": "https://Qurango.net/radio/abdullah_aljohany"
     },
     {
       "Name": "عبدالمحسن الحارثي",
-      "URL": "http://live.mp3quran.net:9856/;"
+      "URL": "https://Qurango.net/radio/abdulmohsin_alharthy"
     },
     {
       "Name": "عبدالمحسن العبيكان",
-      "URL": "http://live.mp3quran.net:9854/;"
+      "URL": "https://Qurango.net/radio/abdulmohsin_alobaikan"
     },
     {
       "Name": "عبدالمحسن القاسم",
-      "URL": "http://live.mp3quran.net:9852/;"
+      "URL": "https://Qurango.net/radio/abdulmohsen_alqasim"
     },
     {
       "Name": "عبدالهادي أحمد كناكري",
-      "URL": "http://live.mp3quran.net:9850/;"
+      "URL": "https://Qurango.net/radio/abdulhadi_kanakeri"
     },
     {
       "Name": "عبدالودود حنيف",
-      "URL": "http://live.mp3quran.net:9848/;"
+      "URL": "https://Qurango.net/radio/abdulwadood_haneef"
     },
     {
       "Name": "علي الحذيفي",
-      "URL": "http://live.mp3quran.net:9844/;"
-    },
-    {
-      "Name": "علي الحذيفي",
-      "URL": "http://live.mp3quran.net:9846/;"
+      "URL": "https://Qurango.net/radio/ali_alhuthaifi"
     },
     {
       "Name": "علي جابر",
-      "URL": "http://live.mp3quran.net:9964/;"
+      "URL": "https://Qurango.net/radio/ali_jaber"
     },
     {
       "Name": "علي حجاج السويسي",
-      "URL": "http://live.mp3quran.net:9842/;"
+      "URL": "https://Qurango.net/radio/ali_hajjaj_alsouasi"
     },
     {
       "Name": "عماد زهير حافظ",
-      "URL": "http://live.mp3quran.net:9840/;"
+      "URL": "https://Qurango.net/radio/emad_hafez"
     },
     {
-      "Name": "عمر القزابري",
-      "URL": "http://live.mp3quran.net:9838/;"
+      "Name": "عمر القزابري - رواية ورش عن نافع",
+      "URL": "https://Qurango.net/radio/omar_alqazabri"
     },
     {
       "Name": "فارس عباد",
-      "URL": "http://live.mp3quran.net:9972/;"
+      "URL": "https://Qurango.net/radio/fares_abbad"
     },
     {
       "Name": "في ظلال السيرة النبوية - 400 حلقة عن سيرة نبينا محمد صلى الله عليه وسلم",
       "URL": "https://Qurango.net/radio/fi_zilal_alsiyra"
     },
     {
+      "Name": "كتاب الاختيارات الفقهية في مسائل العبادات والمعاملات من فتاوى الشيخ الإمام ابن باز -رحمه لله",
+      "URL": "https://Qurango.net/radio/alaikhtiarat_alfiqhayh_bin_baz"
+    },
+    {
       "Name": "ماجد الزامل",
-      "URL": "http://live.mp3quran.net:8022/;"
+      "URL": "https://Qurango.net/radio/majed_alzamel"
     },
     {
       "Name": "ماهر المعيقلي",
-      "URL": "http://live.mp3quran.net:8002/;"
+      "URL": "https://Qurango.net/radio/maher_al_meaqli"
     },
     {
       "Name": "ماهر شخاشيرو",
-      "URL": "http://live.mp3quran.net:9836/;"
+      "URL": "https://Qurango.net/radio/maher_shakhashero"
     },
     {
       "Name": "محمد أيوب",
-      "URL": "http://live.mp3quran.net:9960/;"
+      "URL": "https://Qurango.net/radio/mohammed_ayyub"
     },
     {
-      "Name": "محمد أيوب - قراءة متميزة--",
-      "URL": "http://live.mp3quran.net:9700/;"
+      "Name": "محمد أيوب",
+      "URL": "https://qurango.net/radio/ayyoub2"
     },
     {
       "Name": "محمد الطبلاوي",
-      "URL": "http://live.mp3quran.net:9834/;"
+      "URL": "https://Qurango.net/radio/mohammad_altablaway"
     },
     {
       "Name": "محمد اللحيدان",
-      "URL": "http://live.mp3quran.net:9832/;"
+      "URL": "https://Qurango.net/radio/mohammed_allohaidan"
     },
     {
       "Name": "محمد جبريل",
-      "URL": "http://live.mp3quran.net:9962/;"
+      "URL": "https://Qurango.net/radio/mohammed_jibreel"
     },
     {
       "Name": "محمد رشاد الشريف",
-      "URL": "http://live.mp3quran.net:9830/;"
+      "URL": "https://Qurango.net/radio/mohammad_rashad_alshareef"
     },
     {
       "Name": "محمد صالح عالم شاه",
-      "URL": "http://live.mp3quran.net:9828/;"
+      "URL": "https://Qurango.net/radio/mohammad_saleh_alim_shah"
     },
     {
       "Name": "محمد صديق المنشاوي",
-      "URL": "http://live.mp3quran.net:9826/;"
+      "URL": "https://Qurango.net/radio/mohammed_siddiq_alminshawi"
     },
     {
       "Name": "محمد صديق المنشاوي",
-      "URL": "http://live.mp3quran.net:9978/;"
+      "URL": "https://qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad"
     },
     {
-      "Name": "محمد عبدالحكيم سعيد العبدالله",
-      "URL": "http://live.mp3quran.net:9814/;"
+      "Name": "محمد عبدالحكيم العبدالله - رواية البزي وقنبل عن ابن كثير",
+      "URL": "https://Qurango.net/radio/mohammad_alabdullah_albizi"
     },
     {
-      "Name": "محمد عبدالحكيم سعيد العبدالله",
-      "URL": "http://live.mp3quran.net:9816/;"
-    },
-    {
-      "Name": "محمد عبدالكريم",
-      "URL": "http://live.mp3quran.net:9822/;"
+      "Name": "محمد عبدالحكيم العبدالله - رواية الدوري عن الكسائي",
+      "URL": "https://Qurango.net/radio/mohammad_alabdullah_aldorai"
     },
     {
       "Name": "محمد عبدالكريم",
-      "URL": "http://live.mp3quran.net:9824/;"
+      "URL": "https://Qurango.net/radio/mohammad_abdullkarem"
+    },
+    {
+      "Name": "محمد عبدالكريم - رواية ورش عن نافع من طريق أبي بكر الأصبهاني",
+      "URL": "https://Qurango.net/radio/mohammad_abdullkarem_alasbahani"
     },
     {
       "Name": "محمد عثمان خان ( من الهند )",
-      "URL": "http://live.mp3quran.net:9820/;"
+      "URL": "https://Qurango.net/radio/mohammed_osman_khan"
     },
     {
       "Name": "محمود الرفاعي",
-      "URL": "http://live.mp3quran.net:9818/;"
+      "URL": "https://Qurango.net/radio/mahmood_al_rifai"
     },
     {
-      "Name": "محمود الشيمي",
-      "URL": "http://live.mp3quran.net:9812/;"
-    },
-    {
-      "Name": "محمود خليل الحصري",
-      "URL": "http://live.mp3quran.net:9806/;"
+      "Name": "محمود الشيمي - رواية الدوري عن الكسائي",
+      "URL": "https://Qurango.net/radio/mahmood_alsheimy"
     },
     {
       "Name": "محمود خليل الحصري",
-      "URL": "http://live.mp3quran.net:9804/;"
+      "URL": "https://Qurango.net/radio/mahmoud_khalil_alhussary"
     },
     {
       "Name": "محمود خليل الحصري",
-      "URL": "http://live.mp3quran.net:9958/;"
+      "URL": "https://Qurango.net/radio/mahmoud_khalil_alhussary_mojawwad"
+    },
+    {
+      "Name": "محمود خليل الحصري - رواية ورش عن نافع",
+      "URL": "https://Qurango.net/radio/mahmoud_khalil_alhussary_warsh"
     },
     {
       "Name": "محمود علي البنا",
-      "URL": "http://live.mp3quran.net:9808/;"
+      "URL": "https://Qurango.net/radio/mahmoud_ali__albanna"
     },
     {
       "Name": "محمود علي البنا",
-      "URL": "http://live.mp3quran.net:9810/;"
+      "URL": "https://Qurango.net/radio/mahmoud_ali__albanna_mojawwad"
     },
     {
       "Name": "مشاري العفاسي",
-      "URL": "http://live.mp3quran.net:8010/;"
+      "URL": "https://Qurango.net/radio/mishary_alafasi"
     },
     {
       "Name": "مصطفى إسماعيل",
-      "URL": "http://live.mp3quran.net:9800/;"
+      "URL": "https://Qurango.net/radio/mustafa_ismail"
     },
     {
       "Name": "مصطفى اللاهوني",
-      "URL": "http://live.mp3quran.net:9798/;"
+      "URL": "https://Qurango.net/radio/mustafa_allahoni"
     },
     {
       "Name": "مصطفى رعد العزاوي",
-      "URL": "http://live.mp3quran.net:9796/;"
+      "URL": "https://Qurango.net/radio/mustafa_raad_alazawy"
     },
     {
       "Name": "معيض الحارثي",
-      "URL": "http://live.mp3quran.net:9802/;"
+      "URL": "https://Qurango.net/radio/moeedh_alharthi"
     },
     {
       "Name": "مفتاح السلطني",
-      "URL": "http://live.mp3quran.net:9794/;"
+      "URL": "https://Qurango.net/radio/muftah_alsaltany"
     },
     {
-      "Name": "مفتاح السلطني",
-      "URL": "http://live.mp3quran.net:9788/;"
+      "Name": "مفتاح السلطني - رواية ابن ذكوان عن ابن عامر",
+      "URL": "https://Qurango.net/radio/muftah_alsaltany_ibn_thakwan_an_ibn_amr "
     },
     {
-      "Name": "مفتاح السلطني",
-      "URL": "http://live.mp3quran.net:9790/;"
+      "Name": "مفتاح السلطني - رواية الدوري عن أبي عمرو",
+      "URL": "https://Qurango.net/radio/muftah_alsaltany_aldori_an_abi_amr "
     },
     {
-      "Name": "مفتاح السلطني",
-      "URL": "http://live.mp3quran.net:9792/;"
+      "Name": "مفتاح السلطني - رواية الدوري عن الكسائي",
+      "URL": "https://Qurango.net/radio/muftah_alsaltany_aldorai"
     },
     {
       "Name": "موسى بلال",
-      "URL": "http://live.mp3quran.net:9786/;"
+      "URL": "https://Qurango.net/radio/mousa_bilal"
     },
     {
       "Name": "ناصر العصفور",
-      "URL": "http://live.mp3quran.net:8020/;"
+      "URL": "https://Qurango.net/radio/nasser_alosfor"
     },
     {
       "Name": "ناصر القطامي",
-      "URL": "http://live.mp3quran.net:9994/;"
+      "URL": "https://Qurango.net/radio/nasser_alqatami"
     },
     {
       "Name": "ناصر الماجد",
-      "URL": "http://live.mp3quran.net:9712/;"
+      "URL": "https://Qurango.net/radio/nasser_almajed"
     },
     {
       "Name": "نبيل الرفاعي",
-      "URL": "http://live.mp3quran.net:9784/;"
+      "URL": "https://Qurango.net/radio/nabil_al_rifay"
     },
     {
       "Name": "نعمة الحسان",
-      "URL": "http://live.mp3quran.net:9782/;"
+      "URL": "https://Qurango.net/radio/neamah_alhassan"
     },
     {
       "Name": "هاني الرفاعي",
-      "URL": "http://live.mp3quran.net:9780/;"
+      "URL": "https://Qurango.net/radio/hani_arrifai"
     },
     {
       "Name": "هيثم الجدعاني",
-      "URL": "http://live.mp3quran.net:9714/;"
+      "URL": "https://Qurango.net/radio/hitham_aljadani"
     },
     {
-      "Name": "وليد النائحي",
-      "URL": "http://live.mp3quran.net:9778/;"
+      "Name": "وليد النائحي - رواية قالون عن نافع من طريق أبي نشيط",
+      "URL": "https://Qurango.net/radio/waleed_alnaehi"
     },
     {
       "Name": "ياسر الدوسري",
-      "URL": "http://live.mp3quran.net:9984/;"
+      "URL": "https://Qurango.net/radio/yasser_aldosari"
     },
     {
       "Name": "ياسر القرشي",
-      "URL": "http://live.mp3quran.net:9776/;"
+      "URL": "https://Qurango.net/radio/yasser_alqurashi"
     },
     {
-      "Name": "ياسر المزروعي ",
-      "URL": "http://live.mp3quran.net:9774/;"
+      "Name": "ياسر المزروعي - قراءة يعقوب الحضرمي بروايتي رويس وروح ",
+      "URL": "https://Qurango.net/radio/yasser_almazroyee"
     },
     {
       "Name": "يحيى حوا",
-      "URL": "http://live.mp3quran.net:9772/;"
+      "URL": "https://Qurango.net/radio/yahya_hawwa"
     },
     {
       "Name": "يوسف الشويعي",
-      "URL": "http://live.mp3quran.net:9770/;"
+      "URL": "https://Qurango.net/radio/yousef_alshoaey"
     },
     {
       "Name": "يوسف بن نوح أحمد",
-      "URL": "http://live.mp3quran.net:9768/;"
+      "URL": "https://Qurango.net/radio/yousef_bin_noah_ahmad"
     }
   ]
 }
