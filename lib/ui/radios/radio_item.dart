@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../resources/color_manager.dart';
-import '../resources/values_manager.dart';
-import '../../data/models/radios/radios.dart';
-import 'audio_page.dart';
+import 'package:great_quran/blocs/models/radios/radios.dart';
+import 'package:great_quran/ui/radios/audio_page.dart';
+import 'package:great_quran/ui/resources/color_manager.dart';
+import 'package:great_quran/ui/resources/values_manager.dart';
 
 class RadioItem extends StatelessWidget {
   final Radios radios;

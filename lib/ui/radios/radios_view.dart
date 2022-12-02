@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../helpers/constants.dart';
-import '../resources/color_manager.dart';
-import '../resources/strings_manager.dart';
-import '../animations/bottom_animation.dart';
-import '../../blocs/cubit/radios/radio_cubit.dart';
-import 'radio_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_quran/blocs/providers/radios_provider.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/ui/animations/bottom_animation.dart';
+import 'package:great_quran/ui/radios/radio_item.dart';
+import 'package:great_quran/ui/resources/strings_manager.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
-import '../widgets/appbar_widget.dart';
+class RadiosScreen extends ConsumerStatefulWidget {
+  const RadiosScreen({Key? key}) : super(key: key);
 
-class RadiosView extends StatelessWidget {
-  const RadiosView({Key? key}) : super(key: key);
+  @override
+  ConsumerState<RadiosScreen> createState() => _RadiosViewState();
+}
+
+class _RadiosViewState extends ConsumerState<RadiosScreen> {
+  @override
+  void initState() {
+    ref.read(RadiosNotifier.provider.notifier).getRadios();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,48 +29,29 @@ class RadiosView extends StatelessWidget {
         Constants.elevationAppBarOne,
         context,
       ),
-      body: BlocConsumer<RadioCubit, RadioState>(
-        listener: (context, state) {
-          if (state.status == RadioStatus.error) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error.errMsg),
-              ),
+      body: Consumer(builder: (_, ref, __) {
+        final state = ref.watch(RadiosNotifier.provider);
+        return state.when(
+          data: (data) {
+            return ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return WidgetAnimator(
+                  child: RadioItem(radios: data[index]),
+                );
+              },
             );
-          }
-        },
-        builder: (context, state) {
-          if (state.status == RadioStatus.loading) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: ColorManager.black38,
-              ),
+          },
+          loading: () => const CircularProgressIndicator.adaptive(),
+          error: (_) {
+            return const Center(
+              child: Text('Error'),
             );
-          }
-
-          if (state.status == RadioStatus.error) {
-            return Center(
-              child: Text(
-                AppStrings.error,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            );
-          }
-          // update json data
-          return ListView.builder(
-            primary: false,
-            shrinkWrap: true,
-            itemCount: state.radio.length,
-            itemBuilder: (BuildContext context, int index) {
-              return WidgetAnimator(
-                child: RadioItem(
-                  radios: state.radio[index],
-                ),
-              );
-            },
-          );
-        },
-      ),
+          },
+        );
+      }),
     );
   }
 }
