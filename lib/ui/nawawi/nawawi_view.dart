@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import '../../helpers/constants.dart';
-import '../resources/color_manager.dart';
-import '../resources/values_manager.dart';
-import 'nawawi_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_quran/blocs/providers/nawawi_provider.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/ui/nawawi/nawawi_item.dart';
+import 'package:great_quran/ui/resources/color_manager.dart';
+import 'package:great_quran/ui/resources/values_manager.dart';
 
 class NawawiView extends StatelessWidget {
   const NawawiView({Key? key}) : super(key: key);
@@ -15,18 +15,14 @@ class NawawiView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorManager.white,
-        body: FutureBuilder(
-          future:
-              DefaultAssetBundle.of(context).loadString(Constants.nawawiJson),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              final List<dynamic> data = json.decode(snapshot.data.toString());
+        body: Consumer(builder: (_, ref, __) {
+          final state = ref.watch(NawawiNotifier.provider);
+          return state.when(
+            data: (data) {
               return CarouselSlider(
                 items: data.map((nawawi) {
                   return NawawiItem(
-                    hadith: nawawi[Constants.hadith],
-                    description: nawawi[Constants.description],
-                    title: nawawi[Constants.title],
+                    nawawi: nawawi,
                   );
                 }).toList(),
                 options: CarouselOptions(
@@ -40,13 +36,15 @@ class NawawiView extends StatelessWidget {
                   aspectRatio: AppSize.s2,
                 ),
               );
-            } else {
+            },
+            loading: () => const CircularProgressIndicator.adaptive(),
+            error: (_) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: Text('Error'),
               );
-            }
-          },
-        ),
+            },
+          );
+        }),
       ),
     );
   }

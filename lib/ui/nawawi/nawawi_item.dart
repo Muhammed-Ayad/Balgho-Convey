@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:great_quran/blocs/models/nawawi/nawawi.dart';
 import '../../helpers/constants.dart';
 import '../resources/color_manager.dart';
 import '../resources/strings_manager.dart';
@@ -6,21 +7,17 @@ import '../resources/values_manager.dart';
 import '../widgets/appbar_widget.dart';
 
 class NawawiItem extends StatelessWidget {
-  final String hadith;
-  final String description;
-  final String title;
+  final Nawawi nawawi;
 
-  const NawawiItem(
-      {Key? key,
-      required this.hadith,
-      required this.description,
-      required this.title})
-      : super(key: key);
+  const NawawiItem({
+    Key? key,
+    required this.nawawi,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(title, Constants.elevationAppBarZero, context),
+      appBar: appBarWidget(nawawi.title, Constants.elevationAppBarZero, context),
       body: Column(
         children: [
           const SizedBox(height: AppSize.s20),
@@ -36,7 +33,7 @@ class NawawiItem extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(AppSize.s10),
               child: SelectableText(
-                hadith,
+                nawawi.hadith,
                 style: Theme.of(context).textTheme.displayLarge,
               ),
             ),
@@ -65,7 +62,7 @@ class NawawiItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(AppSize.s16),
                           ),
                           content: SelectableText(
-                            description,
+                            nawawi.description,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           actions: [
