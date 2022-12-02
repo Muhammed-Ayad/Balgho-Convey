@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../helpers/constants.dart';
-import '../resources/color_manager.dart';
-import '../resources/values_manager.dart';
-import '../widgets/appbar_widget.dart';
-
-import '../../data/models/quran/ayah.dart';
-import '../../data/models/quran/surah.dart';
+import 'package:great_quran/blocs/models/quran/ayah.dart';
+import 'package:great_quran/blocs/models/quran/surah.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/ui/resources/color_manager.dart';
+import 'package:great_quran/ui/resources/values_manager.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
+ 
+ 
 
 class SurahPage extends StatelessWidget {
   final List<Ayah> ayahList;

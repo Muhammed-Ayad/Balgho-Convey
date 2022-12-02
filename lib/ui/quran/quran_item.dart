@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../resources/assets_manager.dart';
-import '../resources/values_manager.dart';
-import 'surah_page.dart';
+import 'package:great_quran/blocs/models/quran/surah.dart';
 
-import '../../data/models/quran/surah.dart';
+import 'package:great_quran/ui/quran/surah_page.dart';
+import 'package:great_quran/ui/resources/assets_manager.dart';
+import 'package:great_quran/ui/resources/values_manager.dart';
 
 class QuranItem extends StatelessWidget {
   final Surah surah;
@@ -22,7 +22,7 @@ class QuranItem extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => SurahPage(
-              ayahList: surah.ayah,
+              ayahList: surah.ayahs,
               surah: surah,
             ),
           ),
