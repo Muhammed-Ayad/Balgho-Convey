@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:great_quran/data/local/json/azkar_by_category.dart';
 import '../resources/strings_manager.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../helpers/constants.dart';
-import '../../data/models/azkar/azkar_by_category.dart';
 import '../resources/assets_manager.dart';
 import '../resources/color_manager.dart';
 import '../resources/values_manager.dart';

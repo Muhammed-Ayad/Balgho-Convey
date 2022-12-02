@@ -6,7 +6,8 @@ import 'package:great_quran/data/remote/apis/nawawi_api.dart';
 import 'package:great_quran/data/remote/interfaces/i_nawawi_api.dart';
 
 class NawawiNotifier extends StateNotifier<GenericState<List<Nawawi>>> {
-  static final provider = StateNotifierProvider((ref) {
+  static final provider =
+      StateNotifierProvider<NawawiNotifier, GenericState<List<Nawawi>>>((ref) {
     return NawawiNotifier(ref.read(NawawiApi.provider));
   });
   final INawawiApi _iNawawiApi;

@@ -1,6 +1,11 @@
 mixin AppEndpoints {
+  static const _baseUrl = 'assets/json';
+
+  static const quranApi = '$_baseUrl/quran.json';
+  static const radiosApi = '$_baseUrl/radios.json';
+  static const nawawiApi = '$_baseUrl/nawawi.json';
   static String url =
-      'https://api.pray.zone/v2/times/today.json?city=cairo&fbclid=IwAR1y4oO4O-S50WUZfshra9ZCzPk8OWMtdEnByg8ieX-TwX6qs3IazGbRTtY';
+      'https://api.aladhan.com/v1/calendarByCity?city=London&country=cairo%20Kingdom&method=2&month=12&year=2022';
   static const mailTo = "mailto:mohamedayaddev@gmail.com";
   static const callPhoneNumber = 'tel://01282903069';
   static const urlFacebook = 'https://www.facebook.com/mohamed.abdo1998/';

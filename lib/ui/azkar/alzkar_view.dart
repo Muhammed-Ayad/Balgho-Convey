@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:great_quran/data/local/json/all_azkar.dart';
 import '../../helpers/constants.dart';
 import '../resources/assets_manager.dart';
 import '../resources/color_manager.dart';
 import '../resources/strings_manager.dart';
 import '../resources/values_manager.dart';
 import '../animations/bottom_animation.dart';
-import '../../data/models/azkar/all_azkar.dart';
 import '../widgets/appbar_widget.dart';
 import 'azkar_item.dart';
 

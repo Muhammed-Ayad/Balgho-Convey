@@ -1,11 +1,12 @@
-import 'azkar.dart';
+import 'package:great_quran/blocs/models/azkar/azkar.dart';
+
 import 'azkar_list.dart';
 
 class AzkarByCategory {
   final List<Azkar> _azkarList = [];
 
   getAzkarByCategory(String category) {
-    return db
+    return azkarDB
         .where(
           (element) => element.containsValue(category),
         )

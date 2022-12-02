@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
+import 'package:great_quran/ui/app.dart';
 
-import 'ui/app.dart';
-
-void main() async {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());

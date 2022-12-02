@@ -7,14 +7,14 @@ import 'package:great_quran/ui/quran/quran_item.dart';
 import 'package:great_quran/ui/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
-class QuranScreen extends ConsumerStatefulWidget {
-  const QuranScreen({Key? key}) : super(key: key);
+class QuranView extends ConsumerStatefulWidget {
+  const QuranView({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<QuranScreen> createState() => _QuranViewState();
+  ConsumerState<QuranView> createState() => _QuranViewState();
 }
 
-class _QuranViewState extends ConsumerState<QuranScreen> {
+class _QuranViewState extends ConsumerState<QuranView> {
   @override
   void initState() {
     ref.read(QuranNotifier.provider.notifier).getQuran();

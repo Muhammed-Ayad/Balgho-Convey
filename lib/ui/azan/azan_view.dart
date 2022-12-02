@@ -6,8 +6,8 @@ import 'package:great_quran/ui/resources/values_manager.dart';
 import 'header_azan.dart';
 import 'azan_item.dart';
 
-class AzanScreen extends ConsumerWidget {
-  const AzanScreen({Key? key}) : super(key: key);
+class AzanView extends ConsumerWidget {
+  const AzanView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

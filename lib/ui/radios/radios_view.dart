@@ -7,14 +7,14 @@ import 'package:great_quran/ui/radios/radio_item.dart';
 import 'package:great_quran/ui/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
-class RadiosScreen extends ConsumerStatefulWidget {
-  const RadiosScreen({Key? key}) : super(key: key);
+class RadiosView extends ConsumerStatefulWidget {
+  const RadiosView({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<RadiosScreen> createState() => _RadiosViewState();
+  ConsumerState<RadiosView> createState() => _RadiosViewState();
 }
 
-class _RadiosViewState extends ConsumerState<RadiosScreen> {
+class _RadiosViewState extends ConsumerState<RadiosView> {
   @override
   void initState() {
     ref.read(RadiosNotifier.provider.notifier).getRadios();

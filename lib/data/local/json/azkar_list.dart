@@ -1,5 +1,4 @@
-
-List<Map<String, String>> db = [
+List<Map<String, String>> azkarDB = [
   {
     "category": "أذكار الصباح",
     "count": "1",
