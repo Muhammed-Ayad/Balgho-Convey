@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/data/local/json/azkar_by_category.dart';
-import '../resources/strings_manager.dart';
-import 'package:share_plus/share_plus.dart';
-import '../../helpers/constants.dart';
-import '../resources/assets_manager.dart';
-import '../resources/color_manager.dart';
-import '../resources/values_manager.dart';
-import '../widgets/appbar_widget.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:great_quran/helpers/boxes.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/resources/assets_manager.dart';
+import 'package:great_quran/resources/strings_manager.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AzkarItem extends StatefulWidget {
   const AzkarItem({Key? key, required this.azkar}) : super(key: key);
@@ -41,43 +43,44 @@ class _AzkarItemState extends State<AzkarItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(AppPadding.p8),
+                  padding: const EdgeInsets.all(D.sizeSmall),
                   child: Container(
                     decoration: BoxDecoration(
                       image: const DecorationImage(
-                          opacity: 0.6,
-                          fit: BoxFit.fill,
-                          image: AssetImage(
-                            ImageAssets.test1,
-                          )),
-                      borderRadius: BorderRadius.circular(AppSize.s10),
+                        opacity: 0.6,
+                        fit: BoxFit.fill,
+                        image: AssetImage(
+                          ImageAssets.test1,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(D.sizeMedium),
                       border: Border.all(
-                        color: ColorManager.greyShade500,
-                        width: AppSize.s1,
+                        color: AppColors.greyShade500,
+                        width: D.sizeXXSmall,
                       ),
                     ),
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.all(AppPadding.p8),
+                      padding: const EdgeInsets.all(D.sizeSmall),
                       child: SelectableText(
                         azkar.zekr,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
+                        style: context.textTheme.headlineMedium!
                             .copyWith(color: Colors.black),
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(AppPadding.p8),
+                  padding: const EdgeInsets.all(D.sizeSmall),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: ColorManager.greyShade200,
-                      borderRadius: BorderRadius.circular(AppSize.s10),
+                      color: AppColors.greyShade200,
+                      borderRadius: BorderRadius.circular(
+                        D.sizeSmall,
+                      ),
                       border: Border.all(
-                        color: ColorManager.greyShade500,
-                        width: AppSize.s1,
+                        color: AppColors.greyShade500,
+                        width: D.sizeXXSmall,
                       ),
                     ),
                     width: double.infinity,
@@ -91,7 +94,7 @@ class _AzkarItemState extends State<AzkarItem> {
                           },
                           icon: Icon(
                             Icons.share,
-                            color: ColorManager.blue,
+                            color: AppColors.blue,
                           ),
                         ),
                         const Spacer(),
@@ -103,13 +106,11 @@ class _AzkarItemState extends State<AzkarItem> {
                                 SnackBar(
                                   duration: Duration(
                                       milliseconds: Constants.milliseconds),
-                                  backgroundColor: ColorManager.grey2,
+                                  backgroundColor: AppColors.grey2,
                                   content: Text(
                                     AppStrings.copy,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall!
-                                        .copyWith(color: ColorManager.white),
+                                    style: context.textTheme.headlineSmall!
+                                        .copyWith(color: AppColors.white),
                                   ),
                                 ),
                               ),
@@ -117,25 +118,20 @@ class _AzkarItemState extends State<AzkarItem> {
                           },
                           icon: Icon(
                             Icons.copy,
-                            color: ColorManager.blue,
+                            color: AppColors.blue,
                           ),
                         ),
                         const Spacer(),
                         Text(
                           azkar.count,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                fontSize: AppSize.s26,
-                              ),
+                          style: context.textTheme.headlineSmall!.copyWith(
+                            fontSize: D.sizeXXLarge,
+                          ),
                         ),
-                        const SizedBox(
-                          width: AppSize.s5,
-                        ),
+                        B.horizontalSizedBoxXSmall,
                         Icon(
                           Icons.repeat,
-                          color: ColorManager.blue,
+                          color: AppColors.blue,
                         ),
                         const Spacer(),
                       ],

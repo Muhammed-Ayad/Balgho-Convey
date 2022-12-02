@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../ui/theme/dimensions.dart';
+import '../theme/dimensions.dart';
 
 /// B is acronym for Boxes
 mixin B {

@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+//* ######################## App Constant Colors #########################
 
-class ColorManager {
+import 'package:flutter/cupertino.dart';
+
+mixin AppColors {
   static Color primary = const Color(0xff008080);
   static Color white = const Color(0xffFFFFFF);
   static Color grey = const Color(0xff737477);

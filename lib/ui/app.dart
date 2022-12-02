@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:great_quran/ui/resources/routes_manager.dart';
-import 'package:great_quran/ui/resources/strings_manager.dart';
-import 'package:great_quran/ui/resources/theme_manager.dart';
+import 'package:great_quran/theme/themes.dart';
+import 'package:great_quran/resources/routes_manager.dart';
+import 'package:great_quran/resources/strings_manager.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp._internal();
@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: AppStrings.titleApp,
         debugShowCheckedModeBanner: false,
-        theme: getApplicationTheme(),
+        theme: AppTheme.themeFactory(),
         onGenerateRoute: RouteGenerator.generateRoute,
         initialRoute: Routes.mainRoute,
         localizationsDelegates: const [

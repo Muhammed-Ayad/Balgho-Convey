@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/blocs/models/azan/azan.dart';
-import 'package:great_quran/ui/resources/color_manager.dart';
-import 'package:great_quran/ui/resources/strings_manager.dart';
-import 'package:great_quran/ui/resources/values_manager.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/helpers/utilities.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/resources/strings_manager.dart';
 import 'package:intl/intl.dart';
-
 
 class AzanItem extends StatelessWidget {
   final Azan data;
@@ -44,29 +45,29 @@ class _CardAzan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate =
-        DateFormat(AppStrings.dateFormat).format(DateTime.now());
-    var newDate = DateTime.parse(formattedDate + " " + time);
+    var newDate = DateTime.parse(Utilities.dateTimeNow() + " " + time);
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppPadding.p16,
-        vertical: AppPadding.p4,
+        horizontal: D.sizeLarge,
+        vertical: D.sizeXSmall,
       ),
       child: Container(
-        padding: const EdgeInsets.all(AppPadding.p16),
-        height: AppSize.s75,
+        padding: const EdgeInsets.all(
+          D.sizeLarge,
+        ),
+        height: context.heightR(0.2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s10),
+          borderRadius: BorderRadius.circular(D.sizeMedium),
           boxShadow: [
-            BoxShadow(color: ColorManager.grey, blurRadius: AppSize.s5)
+            BoxShadow(
+              color: AppColors.grey,
+              blurRadius: D.sizeXSmall,
+            )
           ],
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [
-              ColorManager.linearGradient1,
-              ColorManager.linearGradient2
-            ],
+            colors: [AppColors.linearGradient1, AppColors.linearGradient2],
           ),
         ),
         child: Row(
@@ -74,17 +75,13 @@ class _CardAzan extends StatelessWidget {
           children: [
             Text(
               date,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: ColorManager.white),
+              style: context.textTheme.titleMedium!
+                  .copyWith(color: AppColors.white),
             ),
             Text(
               DateFormat.jm().format(newDate),
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: ColorManager.white),
+              style: context.textTheme.titleMedium!
+                  .copyWith(color: AppColors.white),
             ),
           ],
         ),

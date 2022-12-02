@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/data/remote/endpoints.dart';
-import '../resources/color_manager.dart';
-import '../resources/routes_manager.dart';
-import '../resources/values_manager.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/resources/routes_manager.dart';
+import 'package:great_quran/resources/strings_manager.dart';
+
 import 'package:share_plus/share_plus.dart';
 import 'package:in_app_review/in_app_review.dart';
-import '../resources/strings_manager.dart';
 
 class DrawerPage extends StatelessWidget {
   const DrawerPage({Key? key}) : super(key: key);
@@ -20,24 +22,27 @@ class DrawerPage extends StatelessWidget {
           children: [
             ListTile(
               contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppSize.s10,
-                vertical: AppSize.s16,
+                horizontal: D.sizeSmall,
+                vertical: D.sizeLarge,
               ),
               title: Align(
                 alignment: Alignment.center,
                 child: Text(
                   AppStrings.titleAppNote,
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: context.textTheme.displayLarge,
                 ),
               ),
             ),
             Divider(
-              color: ColorManager.black38,
+              color: AppColors.black38,
             ),
             builderListTile(
               context: context,
               onTap: () {
-                Navigator.pushNamed(context, Routes.contantUsRoute);
+                Navigator.pushNamed(
+                  context,
+                  Routes.contantUsRoute,
+                );
               },
               title: AppStrings.contantUs,
               icon: Icons.contact_support,
@@ -75,13 +80,15 @@ class DrawerPage extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(AppSize.s12),
+        padding: const EdgeInsets.all(
+          D.sizeMedium,
+        ),
         child: Card(
-          elevation: AppSize.s1_5,
-          color: ColorManager.greyShade200,
+          elevation: D.sizeXXSmall,
+          color: AppColors.greyShade200,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              AppSize.s20,
+              D.sizeXLarge,
             ),
           ),
           child: ListTile(
@@ -91,14 +98,14 @@ class DrawerPage extends StatelessWidget {
                   flex: 3,
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.headlineLarge,
+                    style: context.textTheme.headlineLarge,
                   ),
                 ),
                 Expanded(
                   flex: 1,
                   child: Icon(
                     icon,
-                    color: ColorManager.blue,
+                    color: AppColors.blue,
                   ),
                 )
               ],

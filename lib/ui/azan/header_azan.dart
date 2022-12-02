@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/blocs/models/azan/azan.dart';
-import 'package:great_quran/ui/resources/color_manager.dart';
-import 'package:great_quran/ui/resources/values_manager.dart';
-
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
 
 class HeaderAzan extends StatelessWidget {
   final Azan azan;
@@ -16,15 +16,13 @@ class HeaderAzan extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(
-            bottom: AppSize.s40,
-            right: AppSize.s20,
+            bottom: D.size3XLarge,
+            right: D.sizeXLarge,
           ),
           child: Text(
             azan.results.datetime[0].date.gregorian.toString(),
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium!
-                .copyWith(color: ColorManager.white),
+            style: context.textTheme.headlineMedium!
+                .copyWith(color: AppColors.white),
           ),
         ),
         Column(
@@ -33,10 +31,8 @@ class HeaderAzan extends StatelessWidget {
           children: [
             Text(
               azan.results.location.city,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .copyWith(color: ColorManager.white),
+              style: context.textTheme.headlineMedium!
+                  .copyWith(color: AppColors.white),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -44,20 +40,18 @@ class HeaderAzan extends StatelessWidget {
               children: [
                 Icon(
                   Icons.location_on,
-                  color: ColorManager.primary,
-                  size: AppSize.s20,
+                  color: AppColors.primary,
+                  size: D.sizeXLarge,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    bottom: AppSize.s40,
-                    left: AppSize.s20,
+                    bottom: D.size3XLarge,
+                    left: D.sizeXLarge,
                   ),
                   child: Text(
                     azan.results.location.country,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium!
-                        .copyWith(color: ColorManager.white),
+                    style: context.textTheme.headlineMedium!
+                        .copyWith(color: AppColors.white),
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                   ),

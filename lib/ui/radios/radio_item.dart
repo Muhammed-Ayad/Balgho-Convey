@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/blocs/models/radios/radios.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/radios/audio_page.dart';
-import 'package:great_quran/ui/resources/color_manager.dart';
-import 'package:great_quran/ui/resources/values_manager.dart';
 
 class RadioItem extends StatelessWidget {
   final Radios radios;
@@ -20,30 +21,30 @@ class RadioItem extends StatelessWidget {
         );
       },
       child: Card(
-        elevation: AppSize.s5,
+        elevation: D.sizeXSmall,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSize.s16),
+          borderRadius: BorderRadius.circular(D.sizeLarge),
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: ColorManager.white,
-            borderRadius: BorderRadius.circular(AppSize.s16),
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(D.sizeLarge),
           ),
-          height: AppSize.s70,
+          height: context.heightR(0.1),
           child: Padding(
-            padding: const EdgeInsets.all(AppSize.s8),
+            padding: const EdgeInsets.all(D.sizeSmall),
             child: Row(
               children: [
                 Icon(
                   Icons.radio_outlined,
-                  color: ColorManager.primary,
-                  size: AppSize.s35,
+                  color: AppColors.primary,
+                  size: D.size3XLarge,
                 ),
-                const SizedBox(width: AppSize.s10),
+                const SizedBox(width: D.sizeSmall),
                 Flexible(
                   child: Text(
                     radios.name,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: context.textTheme.headlineSmall,
                   ),
                 ),
               ],

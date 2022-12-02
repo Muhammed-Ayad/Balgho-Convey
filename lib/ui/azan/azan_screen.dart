@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/azan_time_provider.dart';
-import 'package:great_quran/ui/resources/assets_manager.dart';
-import 'package:great_quran/ui/resources/values_manager.dart';
+import 'package:great_quran/helpers/ui_helpers.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/resources/assets_manager.dart';
 import 'header_azan.dart';
 import 'azan_item.dart';
 
-class AzanView extends ConsumerWidget {
-  const AzanView({Key? key}) : super(key: key);
+class AzanScreen extends ConsumerStatefulWidget {
+  const AzanScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AzanScreen> createState() => _AzanScreenState();
+}
+
+class _AzanScreenState extends ConsumerState<AzanScreen> {
+  @override
+  void initState() {
+    UiHelper.postBuild((_) {
+      ref.watch(AzanTimeNotifier.provider.notifier).getAzan();
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Consumer(builder: (_, ref, __) {
@@ -26,8 +40,8 @@ class AzanView extends ConsumerWidget {
                         Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(AppSize.s30),
-                              bottomLeft: Radius.circular(AppSize.s30),
+                              bottomRight: Radius.circular(D.size3XLarge),
+                              bottomLeft: Radius.circular(D.size3XLarge),
                             ),
                             image: DecorationImage(
                               fit: BoxFit.cover,
@@ -48,7 +62,9 @@ class AzanView extends ConsumerWidget {
                 ],
               );
             },
-            loading: () => const CircularProgressIndicator.adaptive(),
+            loading: () => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
             error: (_) {
               return const Center(
                 child: Text('Error'),

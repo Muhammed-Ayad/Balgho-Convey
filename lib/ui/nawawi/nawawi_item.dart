@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/blocs/models/nawawi/nawawi.dart';
-import '../../helpers/constants.dart';
-import '../resources/color_manager.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
-import '../widgets/appbar_widget.dart';
+import 'package:great_quran/helpers/boxes.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/resources/strings_manager.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
 class NawawiItem extends StatelessWidget {
   final Nawawi nawawi;
@@ -17,24 +19,28 @@ class NawawiItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(nawawi.title, Constants.elevationAppBarZero, context),
+      appBar: appBarWidget(
+        nawawi.title,
+        Constants.elevationAppBarZero,
+        context,
+      ),
       body: Column(
         children: [
-          const SizedBox(height: AppSize.s20),
+          const SizedBox(height: D.sizeXLarge),
           Expanded(
             flex: 8,
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.black,
-                  width: AppSize.s1,
+                  width: D.sizeXXSmall,
                 ),
-                borderRadius: BorderRadius.circular(AppSize.s10),
+                borderRadius: BorderRadius.circular(D.sizeSmall),
               ),
-              padding: const EdgeInsets.all(AppSize.s10),
+              padding: const EdgeInsets.all(D.sizeSmall),
               child: SelectableText(
                 nawawi.hadith,
-                style: Theme.of(context).textTheme.displayLarge,
+                style: context.textTheme.displayLarge,
               ),
             ),
           ),
@@ -42,12 +48,12 @@ class NawawiItem extends StatelessWidget {
             flex: 2,
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: AppSize.s10,
-                vertical: AppSize.s30,
+                horizontal: D.sizeSmall,
+                vertical: D.size3XLarge,
               ),
               child: MaterialButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSize.s16),
+                  borderRadius: BorderRadius.circular(D.sizeLarge),
                 ),
                 onPressed: () {
                   showDialog(
@@ -59,11 +65,11 @@ class NawawiItem extends StatelessWidget {
                         child: AlertDialog(
                           scrollable: true,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppSize.s16),
+                            borderRadius: BorderRadius.circular(D.sizeLarge),
                           ),
                           content: SelectableText(
                             nawawi.description,
-                            style: Theme.of(context).textTheme.headlineSmall,
+                            style: context.textTheme.headlineSmall,
                           ),
                           actions: [
                             TextButton(
@@ -72,10 +78,8 @@ class NawawiItem extends StatelessWidget {
                               },
                               child: Text(
                                 AppStrings.close,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(color: ColorManager.blue),
+                                style: context.textTheme.titleSmall!
+                                    .copyWith(color: AppColors.blue),
                               ),
                             ),
                           ],
@@ -87,16 +91,14 @@ class NawawiItem extends StatelessWidget {
                 minWidth: double.infinity,
                 child: Text(
                   AppStrings.explanationOfTheHadith,
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayLarge!
-                      .copyWith(color: ColorManager.white),
+                  style: context.textTheme.displayLarge!
+                      .copyWith(color: AppColors.white),
                 ),
-                color: ColorManager.brownShade300,
+                color: AppColors.brownShade300,
               ),
             ),
           ),
-          const SizedBox(height: AppSize.s20),
+          B.verticalSizedBoxXLarge,
         ],
       ),
     );

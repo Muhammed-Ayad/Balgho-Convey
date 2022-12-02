@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../helpers/constants.dart';
-import '../resources/assets_manager.dart';
-import '../resources/routes_manager.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
-import '../widgets/appbar_widget.dart';
-import '../drawer/drawer_page.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/ui/drawer/drawer_page.dart';
+import 'package:great_quran/resources/assets_manager.dart';
+import 'package:great_quran/resources/routes_manager.dart';
+import 'package:great_quran/resources/strings_manager.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
@@ -14,7 +15,10 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(
-          AppStrings.titleAppNote, Constants.elevationAppBarOne, context),
+        AppStrings.titleAppNote,
+        Constants.elevationAppBarOne,
+        context,
+      ),
       drawer: const DrawerPage(),
       body: Column(
         children: [
@@ -88,24 +92,27 @@ class MainView extends StatelessWidget {
           Navigator.pushNamed(context, route);
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSize.s8,
-            vertical: AppSize.s8,
+          padding: const EdgeInsets.all(
+            D.sizeSmall,
           ),
           child: Column(
             children: [
               Expanded(
                 flex: 8,
                 child: Card(
-                  elevation: AppSize.s10,
+                  elevation: D.sizeSmall,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSize.s10),
+                    borderRadius: BorderRadius.circular(
+                      D.sizeSmall,
+                    ),
                   ),
                   child: Container(
                     height: double.infinity,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSize.s10),
+                      borderRadius: BorderRadius.circular(
+                        D.sizeSmall,
+                      ),
                       image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage(image),
@@ -117,14 +124,16 @@ class MainView extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Card(
-                  elevation: AppSize.s10,
+                  elevation: D.sizeSmall,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSize.s10),
+                    borderRadius: BorderRadius.circular(
+                      D.sizeSmall,
+                    ),
                   ),
                   child: Center(
                     child: Text(
                       title,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: context.textTheme.bodyLarge,
                     ),
                   ),
                 ),

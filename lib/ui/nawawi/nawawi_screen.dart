@@ -3,18 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/nawawi_provider.dart';
 import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/ui_helpers.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/nawawi/nawawi_item.dart';
-import 'package:great_quran/ui/resources/color_manager.dart';
-import 'package:great_quran/ui/resources/values_manager.dart';
 
-class NawawiView extends StatelessWidget {
-  const NawawiView({Key? key}) : super(key: key);
+class NawawiScreen extends ConsumerStatefulWidget {
+  const NawawiScreen({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<NawawiScreen> createState() => _NawawiScreenState();
+}
+
+class _NawawiScreenState extends ConsumerState<NawawiScreen> {
+  @override
+  void initState() {
+    UiHelper.postBuild((_) {
+      ref.read(NawawiNotifier.provider.notifier).getNawawi();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorManager.white,
+        backgroundColor: AppColors.white,
         body: Consumer(builder: (_, ref, __) {
           final state = ref.watch(NawawiNotifier.provider);
           return state.when(
@@ -31,13 +45,15 @@ class NawawiView extends StatelessWidget {
                   autoPlay: false,
                   enableInfiniteScroll: false,
                   enlargeCenterPage: true,
-                  viewportFraction: AppSize.s0_9,
+                  viewportFraction: 0.9,
                   initialPage: Constants.initialPage,
-                  aspectRatio: AppSize.s2,
+                  aspectRatio: D.sizeXXSmall,
                 ),
               );
             },
-            loading: () => const CircularProgressIndicator.adaptive(),
+            loading: () => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
             error: (_) {
               return const Center(
                 child: Text('Error'),

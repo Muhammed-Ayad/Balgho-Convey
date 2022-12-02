@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:great_quran/blocs/providers/quran_provider.dart';
+import 'package:great_quran/blocs/providers/radios_provider.dart';
 import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
-import 'package:great_quran/ui/quran/quran_item.dart';
-import 'package:great_quran/ui/resources/strings_manager.dart';
+import 'package:great_quran/ui/radios/radio_item.dart';
+import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
-class QuranView extends ConsumerStatefulWidget {
-  const QuranView({Key? key}) : super(key: key);
+class RadiosScreen extends ConsumerStatefulWidget {
+  const RadiosScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<QuranView> createState() => _QuranViewState();
+  ConsumerState<RadiosScreen> createState() => _RadiosViewState();
 }
 
-class _QuranViewState extends ConsumerState<QuranView> {
+class _RadiosViewState extends ConsumerState<RadiosScreen> {
   @override
   void initState() {
-    ref.read(QuranNotifier.provider.notifier).getQuran();
+    UiHelper.postBuild((_) {
+      ref.read(RadiosNotifier.provider.notifier).getRadios();
+    });
     super.initState();
   }
 
@@ -25,12 +28,12 @@ class _QuranViewState extends ConsumerState<QuranView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(
-        AppStrings.quranGreat,
+        AppStrings.radio,
         Constants.elevationAppBarOne,
         context,
       ),
       body: Consumer(builder: (_, ref, __) {
-        final state = ref.watch(QuranNotifier.provider);
+        final state = ref.watch(RadiosNotifier.provider);
         return state.when(
           data: (data) {
             return ListView.builder(
@@ -39,15 +42,14 @@ class _QuranViewState extends ConsumerState<QuranView> {
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 return WidgetAnimator(
-                  child: QuranItem(
-                    surah: data[index],
-                    index: index,
-                  ),
+                  child: RadioItem(radios: data[index]),
                 );
               },
             );
           },
-          loading: () => const CircularProgressIndicator.adaptive(),
+          loading: () => const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
           error: (_) {
             return const Center(
               child: Text('Error'),

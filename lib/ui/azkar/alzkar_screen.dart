@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/data/local/json/all_azkar.dart';
-import '../../helpers/constants.dart';
-import '../resources/assets_manager.dart';
-import '../resources/color_manager.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
-import '../animations/bottom_animation.dart';
-import '../widgets/appbar_widget.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/ui/animations/bottom_animation.dart';
+import 'package:great_quran/resources/assets_manager.dart';
+import 'package:great_quran/resources/strings_manager.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
 import 'azkar_item.dart';
 
-class AzkarView extends StatelessWidget {
-  const AzkarView({Key? key}) : super(key: key);
+class AzkarScreen extends StatelessWidget {
+  const AzkarScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,24 +24,32 @@ class AzkarView extends StatelessWidget {
       body: ListView.builder(
         itemCount: azkarDataList.length,
         itemBuilder: (BuildContext context, int index) {
-          return WidgetAnimator(child: _buildListItem(context, index));
+          return WidgetAnimator(
+            child: _ItemWidget(index),
+          );
         },
       ),
     );
   }
+}
 
-  Widget _buildListItem(BuildContext context, int index) {
+class _ItemWidget extends StatelessWidget {
+  final int index;
+  const _ItemWidget(this.index);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      height: AppSize.s70,
+      height: context.heightR(0.1),
       decoration: BoxDecoration(
-        color: ColorManager.greyShade200,
-        borderRadius: BorderRadius.circular(AppSize.s10),
+        color: AppColors.greyShade200,
+        borderRadius: BorderRadius.circular(D.sizeSmall),
       ),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSize.s10),
+          borderRadius: BorderRadius.circular(D.sizeSmall),
         ),
-        elevation: AppSize.s5,
+        elevation: D.sizeXSmall,
         child: InkWell(
           onTap: () {
             Navigator.push(
@@ -55,7 +64,7 @@ class AzkarView extends StatelessWidget {
           child: Row(
             children: [
               const Padding(
-                padding: EdgeInsets.all(AppPadding.p8),
+                padding: EdgeInsets.all(D.sizeSmall),
                 child: Image(
                   fit: BoxFit.fill,
                   image: AssetImage(
@@ -66,12 +75,12 @@ class AzkarView extends StatelessWidget {
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: AppPadding.p4,
-                    vertical: AppPadding.p12,
+                    horizontal: D.sizeXSmall,
+                    vertical: D.sizeMedium,
                   ),
                   child: Text(
                     azkarDataList[index].toString(),
-                    style: Theme.of(context).textTheme.headlineLarge,
+                    style: context.textTheme.headlineLarge,
                     softWrap: true,
                   ),
                 ),

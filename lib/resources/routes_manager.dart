@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../kibla/kiblat_view.dart';
-import '../nawawi/nawawi_view.dart';
-import '../quran/quran_view.dart';
-import '../radios/radios_view.dart';
+import '../ui/kibla/kiblat_screen.dart';
+import '../ui/nawawi/nawawi_screen.dart';
+import '../ui/quran/quran_screen.dart';
+import '../ui/radios/radios_screen.dart';
 import 'strings_manager.dart';
-import '../azan/azan_view.dart';
-import '../azkar/alzkar_view.dart';
-import '../contant_us/contant_us_view.dart';
-import '../main/main_view.dart';
+import '../ui/azan/azan_screen.dart';
+import '../ui/azkar/alzkar_screen.dart';
+import '../ui/contant_us/contant_us_view.dart';
+import '../ui/main_view.dart';
 
 class Routes {
   static const String mainRoute = "/main";
@@ -28,19 +28,19 @@ class RouteGenerator {
       case Routes.mainRoute:
         return MaterialPageRoute(builder: (_) => const MainView());
       case Routes.azanRoute:
-        return MaterialPageRoute(builder: (_) => const AzanView());
+        return MaterialPageRoute(builder: (_) => const AzanScreen());
       case Routes.contantUsRoute:
         return MaterialPageRoute(builder: (_) => const ContantUsView());
       case Routes.azkarRoute:
-        return MaterialPageRoute(builder: (_) => const AzkarView());
+        return MaterialPageRoute(builder: (_) => const AzkarScreen());
       case Routes.kibleRoute:
-        return MaterialPageRoute(builder: (_) => const KibleView());
+        return MaterialPageRoute(builder: (_) => const KibleScreen());
       case Routes.nawawiRoute:
-        return MaterialPageRoute(builder: (_) => const NawawiView());
+        return MaterialPageRoute(builder: (_) => const NawawiScreen());
       case Routes.quranRoute:
-        return MaterialPageRoute(builder: (_) => const QuranView());
+        return MaterialPageRoute(builder: (_) => const QuranScreen());
       case Routes.radiosRoute:
-        return MaterialPageRoute(builder: (_) => const RadiosView());
+        return MaterialPageRoute(builder: (_) => const RadiosScreen());
       default:
         return _errorRoute();
     }

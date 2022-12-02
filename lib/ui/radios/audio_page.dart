@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:great_quran/blocs/models/radios/radios.dart';
+import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/constants.dart';
-import 'package:great_quran/ui/resources/assets_manager.dart';
-import 'package:great_quran/ui/resources/color_manager.dart';
-import 'package:great_quran/ui/resources/values_manager.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
 class AudioPage extends StatefulWidget {
@@ -54,7 +56,7 @@ class _AudioPageState extends State<AudioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.white,
+      backgroundColor: AppColors.white,
       appBar: appBarWidget(
         widget.radios.name,
         Constants.elevationAppBarOne,
@@ -65,7 +67,7 @@ class _AudioPageState extends State<AudioPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height - AppSize.s250,
+              height: context.height - context.heightR(0.3),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
@@ -77,28 +79,30 @@ class _AudioPageState extends State<AudioPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: AppSize.s10, vertical: AppSize.s16),
+                    horizontal: D.sizeMedium,
+                    vertical: D.sizeLarge,
+                  ),
                   child: Card(
-                    elevation: AppSize.s5,
+                    elevation: D.sizeXSmall,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSize.s20)),
+                        borderRadius: BorderRadius.circular(D.sizeXLarge)),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: ColorManager.cyanOne,
+                        color: AppColors.cyanOne,
                         boxShadow: [
                           BoxShadow(
-                            color: ColorManager.cyanTwo,
-                            offset: const Offset(AppSize.s0, AppSize.s2),
+                            color: AppColors.cyanTwo,
+                            offset: const Offset(0, 2),
                           ),
                         ],
-                        borderRadius: BorderRadius.circular(AppSize.s20),
+                        borderRadius: BorderRadius.circular(D.sizeXLarge),
                         border: Border.all(
-                          color: ColorManager.cyanTwo,
-                          width: AppSize.s1,
+                          color: AppColors.cyanTwo,
+                          width: D.sizeXXSmall,
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(AppPadding.p8),
+                        padding: const EdgeInsets.all(D.sizeSmall),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -106,12 +110,12 @@ class _AudioPageState extends State<AudioPage> {
                               onPressed: () {},
                               icon: Icon(
                                 Icons.skip_next,
-                                size: AppSize.s50,
-                                color: ColorManager.black38,
+                                size: context.widthR(0.12),
+                                color: AppColors.black38,
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(AppPadding.p8),
+                              padding: const EdgeInsets.all(D.sizeSmall),
                               child: IconButton(
                                 onPressed: () {
                                   if (_isPlaying) {
@@ -127,13 +131,13 @@ class _AudioPageState extends State<AudioPage> {
                                 icon: _isPlaying
                                     ? Icon(
                                         Icons.stop_circle_outlined,
-                                        size: AppSize.s50,
-                                        color: ColorManager.darkGrey,
+                                        size: context.widthR(0.12),
+                                        color: AppColors.darkGrey,
                                       )
                                     : Icon(
                                         Icons.play_circle_filled,
-                                        size: AppSize.s50,
-                                        color: ColorManager.darkGrey,
+                                        size: context.widthR(0.12),
+                                        color: AppColors.darkGrey,
                                       ),
                               ),
                             ),
@@ -141,8 +145,8 @@ class _AudioPageState extends State<AudioPage> {
                               onPressed: () {},
                               icon: Icon(
                                 Icons.skip_previous,
-                                size: AppSize.s50,
-                                color: ColorManager.black38,
+                                size: context.widthR(0.12),
+                                color: AppColors.black38,
                               ),
                             ),
                           ],
@@ -153,9 +157,7 @@ class _AudioPageState extends State<AudioPage> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 50,
-            )
+            B.verticalSizedBoxXXLarge,
           ],
         ),
       ),
