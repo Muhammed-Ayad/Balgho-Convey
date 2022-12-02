@@ -1,5 +1,5 @@
 import 'dart:async';
-import '../data_provider/remote/quran_api_services.dart';
+import '../remote/apis/quran_api_services.dart';
 import '../models/custom_error.dart';
 
 import '../models/quran/surah.dart';

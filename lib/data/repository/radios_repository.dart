@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../data_provider/remote/radios_api_services.dart';
+import '../remote/apis/radios_api_services.dart';
 import '../models/custom_error.dart';
 import '../models/radios/radios.dart';
 
