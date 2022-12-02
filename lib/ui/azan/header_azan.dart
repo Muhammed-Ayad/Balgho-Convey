@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../resources/color_manager.dart';
-import '../resources/values_manager.dart';
-import '../../data/models/azan/azan.dart';
+import 'package:great_quran/blocs/models/azan/azan.dart';
+import 'package:great_quran/ui/resources/color_manager.dart';
+import 'package:great_quran/ui/resources/values_manager.dart';
+
 
 class HeaderAzan extends StatelessWidget {
   final Azan azan;

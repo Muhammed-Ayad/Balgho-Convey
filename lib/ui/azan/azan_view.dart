@@ -1,89 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../resources/assets_manager.dart';
-import '../resources/color_manager.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
-import '../../blocs/cubit/azan_time/azan_time_cubit.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_quran/blocs/providers/azan_time_provider.dart';
+import 'package:great_quran/ui/resources/assets_manager.dart';
+import 'package:great_quran/ui/resources/values_manager.dart';
 import 'header_azan.dart';
 import 'azan_item.dart';
 
-class AzanView extends StatelessWidget {
-  const AzanView({Key? key}) : super(key: key);
+class AzanScreen extends ConsumerWidget {
+  const AzanScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Stack(
+        body: Consumer(builder: (_, ref, __) {
+          final state = ref.watch(AzanTimeNotifier.provider);
+          return state.when(
+            data: (data) {
+              return Column(
                 children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(AppSize.s30),
-                        bottomLeft: Radius.circular(AppSize.s30),
-                      ),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(ImageAssets.azantwo),
-                      ),
-                    ),
-                  ),
-                  FutureBuilder(
-                    future: context.read<AzanTimeCubit>().getAzan(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return HeaderAzan(snapshot.data);
-                      } else if (snapshot.hasError) {
-                        return Positioned.fill(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              AppStrings.pleaseConnectToTheInternet,
-                              style: TextStyle(color: ColorManager.white),
+                  Expanded(
+                    flex: 3,
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(AppSize.s30),
+                              bottomLeft: Radius.circular(AppSize.s30),
+                            ),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(ImageAssets.azantwo),
                             ),
                           ),
-                        );
-                      }
-                      return const Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(),
                         ),
-                      );
-                    },
+                        HeaderAzan(data),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 7,
+                    child: AzanItem(
+                      data: data,
+                    ),
                   ),
                 ],
-              ),
-            ),
-            Expanded(
-              flex: 7,
-              child: FutureBuilder(
-                future: context.read<AzanTimeCubit>().getAzan(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return AzanItem(
-                      data: snapshot.data,
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Center(
-                      child: Text(
-                        AppStrings.pleaseConnectToTheInternet,
-                      ),
-                    );
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+              );
+            },
+            loading: () => const CircularProgressIndicator.adaptive(),
+            error: (_) {
+              return const Center(
+                child: Text('Error'),
+              );
+            },
+          );
+        }),
       ),
     );
   }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../resources/color_manager.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
-
-import '../../data/models/azan/azan.dart';
+import 'package:great_quran/blocs/models/azan/azan.dart';
+import 'package:great_quran/ui/resources/color_manager.dart';
+import 'package:great_quran/ui/resources/strings_manager.dart';
+import 'package:great_quran/ui/resources/values_manager.dart';
 import 'package:intl/intl.dart';
+
 
 class AzanItem extends StatelessWidget {
   final Azan data;
@@ -20,18 +20,30 @@ class AzanItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          buildCardAzan(results.fajr, AppStrings.fajr, context),
-          buildCardAzan(results.sunrise, AppStrings.sunrise, context),
-          buildCardAzan(results.dhuhr, AppStrings.dhuhr, context),
-          buildCardAzan(results.asr, AppStrings.asr, context),
-          buildCardAzan(results.maghrib, AppStrings.maghrib, context),
-          buildCardAzan(results.isha, AppStrings.isha, context),
+          _CardAzan(time: results.fajr, date: AppStrings.fajr),
+          _CardAzan(time: results.sunrise, date: AppStrings.sunrise),
+          _CardAzan(time: results.dhuhr, date: AppStrings.dhuhr),
+          _CardAzan(time: results.asr, date: AppStrings.asr),
+          _CardAzan(time: results.maghrib, date: AppStrings.maghrib),
+          _CardAzan(time: results.isha, date: AppStrings.isha),
         ],
       ),
     );
   }
+}
 
-  Widget buildCardAzan(String time, String date, context) {
+class _CardAzan extends StatelessWidget {
+  final String time;
+  final String date;
+
+  const _CardAzan({
+    Key? key,
+    required this.time,
+    required this.date,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     String formattedDate =
         DateFormat(AppStrings.dateFormat).format(DateTime.now());
     var newDate = DateTime.parse(formattedDate + " " + time);
