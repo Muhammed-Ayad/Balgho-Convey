@@ -72,7 +72,7 @@ class _KibleScreenState extends State<KibleScreen> {
                       angle: ((_direction != 0 ? _direction : 0) *
                           (math.pi / 180) *
                           -1),
-                      child: Image.asset(ImageAssets.kompas),
+                      child: Image.asset(ImageAssets.compass),
                     ),
                   ],
                 ),

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'settings_azan.dart';
+part of 'azan_settings.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SettingsAzan _$SettingsAzanFromJson(Map<String, dynamic> json) => SettingsAzan(
+AzanSettings _$AzanSettingsFromJson(Map<String, dynamic> json) => AzanSettings(
       json['timeformat'] as String,
       json['school'] as String,
       json['juristic'] as String,
@@ -15,7 +15,7 @@ SettingsAzan _$SettingsAzanFromJson(Map<String, dynamic> json) => SettingsAzan(
       (json['ishaAngle'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$SettingsAzanToJson(SettingsAzan instance) =>
+Map<String, dynamic> _$AzanSettingsToJson(AzanSettings instance) =>
     <String, dynamic>{
       'timeformat': instance.timeformat,
       'school': instance.school,

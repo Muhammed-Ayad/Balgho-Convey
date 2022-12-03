@@ -34,7 +34,7 @@ class QuranItem extends StatelessWidget {
           leading: CircleAvatar(
             radius: D.sizeXXLarge,
             backgroundImage: const AssetImage(
-              ImageAssets.startwo,
+              ImageAssets.starTwo,
             ),
             backgroundColor: Colors.transparent,
             child: Text(

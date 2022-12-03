@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'location_azan.g.dart';
+part 'azan_location.g.dart';
 
 @JsonSerializable()
-class LocationAzan {
+class AzanLocation {
   final double latitude;
   final double longitude;
   final double elevation;
@@ -12,10 +12,10 @@ class LocationAzan {
   final String timezone;
   final double localOffset;
 
-  LocationAzan(this.latitude, this.longitude, this.elevation, this.city,
+  AzanLocation(this.latitude, this.longitude, this.elevation, this.city,
       this.country, this.countryCode, this.timezone, this.localOffset);
-  factory LocationAzan.fromJson(Map<String, dynamic> json) =>
-      _$LocationAzanFromJson(json);
+  factory AzanLocation.fromJson(Map<String, dynamic> json) =>
+      _$AzanLocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LocationAzanToJson(this);
+  Map<String, dynamic> toJson() => _$AzanLocationToJson(this);
 }

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'times_azan.dart';
+part of 'azan_times.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TimesAzan _$TimesAzanFromJson(Map<String, dynamic> json) => TimesAzan(
+AzanTimes _$AzanTimesFromJson(Map<String, dynamic> json) => AzanTimes(
       json['imsak'] as String,
       json['sunrise'] as String,
       json['fajr'] as String,
@@ -18,7 +18,7 @@ TimesAzan _$TimesAzanFromJson(Map<String, dynamic> json) => TimesAzan(
       json['midnight'] as String,
     );
 
-Map<String, dynamic> _$TimesAzanToJson(TimesAzan instance) => <String, dynamic>{
+Map<String, dynamic> _$AzanTimesToJson(AzanTimes instance) => <String, dynamic>{
       'imsak': instance.imsak,
       'sunrise': instance.sunrise,
       'fajr': instance.fajr,

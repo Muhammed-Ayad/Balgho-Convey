@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'location_azan.dart';
+part of 'azan_location.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-LocationAzan _$LocationAzanFromJson(Map<String, dynamic> json) => LocationAzan(
+AzanLocation _$AzanLocationFromJson(Map<String, dynamic> json) => AzanLocation(
       (json['latitude'] as num).toDouble(),
       (json['longitude'] as num).toDouble(),
       (json['elevation'] as num).toDouble(),
@@ -17,7 +17,7 @@ LocationAzan _$LocationAzanFromJson(Map<String, dynamic> json) => LocationAzan(
       (json['localOffset'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$LocationAzanToJson(LocationAzan instance) =>
+Map<String, dynamic> _$AzanLocationToJson(AzanLocation instance) =>
     <String, dynamic>{
       'latitude': instance.latitude,
       'longitude': instance.longitude,

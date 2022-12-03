@@ -45,7 +45,7 @@ class _AzanScreenState extends ConsumerState<AzanScreen> {
                             ),
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage(ImageAssets.azantwo),
+                              image: AssetImage(ImageAssets.azanTwo),
                             ),
                           ),
                         ),

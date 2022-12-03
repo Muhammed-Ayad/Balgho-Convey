@@ -1,18 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'date_azan.dart';
+part of 'azan_date.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DateAzan _$DateAzanFromJson(Map<String, dynamic> json) => DateAzan(
+AzanDate _$AzanDateFromJson(Map<String, dynamic> json) => AzanDate(
       json['timestamp'] as int,
       json['gregorian'] as String,
       json['hijri'] as String,
     );
 
-Map<String, dynamic> _$DateAzanToJson(DateAzan instance) => <String, dynamic>{
+Map<String, dynamic> _$AzanDateToJson(AzanDate instance) => <String, dynamic>{
       'timestamp': instance.timestamp,
       'gregorian': instance.gregorian,
       'hijri': instance.hijri,

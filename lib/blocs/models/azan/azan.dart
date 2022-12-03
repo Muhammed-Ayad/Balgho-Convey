@@ -1,4 +1,4 @@
-import 'results_azan.dart';
+import 'azan_results.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'azan.g.dart';
 
@@ -6,7 +6,7 @@ part 'azan.g.dart';
 class Azan {
   final int code;
   final String status;
-  final ResultsAzan results;
+  final AzanResults results;
 
   Azan(this.code, this.status, this.results);
 

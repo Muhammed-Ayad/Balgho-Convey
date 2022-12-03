@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'times_azan.g.dart';
+part 'azan_times.g.dart';
 
 @JsonSerializable()
-class TimesAzan {
+class AzanTimes {
   final String imsak;
   final String sunrise;
   final String fajr;
@@ -13,11 +13,11 @@ class TimesAzan {
   final String isha;
   final String midnight;
 
-  TimesAzan(this.imsak, this.sunrise, this.fajr, this.dhuhr, this.asr,
+  AzanTimes(this.imsak, this.sunrise, this.fajr, this.dhuhr, this.asr,
       this.sunset, this.maghrib, this.isha, this.midnight);
 
-  factory TimesAzan.fromJson(Map<String, dynamic> json) =>
-      _$TimesAzanFromJson(json);
+  factory AzanTimes.fromJson(Map<String, dynamic> json) =>
+      _$AzanTimesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimesAzanToJson(this);
+  Map<String, dynamic> toJson() => _$AzanTimesToJson(this);
 }
