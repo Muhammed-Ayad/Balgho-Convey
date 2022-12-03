@@ -1,3 +1,0 @@
-//* ##################### App TextStyles ######################
-
-mixin AppTextStyles {}

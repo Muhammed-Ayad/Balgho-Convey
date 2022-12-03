@@ -3,7 +3,7 @@ import 'package:great_quran/helpers/extensions.dart';
 
 import 'package:overlay_support/overlay_support.dart';
 
-import '../ui/theme/dimensions.dart';
+import '../theme/dimensions.dart';
 
 // ignore_for_file: avoid_classes_with_only_static_members
 ///

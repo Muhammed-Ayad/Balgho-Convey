@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import '../blocs/cubit/azan_time/azan_time_cubit.dart';
-import '../blocs/cubit/quran/quran_cubit.dart';
-import '../blocs/cubit/radios/radio_cubit.dart';
-import '../data/remote/apis/quran_api_services.dart';
-import '../data/remote/apis/radios_api_services.dart';
-import '../data/repository/quran_repository.dart';
-import '../data/repository/radios_repository.dart';
-import '../ui/resources/routes_manager.dart';
-import '../ui/resources/strings_manager.dart';
-import '../ui/resources/theme_manager.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_quran/theme/themes.dart';
+import 'package:great_quran/resources/routes_manager.dart';
+import 'package:great_quran/resources/strings_manager.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp._internal();
@@ -25,50 +17,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(
-          create: (context) => QuranRepository(
-            quranApiServices: QuranApiServices(),
-          ),
-        ),
-        RepositoryProvider(
-          create: (context) => RadiosRepository(
-            radiosApiServices: RadiosApiServices(),
-          ),
-        ),
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<QuranCubit>(
-            create: (context) => QuranCubit(
-              quranRepository: context.read<QuranRepository>(),
-            ),
-          ),
-          BlocProvider<RadioCubit>(
-            create: (context) => RadioCubit(
-              radiosRepository: context.read<RadiosRepository>(),
-            ),
-          ),
-          BlocProvider<AzanTimeCubit>(
-            create: (context) => AzanTimeCubit(),
-          ),
+    return ProviderScope(
+      child: MaterialApp(
+        title: AppStrings.titleApp,
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.themeFactory(),
+        onGenerateRoute: RouteGenerator.generateRoute,
+        initialRoute: Routes.mainRoute,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        child: MaterialApp(
-          title: AppStrings.titleApp,
-          debugShowCheckedModeBanner: false,
-          theme: getApplicationTheme(),
-          onGenerateRoute: RouteGenerator.generateRoute,
-          initialRoute: Routes.mainRoute,
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale(AppStrings.languageCode, AppStrings.countryCode),
-          ],
-        ),
+        supportedLocales: const [
+          Locale(AppStrings.languageCode, AppStrings.countryCode),
+        ],
       ),
     );
   }

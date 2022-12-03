@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../data/remote/endpoints.dart';
-import '../resources/assets_manager.dart';
-
+import 'package:great_quran/data/remote/endpoints.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/resources/assets_manager.dart';
+import 'package:great_quran/resources/strings_manager.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../helpers/constants.dart';
-import '../resources/color_manager.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
-import '../widgets/appbar_widget.dart';
 
 class ContantUsView extends StatelessWidget {
   const ContantUsView({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class ContantUsView extends StatelessWidget {
         ),
         body: Container(
           decoration: BoxDecoration(
-            color: ColorManager.white,
+            color: AppColors.white,
             image: const DecorationImage(
               image: AssetImage(ImageAssets.contact),
               fit: BoxFit.fitWidth,
@@ -38,7 +37,7 @@ class ContantUsView extends StatelessWidget {
                     flex: 3,
                     child: Text(
                       AppStrings.contantUs,
-                      style: Theme.of(context).textTheme.displayLarge,
+                      style: context.textTheme.displayLarge,
                     ),
                   ),
                   const Spacer(),
@@ -48,17 +47,17 @@ class ContantUsView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         socialButtons(
-                          color: ColorManager.red,
+                          color: AppColors.red,
                           icon: Icons.mail_outline_outlined,
                           function: _mailTo,
                         ),
                         socialButtons(
-                          color: ColorManager.green,
+                          color: AppColors.green,
                           icon: Icons.call_outlined,
                           function: _callPhoneNumber,
                         ),
                         socialButtons(
-                          color: ColorManager.blue,
+                          color: AppColors.blue,
                           icon: Icons.facebook,
                           function: _facebook,
                         ),
@@ -105,9 +104,9 @@ class ContantUsView extends StatelessWidget {
       required Function function}) {
     return CircleAvatar(
       backgroundColor: color,
-      radius: AppSize.s24,
+      radius: D.sizeXXLarge,
       child: CircleAvatar(
-        radius: AppSize.s22,
+        radius: D.sizeXLarge,
         backgroundColor: Colors.white,
         child: IconButton(
           icon: Icon(

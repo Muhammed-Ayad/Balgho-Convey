@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../helpers/constants.dart';
-import '../resources/color_manager.dart';
-import '../resources/values_manager.dart';
-import '../widgets/appbar_widget.dart';
-
-import '../../data/models/quran/ayah.dart';
-import '../../data/models/quran/surah.dart';
+import 'package:great_quran/blocs/models/quran/ayah.dart';
+import 'package:great_quran/blocs/models/quran/surah.dart';
+import 'package:great_quran/helpers/constants.dart';
+import 'package:great_quran/helpers/extensions.dart';
+import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/ui/widgets/appbar_widget.dart';
 
 class SurahPage extends StatelessWidget {
   final List<Ayah> ayahList;
@@ -15,40 +14,37 @@ class SurahPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: appBarWidget(
           surah.name.toString().trim(), Constants.elevationAppBarOne, context),
-      backgroundColor: ColorManager.white,
+      backgroundColor: AppColors.white,
       body: ListView.builder(
         itemCount: ayahList.length,
-        itemBuilder: (context, index) =>
-            buildAyah(height, index, width, context),
+        itemBuilder: (context, index) => buildAyah(
+          context.height,
+          index,
+          context.width,
+          context,
+        ),
       ),
     );
   }
 
   Widget buildAyah(double height, int index, double width, context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        width * AppSize.s0_015,
-        AppSize.s0,
-        AppSize.s0,
-        AppSize.s0,
-      ),
+      padding: EdgeInsets.fromLTRB(width * 0.015, 0, 0, 0),
       child: ListTile(
         leading: CircleAvatar(
-          radius: height * AppSize.s0_013,
-          backgroundColor: ColorManager.darkDlue,
+          radius: height * 0.013,
+          backgroundColor: AppColors.darkDlue,
           child: CircleAvatar(
-              radius: height * AppSize.s0_012,
-              backgroundColor: ColorManager.white,
+              radius: height * 0.012,
+              backgroundColor: AppColors.white,
               child: Text(
                 ayahList[index].numberInSurah.toString(),
                 style: TextStyle(
-                  fontSize: height * AppSize.s0_013,
-                  color: ColorManager.blue,
+                  fontSize: height * 0.013,
+                  color: AppColors.blue,
                 ),
               )),
         ),
