@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:great_quran/blocs/models/radios/radios.dart';
 import 'package:great_quran/helpers/boxes.dart';
-import 'package:great_quran/helpers/constants.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
-import 'package:great_quran/ui/widgets/appbar_widget.dart';
+import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class AudioPage extends StatefulWidget {
   final Radios radios;
@@ -57,10 +56,8 @@ class _AudioPageState extends State<AudioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: appBarWidget(
-        widget.radios.name,
-        Constants.elevationAppBarOne,
-        context,
+      appBar: CustomAppBar(
+        title: widget.radios.name,
       ),
       body: SingleChildScrollView(
         child: Column(

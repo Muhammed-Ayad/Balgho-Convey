@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/blocs/models/nawawi/nawawi.dart';
 import 'package:great_quran/helpers/boxes.dart';
-import 'package:great_quran/helpers/constants.dart';
-import 'package:great_quran/helpers/extensions.dart';
+ import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/strings_manager.dart';
-import 'package:great_quran/ui/widgets/appbar_widget.dart';
+ import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class NawawiItem extends StatelessWidget {
   final Nawawi nawawi;
@@ -19,10 +18,8 @@ class NawawiItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        nawawi.title,
-        Constants.elevationAppBarZero,
-        context,
+      appBar: CustomAppBar(
+        title: nawawi.title,
       ),
       body: Column(
         children: [

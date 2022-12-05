@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/radios_provider.dart';
-import 'package:great_quran/helpers/constants.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
 import 'package:great_quran/ui/radios/radio_item.dart';
 import 'package:great_quran/resources/strings_manager.dart';
-import 'package:great_quran/ui/widgets/appbar_widget.dart';
+import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class RadiosScreen extends ConsumerStatefulWidget {
   const RadiosScreen({Key? key}) : super(key: key);
@@ -27,10 +26,8 @@ class _RadiosViewState extends ConsumerState<RadiosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        AppStrings.radio,
-        Constants.elevationAppBarOne,
-        context,
+      appBar: const CustomAppBar(
+        title: AppStrings.radio,
       ),
       body: Consumer(builder: (_, ref, __) {
         final state = ref.watch(RadiosNotifier.provider);

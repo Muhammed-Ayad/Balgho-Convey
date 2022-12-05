@@ -4,7 +4,7 @@ import 'package:great_quran/blocs/models/quran/surah.dart';
 import 'package:great_quran/helpers/constants.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
-import 'package:great_quran/ui/widgets/appbar_widget.dart';
+import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class SurahPage extends StatelessWidget {
   final List<Ayah> ayahList;
@@ -15,8 +15,9 @@ class SurahPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-          surah.name.toString().trim(), Constants.elevationAppBarOne, context),
+      appBar: CustomAppBar(
+        title: surah.name.toString().trim(),
+      ),
       backgroundColor: AppColors.white,
       body: ListView.builder(
         itemCount: ayahList.length,

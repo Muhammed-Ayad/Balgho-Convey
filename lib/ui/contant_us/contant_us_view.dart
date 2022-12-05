@@ -6,7 +6,7 @@ import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/strings_manager.dart';
-import 'package:great_quran/ui/widgets/appbar_widget.dart';
+import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContantUsView extends StatelessWidget {
@@ -15,10 +15,8 @@ class ContantUsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarWidget(
-          AppStrings.hello,
-          Constants.elevationAppBarOne,
-          context,
+        appBar: const CustomAppBar(
+          title: AppStrings.hello,
         ),
         body: Container(
           decoration: BoxDecoration(
