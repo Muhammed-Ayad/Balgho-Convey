@@ -13,16 +13,12 @@ class QuranApi implements IQuranApi {
 
   @override
   Future<List<Surah>> getQuran() async {
+    final response = await rootBundle.loadString(AppEndpoints.quranApi);
     try {
-      final response = await rootBundle.loadString(AppEndpoints.quranApi);
-      List<Surah> surahsList = [];
       final Map<String, dynamic> responseBody = jsonDecode(response);
-      var surahsListBody = responseBody['data']['surahs'] as List;
-
-      for (var surah in surahsListBody) {
-        surahsList.add(Surah.fromJson(surah));
-      }
-      return surahsList;
+      return (responseBody['data']['surahs'] as List)
+          .map((surah) => Surah.fromJson(surah))
+          .toList();
     } catch (e, s) {
       debugPrint('Error Api $e\n$s');
       rethrow;

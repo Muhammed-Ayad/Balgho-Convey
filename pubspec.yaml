@@ -92,16 +92,10 @@ flutter:
     - assets/fonts/
 
   fonts:
-    - family: ElMessiri
+    - family: UthmanicHafs
       fonts:
-        - asset: assets/fonts/ElMessiri-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/ElMessiri-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/ElMessiri-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/ElMessiri-Regular.ttf
-          weight: 400
+        - asset: assets/fonts/UthmanicHafs_V20.ttf
+          
 
 flutter_native_splash:
   color: "#FFFFFF"

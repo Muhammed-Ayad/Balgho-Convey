@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/quran_provider.dart';
- import 'package:great_quran/helpers/ui_helpers.dart';
+import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
 import 'package:great_quran/ui/quran/quran_item.dart';
 import 'package:great_quran/resources/strings_manager.dart';
- import 'package:great_quran/ui/widgets/custom_app_bar.dart';
+import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class QuranScreen extends ConsumerStatefulWidget {
   const QuranScreen({Key? key}) : super(key: key);
@@ -52,7 +52,7 @@ class _QuranViewState extends ConsumerState<QuranScreen> {
           ),
           error: (_) {
             return const Center(
-              child: Text('Error'),
+              child: Text('حدث خطأ في البيانات'),
             );
           },
         );
