@@ -8,7 +8,7 @@ import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/strings_manager.dart';
-import 'package:great_quran/ui/widgets/appbar_widget.dart';
+ import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 import 'package:share_plus/share_plus.dart';
 
 class AzkarItem extends StatefulWidget {
@@ -31,10 +31,8 @@ class _AzkarItemState extends State<AzkarItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        widget.azkar,
-        Constants.elevationAppBarOne,
-        context,
+      appBar: CustomAppBar(
+        title: widget.azkar,
       ),
       body: SingleChildScrollView(
         child: Column(
