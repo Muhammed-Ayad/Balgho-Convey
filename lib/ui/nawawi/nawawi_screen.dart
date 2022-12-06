@@ -1,12 +1,11 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/nawawi_provider.dart';
-import 'package:great_quran/helpers/constants.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/theme/colors.dart';
-import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/nawawi/nawawi_item.dart';
+
+final _changePageProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 class NawawiScreen extends ConsumerStatefulWidget {
   const NawawiScreen({Key? key}) : super(key: key);
@@ -24,6 +23,8 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
     super.initState();
   }
 
+  final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,22 +34,65 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
           final state = ref.watch(NawawiNotifier.provider);
           return state.when(
             data: (data) {
-              return CarouselSlider(
-                items: data.map((nawawi) {
-                  return NawawiItem(
-                    nawawi: nawawi,
-                  );
-                }).toList(),
-                options: CarouselOptions(
-                  scrollPhysics: const ScrollPhysics(),
-                  height: double.infinity,
-                  autoPlay: false,
-                  enableInfiniteScroll: false,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.9,
-                  initialPage: Constants.initialPage,
-                  aspectRatio: D.sizeXXSmall,
-                ),
+              return Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              if (ref.read(_changePageProvider) > 0) {
+                                _pageController.animateToPage(
+                                  --ref
+                                      .read(_changePageProvider.notifier)
+                                      .state,
+                                  duration: const Duration(microseconds: 250),
+                                  curve: Curves.bounceInOut,
+                                );
+                              }
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios_rounded,
+                              color: AppColors.brown,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              _pageController.animateToPage(
+                                ++ref.read(_changePageProvider.notifier).state,
+                                duration: const Duration(microseconds: 250),
+                                curve: Curves.bounceInOut,
+                              );
+                            },
+                            icon: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: AppColors.brown,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 10,
+                    child: PageView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return NawawiItem(
+                          nawawi: data[index],
+                        );
+                      },
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        ref.watch(_changePageProvider.notifier).state = index;
+                      },
+                    ),
+                  ),
+                ],
               );
             },
             loading: () => const Center(
@@ -63,5 +107,11 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
         }),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }
