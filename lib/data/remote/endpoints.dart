@@ -7,8 +7,7 @@ mixin AppEndpoints {
   static String url =
       'https://api.aladhan.com/v1/calendarByCity?city=London&country=cairo%20Kingdom&method=2&month=12&year=2022';
   static const mailTo = "mailto:mohamedayaddev@gmail.com";
-  static const callPhoneNumber = 'tel://01282903069';
-  static const urlFacebook = 'https://www.facebook.com/mohamed.abdo1998/';
+
   static const linkPlayGoogle =
       "https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad";
 }
