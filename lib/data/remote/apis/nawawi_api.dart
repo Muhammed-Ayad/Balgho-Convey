@@ -13,14 +13,9 @@ class NawawiApi implements INawawiApi {
   Future<List<Nawawi>> getNawawi() async {
     try {
       final response = await rootBundle.loadString(AppEndpoints.nawawiApi);
-      List<Nawawi> nawawiList = [];
-      final List<dynamic> responseBody = jsonDecode(response);
-      var nawawiListBody = responseBody;
 
-      for (var nawawi in nawawiListBody) {
-        nawawiList.add(Nawawi.fromJson(nawawi));
-      }
-      return nawawiList;
+      final List<dynamic> responseBody = jsonDecode(response);
+      return responseBody.map((e) => Nawawi.fromJson(e)).toList();
     } catch (e, s) {
       debugPrint('Error Api $e\n$s');
       rethrow;
