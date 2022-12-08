@@ -1,4 +1,8 @@
+import '../../resources/strings_manager.dart';
+import 'mix_extensions.dart';
+
 /// * All purposes generic state class
+/// Usually used with for `Notifiers` & `StateNotifiers`
 class GenericState<T> {
   final Status _status;
   final T? _data;
@@ -67,38 +71,25 @@ class GenericState<T> {
         return data(_data as T);
       case Status.fail:
         return error(
-          this.error ?? "errors_something_went_wrong",
+          this.error ?? AppStrings.error,
         );
       case Status.loading:
         return loading();
     }
   }
-}
 
-/// * Use this enum directly if you have a simple use case (state) of different status without data.
-enum Status {
-  initial,
-  success,
-  fail,
-  loading;
-
-  /// Returns a type [R] for different status.
-  /// used with simple state use cases that doesn't require data.
-  R when<R>({
-    R Function()? initial,
-    required R Function() success,
-    required R Function() fail,
-    required R Function() loading,
-  }) {
-    switch (this) {
-      case Status.initial:
-        return initial != null ? initial() : loading();
-      case Status.success:
-        return success();
-      case Status.fail:
-        return fail();
-      case Status.loading:
-        return loading();
+  /// Guard function that evaluate a future and returns either Success state Or Fail state.
+  static Future<GenericState<T>> guard<T>(Future<T> Function() future) async {
+    try {
+      return GenericState.success(await future());
+    } catch (err, stack) {
+      err.log();
+      stack.log(isError: true);
+      return GenericState.fail(
+        err.toString(),
+      );
     }
   }
 }
+
+enum Status { initial, success, fail, loading }

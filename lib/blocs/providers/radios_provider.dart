@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/models/radios/radios.dart';
-import 'package:great_quran/blocs/states/generic_state.dart';
+import 'package:great_quran/blocs/state_mix/_index.dart';
 import 'package:great_quran/data/remote/apis/radios_api.dart';
 import 'package:great_quran/data/remote/interfaces/i_radios_api.dart';
 

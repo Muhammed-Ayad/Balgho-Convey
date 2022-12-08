@@ -24,7 +24,7 @@ dependencies:
 
   ##### ------------------------ State & Bushiness Logic -------------------------- #####
 
-  flutter_riverpod: ^1.0.4
+  flutter_riverpod: ^2.1.1
 
   equatable: ^2.0.3
 
