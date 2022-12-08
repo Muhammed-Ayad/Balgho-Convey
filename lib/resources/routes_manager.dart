@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../ui/kibla/kiblat_screen.dart';
+import '../ui/qibla/qibla_screen.dart';
 import '../ui/nawawi/nawawi_screen.dart';
 import '../ui/quran/quran_screen.dart';
 import '../ui/radios/radios_screen.dart';
@@ -34,7 +34,7 @@ class RouteGenerator {
       case Routes.azkarRoute:
         return MaterialPageRoute(builder: (_) => const AzkarScreen());
       case Routes.kibleRoute:
-        return MaterialPageRoute(builder: (_) => const KibleScreen());
+        return MaterialPageRoute(builder: (_) => const QiblaScreen());
       case Routes.nawawiRoute:
         return MaterialPageRoute(builder: (_) => const NawawiScreen());
       case Routes.quranRoute:

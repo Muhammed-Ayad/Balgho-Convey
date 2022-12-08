@@ -3,19 +3,19 @@ import 'package:flutter_compass/flutter_compass.dart';
 
 import 'dart:math' as math;
 
- import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/strings_manager.dart';
- import 'package:great_quran/ui/widgets/custom_app_bar.dart';
+import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
-class KibleScreen extends StatefulWidget {
-  const KibleScreen({Key? key}) : super(key: key);
+class QiblaScreen extends StatefulWidget {
+  const QiblaScreen({Key? key}) : super(key: key);
 
   @override
-  _KibleScreenState createState() => _KibleScreenState();
+  _QiblaScreenState createState() => _QiblaScreenState();
 }
 
-class _KibleScreenState extends State<KibleScreen> {
+class _QiblaScreenState extends State<QiblaScreen> {
   double _direction = 0;
 
   @override
