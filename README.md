@@ -40,12 +40,32 @@ The application contains the Noble Qur’an, Qur’an radio stations, morning an
 <img src="screenshots/10.png" height="400" >
 <img src="screenshots/11.png" height="400" >
 <img src="screenshots/12.png" height="400" >
-
 <img src="screenshots/13.png" height="400" >
 
 <div align="left">
+## :sparkles: Features:
 
-# Apis 
+- Noble Qur’an
+- Qur’an radio stations
+- Morning and evening remembrances
+- the Forty-Nawawi book
+
+
+## :soon: New Features and Bugs will be fixed on the next update:
+
+- [x] Update splash screen
+- [x] Update app Logo and icon
+- [x] Early Notification for prayer times
+- [x] Prayer Times 
+- [x] Names of Allah
+- [x] Counter
+- [x] Qibla Direction
+- [x] Zakat Calculator
+- [x] Light & Dark Themes
+- [x] Dhikr after prayer
+- [x] Large set of downloadable Sounds (Adhan, Du'a etc.)
+
+🔗 Resources :
 
 ## Quran
 ### http://api.alquran.cloud/v1/quran/quran-uthmani
@@ -59,35 +79,9 @@ The application contains the Noble Qur’an, Qur’an radio stations, morning an
 ## Nawawi
 ### https://github.com/osamayy/40-hadith-nawawi-db/blob/main/40-hadith-nawawi.json
 
-## Azan
-### https://api.pray.zone/v2/times/today.json?city=cairo&fbclid=IwAR1y4oO4O-S50WUZfshra9ZCzPk8OWMtdEnByg8ieX-TwX6qs3IazGbRTtY%27
 
 
 
-# Package
+## License
 
-### audioplayers :   A Flutter plugin to play multiple simultaneously audio files, works for Android, iOS, macOS and web.
-
-### carousel_slider :A carousel slider widget.
-
-### equatable : Simplify Equality Comparisons
-
-### flutter_bloc  : Widgets that make it easy to integrate blocs and cubits into Flutter. Built to work with package:bloc.
-
-### flutter_compass :A Flutter compass. The heading varies from 0-360, 0 being north.
-
-### flutter_localizations : How to track the device’s locale (the user’s preferred language).
-
-### http : A composable, Future-based library for making HTTP requests.
-
-### intl : Provides internationalization and localization facilities, including message translation, plurals and genders, date/number formatting and parsing, and bidirectional text.
-
-### share_plus : A Flutter plugin to share content from your Flutter app via the platform's share dialog.
-
-### clipboard : A flutter package that helps copy text to clipboard and paste from clipboard.
-
-###  in_app_review: Flutter plugin for showing the In-App Review/System Rating pop up on Android, IOS and MacOS. It makes it easy for users to rate your app
-
-### change_app_package_name : Change App Package Name with single command. Update AndroidManifest, build.gradle, MainActivity files & move MainActivity file to new directory structure automatically.
-
-### flutter_native_splash : Customize Flutter's default white native splash screen with background color and splash image. Supports dark mode, full screen, and more.
+MIT License
