@@ -54,6 +54,8 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
                                   duration: const Duration(microseconds: 250),
                                   curve: Curves.bounceInOut,
                                 );
+                              } else if (ref.read(_changePageProvider) == 0) {
+                                Navigator.pop(context);
                               }
                             },
                             icon: Icon(
