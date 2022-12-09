@@ -57,16 +57,16 @@ The application contains the Noble Qur’an, Qur’an radio stations, morning an
 ## :soon: New Features and Bugs will be fixed on the next update:
 
 - [ ] Update splash screen
-- [x] Update app Logo and icon
-- [x] Early Notification for prayer times
-- [x] Prayer Times 
-- [x] Names of Allah
-- [x] Counter
-- [x] Qibla Direction
-- [x] Zakat Calculator
-- [x] Light & Dark Themes
-- [x] Dhikr after prayer
-- [x] Large set of downloadable Sounds (Adhan, Du'a etc.)
+- [ ] Update app Logo and icon
+- [ ] Early Notification for prayer times
+- [ ] Prayer Times 
+- [ ] Names of Allah
+- [ ] Counter
+- [ ] Qibla Direction
+- [ ] Zakat Calculator
+- [ ] Light & Dark Themes
+- [ ] Dhikr after prayer
+- [ ] Large set of downloadable Sounds (Adhan, Du'a etc.)
 
 🔗 Resources :
 
