@@ -7,6 +7,7 @@ import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
 import 'package:great_quran/ui/quran/quran_item.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
+import 'package:great_quran/ui/widgets/error_widget.dart';
 import 'package:great_quran/ui/widgets/loading_widget.dart';
 
 class QuranScreen extends ConsumerStatefulWidget {
@@ -50,11 +51,7 @@ class _QuranViewState extends ConsumerState<QuranScreen> {
             );
           },
           loading: () => const LoadingWidget(),
-          error: (_) {
-            return const Center(
-              child: Text('حدث خطأ في البيانات'),
-            );
-          },
+          error: (_) => const ErrorWidgetApp(),
         );
       }),
     );
