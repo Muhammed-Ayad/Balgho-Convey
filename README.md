@@ -37,6 +37,8 @@ The application contains the Noble Qur’an, Qur’an radio stations, morning an
 <img src="screenshots/13.png" height="400" >
 
 <div align="left">
+
+
 ## :sparkles: Features:
 
 - Noble Qur’an
