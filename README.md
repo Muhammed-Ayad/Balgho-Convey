@@ -56,7 +56,7 @@ The application contains the Noble Qur’an, Qur’an radio stations, morning an
 
 ## :soon: New Features and Bugs will be fixed on the next update:
 
-- [x] Update splash screen
+- [ ] Update splash screen
 - [x] Update app Logo and icon
 - [x] Early Notification for prayer times
 - [x] Prayer Times 
