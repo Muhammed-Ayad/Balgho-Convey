@@ -4,6 +4,7 @@ import 'package:great_quran/blocs/providers/nawawi_provider.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/ui/nawawi/nawawi_item.dart';
+import 'package:great_quran/ui/widgets/loading_widget.dart';
 
 final _changePageProvider = StateProvider.autoDispose<int>((ref) => 0);
 
@@ -95,9 +96,7 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
                 ],
               );
             },
-            loading: () => const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ),
+           loading: () => const LoadingWidget(),
             error: (_) {
               return const Center(
                 child: Text('Error'),
