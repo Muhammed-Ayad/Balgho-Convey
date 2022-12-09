@@ -60,6 +60,11 @@ dependencies:
 
   url_launcher: ^6.0.15
 
+  flutter_qiblah: ^2.1.0
+
+  permission_handler: ^10.2.0
+
+
 
   ##### ------------------------ Flutter Dependencies -------------------------- #####
 
@@ -67,8 +72,6 @@ dependencies:
 
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.1
-  flutter_compass: ^0.7.0
   flutter_localizations:
     sdk: flutter
   http: ^0.13.4

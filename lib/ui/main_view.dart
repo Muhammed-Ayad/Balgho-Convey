@@ -63,7 +63,7 @@ class MainView extends StatelessWidget {
               child: Row(
                 children: [
                   buildCard(
-                    AppStrings.kible,
+                    AppStrings.qibla,
                     Routes.kibleRoute,
                     ImageAssets.qubla,
                     context,

@@ -7,7 +7,7 @@ class AppStrings {
   static const hello = 'مرحبا بكم';
   static const contantUs = 'تواصل معنا';
   static const share = " انشر التطبيق وشارك الاجر";
-  static const kible = "القبلة";
+  static const qibla = "القبلة";
   static const quran = "القرآن الكريم";
   static const quranGreat = "القرآن العظيم";
   static const radio = "إذاعات القرآن";

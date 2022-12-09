@@ -13,7 +13,7 @@ class ImageAssets {
   static const String circ = "$imagePath/circ.gif";
 
   static const String star = "$imagePath/star.png";
-  static const String kiblat = "$imagePath/Kiblat.png";
+  static const String qibla = "$imagePath/qibla.png";
   static const String compass = "$imagePath/compass.png";
   static const String starTwo = "$imagePath/startwo.png";
 }
