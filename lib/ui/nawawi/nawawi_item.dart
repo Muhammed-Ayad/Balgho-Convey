@@ -1,11 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:great_quran/blocs/models/nawawi/nawawi.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
-import 'package:great_quran/resources/strings_manager.dart';
-import 'package:great_quran/ui/widgets/nawawi_dialog.dart';
+ import 'package:great_quran/ui/widgets/nawawi_dialog.dart';
 
 class NawawiItem extends StatelessWidget {
   final Nawawi nawawi;
@@ -61,7 +62,7 @@ class NawawiItem extends StatelessWidget {
                 ),
                 minWidth: double.infinity,
                 child: Text(
-                  AppStrings.explanationOfTheHadith,
+                  LocaleKeys.title_explanation_the_hadith.tr(),
                   style: context.textTheme.displayLarge!
                       .copyWith(color: AppColors.white),
                 ),

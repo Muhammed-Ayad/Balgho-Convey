@@ -1,12 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 
 import 'dart:math' as math;
 
- import 'package:great_quran/theme/dimensions.dart';
+import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
-import 'package:great_quran/resources/strings_manager.dart';
- import 'package:great_quran/ui/widgets/custom_app_bar.dart';
+import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class KibleScreen extends StatefulWidget {
   const KibleScreen({Key? key}) : super(key: key);
@@ -43,8 +44,8 @@ class _KibleScreenState extends State<KibleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: AppStrings.kible,
+      appBar: CustomAppBar(
+        title: LocaleKeys.title_kible.tr(),
       ),
       body: Column(
         children: [

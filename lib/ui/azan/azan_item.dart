@@ -1,11 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:great_quran/blocs/models/azan/azan.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/helpers/utilities.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
-import 'package:great_quran/resources/strings_manager.dart';
-import 'package:intl/intl.dart';
 
 class AzanItem extends StatelessWidget {
   final Azan data;
@@ -21,12 +21,12 @@ class AzanItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _CardAzan(time: results.fajr, date: AppStrings.fajr),
-          _CardAzan(time: results.sunrise, date: AppStrings.sunrise),
-          _CardAzan(time: results.dhuhr, date: AppStrings.dhuhr),
-          _CardAzan(time: results.asr, date: AppStrings.asr),
-          _CardAzan(time: results.maghrib, date: AppStrings.maghrib),
-          _CardAzan(time: results.isha, date: AppStrings.isha),
+          _CardAzan(time: results.fajr, date: LocaleKeys.azan_fajr.tr()),
+          _CardAzan(time: results.sunrise, date: LocaleKeys.azan_sunrise.tr()),
+          _CardAzan(time: results.dhuhr, date: LocaleKeys.azan_dhuhr.tr()),
+          _CardAzan(time: results.asr, date: LocaleKeys.azan_asr.tr()),
+          _CardAzan(time: results.maghrib, date: LocaleKeys.azan_maghrib.tr()),
+          _CardAzan(time: results.isha, date: LocaleKeys.azan_isha.tr()),
         ],
       ),
     );

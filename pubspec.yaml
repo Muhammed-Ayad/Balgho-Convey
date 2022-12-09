@@ -22,6 +22,8 @@ dependencies:
 
   shared_preferences: ^2.0.15
 
+  easy_localization: ^3.0.1
+
   ##### ------------------------ State & Bushiness Logic -------------------------- #####
 
   flutter_riverpod: ^2.1.1
@@ -90,6 +92,7 @@ flutter:
     - assets/images/
     - assets/json/
     - assets/fonts/
+    - assets/translations/
 
   fonts:
     - family: UthmanicHafs
