@@ -4,6 +4,8 @@ import 'package:great_quran/blocs/providers/azan_time_provider.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
+import 'package:great_quran/ui/widgets/error_widget.dart';
+import 'package:great_quran/ui/widgets/loading_widget.dart';
 import 'header_azan.dart';
 import 'azan_item.dart';
 
@@ -62,14 +64,8 @@ class _AzanScreenState extends ConsumerState<AzanScreen> {
                 ],
               );
             },
-            loading: () => const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ),
-            error: (_) {
-              return const Center(
-                child: Text('Error'),
-              );
-            },
+            loading: () => const LoadingWidget(),
+            error: (_) => const ErrorWidgetApp(),
           );
         }),
       ),

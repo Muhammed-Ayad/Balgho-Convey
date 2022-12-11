@@ -1,4 +1,5 @@
-import '../../resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'mix_extensions.dart';
 
 /// * All purposes generic state class
@@ -71,7 +72,7 @@ class GenericState<T> {
         return data(_data as T);
       case Status.fail:
         return error(
-          this.error ?? AppStrings.error,
+          this.error ?? LocaleKeys.error_error.tr(),
         );
       case Status.loading:
         return loading();

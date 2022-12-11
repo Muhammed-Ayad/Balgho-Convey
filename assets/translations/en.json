@@ -1,0 +1,34 @@
+{
+  "app_name": "بلغوا",
+  "title": {
+    "app_bar": "",
+    "hello": "",
+    "contant_us": "",
+    "share": "",
+    "kible": "",
+    "quran": "",
+    "quranGreat": "",
+    "radio": "",
+    "azkar": "",
+    "nawawi": "",
+    "azan": "",
+    "close": "",
+    "play": "",
+    "explanation_the_hadith": "",
+    "copy": "",
+    "review": ""
+  },
+  "azan": {
+    "fajr": "",
+    "sunrise": "",
+    "dhuhr": "",
+    "asr": "",
+    "maghrib": "",
+    "isha": ""
+  },
+  "body": {},
+  "error": {
+    "connect_internet": "",
+    "error": ""
+  }
+}

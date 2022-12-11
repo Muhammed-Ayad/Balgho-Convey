@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/helpers/utilities.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
-import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class ContantUsView extends StatelessWidget {
@@ -13,8 +14,8 @@ class ContantUsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: AppStrings.hello,
+      appBar: CustomAppBar(
+        title: LocaleKeys.title_hello.tr(),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -32,7 +33,7 @@ class ContantUsView extends StatelessWidget {
                 Flexible(
                   flex: 3,
                   child: Text(
-                    AppStrings.contantUs,
+                    LocaleKeys.title_contant_us.tr(),
                     style: context.textTheme.displayLarge,
                   ),
                 ),

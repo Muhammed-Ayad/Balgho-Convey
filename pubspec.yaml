@@ -18,9 +18,13 @@ dependencies:
 
   shimmer: ^2.0.0
 
+  flutter_spinkit: ^5.1.0
+
   ##### ------------------------ Data -------------------------- #####
 
   shared_preferences: ^2.0.15
+
+  easy_localization: ^3.0.1
 
   ##### ------------------------ State & Bushiness Logic -------------------------- #####
 
@@ -90,6 +94,7 @@ flutter:
     - assets/images/
     - assets/json/
     - assets/fonts/
+    - assets/translations/
 
   fonts:
     - family: UthmanicHafs

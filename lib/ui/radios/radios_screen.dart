@@ -1,11 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/radios_provider.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
 import 'package:great_quran/ui/radios/radio_item.dart';
-import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
+import 'package:great_quran/ui/widgets/error_widget.dart';
+import 'package:great_quran/ui/widgets/loading_widget.dart';
 
 class RadiosScreen extends ConsumerStatefulWidget {
   const RadiosScreen({Key? key}) : super(key: key);
@@ -26,8 +29,8 @@ class _RadiosViewState extends ConsumerState<RadiosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: AppStrings.radio,
+      appBar: CustomAppBar(
+        title: LocaleKeys.title_radio.tr(),
       ),
       body: Consumer(builder: (_, ref, __) {
         final state = ref.watch(RadiosNotifier.provider);
@@ -44,14 +47,8 @@ class _RadiosViewState extends ConsumerState<RadiosScreen> {
               },
             );
           },
-          loading: () => const Center(
-            child: CircularProgressIndicator.adaptive(),
-          ),
-          error: (_) {
-            return const Center(
-              child: Text('Error'),
-            );
-          },
+          loading: () => const LoadingWidget(),
+          error: (_) => const ErrorWidgetApp(),
         );
       }),
     );
