@@ -57,11 +57,14 @@ class RemoteClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
+      log(
+        response.data,
+        name: 'Enagma',
+      );
       return response.handle();
     } on SocketException {
       throw NoConnectionException();
     } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
       throw FetchDataException();
     }
   }
@@ -90,7 +93,6 @@ class RemoteClient {
     } on SocketException {
       throw NoConnectionException();
     } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
       throw FetchDataException();
     }
   }
@@ -119,7 +121,6 @@ class RemoteClient {
     } on SocketException {
       throw NoConnectionException();
     } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
       throw FetchDataException();
     }
   }
@@ -148,7 +149,6 @@ class RemoteClient {
     } on SocketException {
       throw NoConnectionException();
     } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
       throw FetchDataException();
     }
   }
@@ -175,7 +175,6 @@ class RemoteClient {
     } on SocketException {
       throw NoConnectionException();
     } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
       throw FetchDataException();
     }
   }

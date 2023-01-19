@@ -5,7 +5,7 @@ mixin AppEndpoints {
   static const radiosApi = '$_baseUrl/radios.json';
   static const nawawiApi = '$_baseUrl/nawawi.json';
   static String url =
-      'https://api.aladhan.com/v1/calendarByCity?city=London&country=cairo%20Kingdom&method=2&month=12&year=2022';
+      'https://api.aladhan.com/v1/timingsByCity?city=cairo&country=Egypt';
   static const mailTo = "mailto:mohamedayaddev@gmail.com";
 
   static const linkPlayGoogle =

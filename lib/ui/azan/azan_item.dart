@@ -16,17 +16,17 @@ class AzanItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final results = data.results.datetime[0].times;
+    final results = data.data!.timings;
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _CardAzan(time: results.fajr, date: LocaleKeys.azan_fajr.tr()),
-          _CardAzan(time: results.sunrise, date: LocaleKeys.azan_sunrise.tr()),
-          _CardAzan(time: results.dhuhr, date: LocaleKeys.azan_dhuhr.tr()),
-          _CardAzan(time: results.asr, date: LocaleKeys.azan_asr.tr()),
-          _CardAzan(time: results.maghrib, date: LocaleKeys.azan_maghrib.tr()),
-          _CardAzan(time: results.isha, date: LocaleKeys.azan_isha.tr()),
+          _CardAzan(time: results!.fajr??'', date: LocaleKeys.azan_fajr.tr()),
+          _CardAzan(time: results.sunrise??'', date: LocaleKeys.azan_sunrise.tr()),
+          _CardAzan(time: results.dhuhr??'', date: LocaleKeys.azan_dhuhr.tr()),
+          _CardAzan(time: results.asr??'', date: LocaleKeys.azan_asr.tr()),
+          _CardAzan(time: results.maghrib??'', date: LocaleKeys.azan_maghrib.tr()),
+          _CardAzan(time: results.isha??'', date: LocaleKeys.azan_isha.tr()),
         ],
       ),
     );

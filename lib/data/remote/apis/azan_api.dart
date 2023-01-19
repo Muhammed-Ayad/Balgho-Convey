@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/models/azan/azan.dart';
@@ -20,12 +22,11 @@ class AzanTimeApi implements IAzanTimeApi {
   @override
   Future<Azan> getAzan() async {
     final url = AppEndpoints.url;
-    try {
+   
+      
       final response = await _remoteClient.get(url);
-      return Azan.fromJson(response.data);
-    } catch (e, s) {
-      debugPrint('Error Api $e\n$s');
-      rethrow;
-    }
+      log(response);
+      return Azan.fromJson(response as Map<String, dynamic>);
+    
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:great_quran/data/remote/exceptions/exceptions.dart';
 
@@ -8,7 +6,7 @@ extension DioResponseHandler on Response {
     switch (statusCode) {
       case 200:
         try {
-          return json.decode(data);
+          return data;
         } catch (e) {
           throw SerializationException(message: e.toString());
         }

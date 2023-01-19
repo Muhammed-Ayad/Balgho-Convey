@@ -20,7 +20,7 @@ class HeaderAzan extends StatelessWidget {
             right: D.sizeXLarge,
           ),
           child: Text(
-            azan.results.datetime[0].date.gregorian.toString(),
+            azan.data!.date!.readable.toString(),
             style: context.textTheme.headlineMedium!
                 .copyWith(color: AppColors.white),
           ),
@@ -30,7 +30,7 @@ class HeaderAzan extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              azan.results.location.city,
+              'cairo',
               style: context.textTheme.headlineMedium!
                   .copyWith(color: AppColors.white),
             ),
@@ -49,7 +49,7 @@ class HeaderAzan extends StatelessWidget {
                     left: D.sizeXLarge,
                   ),
                   child: Text(
-                    azan.results.location.country,
+                    'cairo',
                     style: context.textTheme.headlineMedium!
                         .copyWith(color: AppColors.white),
                     overflow: TextOverflow.ellipsis,
