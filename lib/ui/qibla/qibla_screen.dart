@@ -31,15 +31,16 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
     UiHelper.postBuild((_) {
       ref.read(QiblaDirectionNotifier.provider.notifier).fetchQiblaDirection();
     });
-    _getDirection();
+    _getCompassDirection();
   }
 
-  void _getDirection() async {
+  void _getCompassDirection() async {
     FlutterCompass.events!.listen((direction) {
       if (mounted) {
-        setState(() => _direction = 0);
+        setState(() {
+          _direction = direction.heading!;
+        });
       }
-      _direction = direction.heading!;
     });
   }
 
@@ -53,7 +54,7 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
         final state = ref.watch(QiblaDirectionNotifier.provider);
 
         return state.when(
-          data: (data) {
+          data: (qiblaDirection) {
             return Column(
               children: [
                 Expanded(
@@ -64,19 +65,18 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
                       ),
                       child: Stack(
                         children: [
-                          // * Qibla
+                          // (math.pi / 180) is to convert from degree to radians
+                          // as the `angel` property is calculated in radians
+                          // * Qibla Needle
                           Transform.rotate(
-                            angle: ((_direction != 0 ? _direction + data : 0) *
-                                (math.pi / 180) *
-                                -1),
+                            angle:
+                                (qiblaDirection - _direction) * (math.pi / 180),
                             child: Image.asset(ImageAssets.qibla),
                           ),
 
                           // * Compass
                           Transform.rotate(
-                            angle: ((_direction != 0 ? _direction : 0) *
-                                (math.pi / 180) *
-                                -1),
+                            angle: -_direction * (math.pi / 180),
                             child: Image.asset(ImageAssets.compass),
                           ),
                         ],
@@ -94,51 +94,3 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
     );
   }
 }
-
-
-// class QiblaCompassWidget extends StatelessWidget {
-//   final _compassImage = Image.asset(ImageAssets.compass);
-//   final _needleImage = Image.asset(
-//     ImageAssets.qibla,
-//     fit: BoxFit.contain,
-//     height: 300,
-//     alignment: Alignment.center,
-//   );
-
-//   QiblaCompassWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: FlutterQiblah.qiblahStream,
-//       builder: (_, AsyncSnapshot<QiblahDirection> snapshot) {
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return const LoadingIndicator(
-//             indicatorType: Indicator.ballPulse,
-//           );
-//         }
-
-//         final qiblaDirection = snapshot.data;
-
-//         return Stack(
-//           alignment: Alignment.center,
-//           children: <Widget>[
-//             Transform.rotate(
-//               angle: ((qiblaDirection?.qiblah ?? 0) * (math.pi / 180) * -1),
-//               alignment: Alignment.center,
-//               child: _needleImage,
-//             ),
-//             Transform.rotate(
-//               angle: ((qiblaDirection?.direction ?? 0) * (math.pi / 180) * -1),
-//               child: _compassImage,
-//             ),
-//             Positioned(
-//               bottom: 8,
-//               child: Text("${qiblaDirection?.offset.toStringAsFixed(3)}°"),
-//             )
-//           ],
-//         );
-//       },
-//     );
-//   }
-// }
