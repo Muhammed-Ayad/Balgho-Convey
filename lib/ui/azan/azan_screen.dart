@@ -20,7 +20,7 @@ class _AzanScreenState extends ConsumerState<AzanScreen> {
   @override
   void initState() {
     UiHelper.postBuild((_) {
-      ref.watch(AzanTimeNotifier.provider.notifier).getAzan();
+      ref.read(AzanTimeNotifier.provider.notifier).getAzan();
     });
     super.initState();
   }

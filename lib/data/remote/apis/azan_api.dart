@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/models/azan/azan.dart';
 import 'package:great_quran/data/remote/client/remote_client.dart';
@@ -20,13 +17,7 @@ class AzanTimeApi implements IAzanTimeApi {
 
   // *  Methods
   @override
-  Future<Azan> getAzan() async {
-    final url = AppEndpoints.url;
-   
-      
-      final response = await _remoteClient.get(url);
-      log(response);
-      return Azan.fromJson(response as Map<String, dynamic>);
-    
-  }
+  Future<Azan> getAzan() async => Azan.fromJson(
+        await _remoteClient.get(AppEndpoints.azanUrl),
+      );
 }

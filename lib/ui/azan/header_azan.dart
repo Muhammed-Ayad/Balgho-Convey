@@ -20,7 +20,7 @@ class HeaderAzan extends StatelessWidget {
             right: D.sizeXLarge,
           ),
           child: Text(
-            azan.data!.date!.readable.toString(),
+            azan.data.date.readable.toString(),
             style: context.textTheme.headlineMedium!
                 .copyWith(color: AppColors.white),
           ),

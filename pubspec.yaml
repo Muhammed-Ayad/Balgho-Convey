@@ -51,11 +51,7 @@ dependencies:
   share_plus: ^4.0.9
 
   upgrader: ^4.2.1
-
-  in_app_update: ^3.0.0
-
-  open_store: ^0.2.4
-
+  
   intl: ^0.17.0
 
   dio: ^4.0.6

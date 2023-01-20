@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'timings.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.pascal)
 class Timings {
   final String fajr;
   final String sunrise;
