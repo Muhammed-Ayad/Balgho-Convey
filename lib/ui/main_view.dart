@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/drawer/drawer_page.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/routes_manager.dart';
-import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class MainView extends StatelessWidget {
@@ -14,8 +15,8 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const CustomAppBar(
-          title: AppStrings.titleAppNote,
+        appBar: CustomAppBar(
+          title: LocaleKeys.title_app_bar.tr(),
         ),
         drawer: const DrawerPage(),
         body: Column(
@@ -25,13 +26,13 @@ class MainView extends StatelessWidget {
               child: Row(
                 children: [
                   buildCard(
-                    AppStrings.quran,
+                    LocaleKeys.title_quran.tr(),
                     Routes.quranRoute,
                     ImageAssets.quran,
                     context,
                   ),
                   buildCard(
-                    AppStrings.radio,
+                    LocaleKeys.title_radio.tr(),
                     Routes.radiosRoute,
                     ImageAssets.radio,
                     context,
@@ -44,13 +45,13 @@ class MainView extends StatelessWidget {
               child: Row(
                 children: [
                   buildCard(
-                    AppStrings.azkar,
+                    LocaleKeys.title_azkar.tr(),
                     Routes.azkarRoute,
                     ImageAssets.azkar,
                     context,
                   ),
                   buildCard(
-                    AppStrings.azan,
+                    LocaleKeys.title_azan.tr(),
                     Routes.azanRoute,
                     ImageAssets.azan,
                     context,
@@ -63,13 +64,13 @@ class MainView extends StatelessWidget {
               child: Row(
                 children: [
                   buildCard(
-                    AppStrings.qibla,
+                    LocaleKeys.title_kible.tr(),
                     Routes.kibleRoute,
                     ImageAssets.qubla,
                     context,
                   ),
                   buildCard(
-                    AppStrings.nawawi,
+                    LocaleKeys.title_nawawi.tr(),
                     Routes.nawawiRoute,
                     ImageAssets.nawawi,
                     context,

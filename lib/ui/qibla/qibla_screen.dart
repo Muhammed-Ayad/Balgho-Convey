@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
-import 'package:great_quran/blocs/state_mix/_index.dart';
 
 import 'dart:math' as math;
 

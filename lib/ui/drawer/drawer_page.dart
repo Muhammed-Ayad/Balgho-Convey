@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:great_quran/data/remote/endpoints.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/routes_manager.dart';
-import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/card_button_widget.dart';
 
 import 'package:share_plus/share_plus.dart';
@@ -29,7 +30,7 @@ class DrawerPage extends StatelessWidget {
               title: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  AppStrings.titleAppNote,
+                  LocaleKeys.title_app_bar.tr(),
                   style: context.textTheme.displayLarge,
                 ),
               ),
@@ -44,14 +45,14 @@ class DrawerPage extends StatelessWidget {
                   Routes.contantUsRoute,
                 );
               },
-              title: AppStrings.contantUs,
+              title: LocaleKeys.title_contant_us.tr(),
               icon: Icons.contact_support,
             ),
             CardButtonWidget(
               onTap: () {
                 Share.share(AppEndpoints.linkPlayGoogle);
               },
-              title: AppStrings.share,
+              title: LocaleKeys.title_share.tr(),
               icon: Icons.share,
             ),
             CardButtonWidget(
@@ -61,7 +62,7 @@ class DrawerPage extends StatelessWidget {
                 }
                 inAppReview.openStoreListing();
               },
-              title: AppStrings.review,
+              title: LocaleKeys.title_review.tr(),
               icon: Icons.reviews,
             ),
           ],

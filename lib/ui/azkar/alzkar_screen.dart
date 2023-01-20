@@ -1,11 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:great_quran/data/local/json/all_azkar.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
 import 'package:great_quran/resources/assets_manager.dart';
-import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 import 'azkar_category_screen.dart';
 
@@ -15,8 +16,8 @@ class AzkarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: AppStrings.azkar,
+      appBar: CustomAppBar(
+        title: LocaleKeys.title_azkar.tr(),
       ),
       body: ListView.builder(
         itemCount: azkarDataList.length,

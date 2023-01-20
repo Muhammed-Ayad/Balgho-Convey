@@ -1,13 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:great_quran/data/local/json/azkar_by_category.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/constants.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
-import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -106,7 +107,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                                       milliseconds: Constants.milliseconds),
                                   backgroundColor: AppColors.grey2,
                                   content: Text(
-                                    AppStrings.copy,
+                                    LocaleKeys.title_copy.tr(),
                                     style: context.textTheme.headlineSmall!
                                         .copyWith(color: AppColors.white),
                                   ),

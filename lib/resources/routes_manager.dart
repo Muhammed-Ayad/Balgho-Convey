@@ -3,7 +3,6 @@ import '../ui/qibla/qibla_screen.dart';
 import '../ui/nawawi/nawawi_screen.dart';
 import '../ui/quran/quran_screen.dart';
 import '../ui/radios/radios_screen.dart';
-import 'strings_manager.dart';
 import '../ui/azan/azan_screen.dart';
 import '../ui/azkar/alzkar_screen.dart';
 import '../ui/contant_us/contant_us_view.dart';
@@ -50,10 +49,10 @@ class RouteGenerator {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text(AppStrings.noRoutes),
+          title: const Text('No Routes Error"'),
         ),
         body: const Center(
-          child: Text(AppStrings.noRoutes),
+          child: Text('No Routes Error"'),
         ),
       );
     });
