@@ -10,57 +10,36 @@ class HeaderAzan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            bottom: D.size3XLarge,
-            right: D.sizeXLarge,
-          ),
-          child: Text(
-            azan.data.date.readable.toString(),
-            style: context.textTheme.headlineMedium!
-                .copyWith(color: AppColors.white),
-          ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'cairo',
-              style: context.textTheme.headlineMedium!
-                  .copyWith(color: AppColors.white),
+    return Padding(
+      padding: const EdgeInsets.all(D.sizeXXLarge),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconButton(
+            onPressed: () => Navigator.pop(context),
+            padding: EdgeInsets.zero,
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: AppColors.white,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.location_on,
-                  color: AppColors.primary,
-                  size: D.sizeXLarge,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: D.size3XLarge,
-                    left: D.sizeXLarge,
-                  ),
-                  child: Text(
-                    'cairo',
-                    style: context.textTheme.headlineMedium!
-                        .copyWith(color: AppColors.white),
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
-      ],
+          ),
+          Column(
+            children: [
+              Text(
+                azan.data.date.readable.toString(),
+                style: context.textTheme.headlineMedium!
+                    .copyWith(color: AppColors.brown),
+              ),
+              Text(
+                azan.data.date.hijri.weekday.ar.toString(),
+                style: context.textTheme.headlineMedium!
+                    .copyWith(color: AppColors.brown),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
