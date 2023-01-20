@@ -3,7 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
+import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
+
+class CustomErrorWidget extends StatelessWidget {
+  const CustomErrorWidget({
+    Key? key,
+    this.errorMsg,
+  }) : super(key: key);
+
+  final String? errorMsg;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(D.sizeLarge),
+      child: Center(
+        child: Text(
+          "${LocaleKeys.error_error.tr()}${errorMsg != null ? ': $errorMsg' : ''}",
+          textAlign: TextAlign.center,
+          style: context.textTheme.displayLarge?.copyWith(color: AppColors.red),
+        ),
+      ),
+    );
+  }
+}
 
 class ErrorWidgetApp extends StatelessWidget {
   const ErrorWidgetApp({super.key, this.errorMsg});
@@ -12,12 +36,7 @@ class ErrorWidgetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: LocaleKeys.error_error.tr()),
-      body: Center(
-        child: Text(
-          errorMsg ?? LocaleKeys.error_error.tr(),
-          style: context.textTheme.displayLarge!.copyWith(color: AppColors.red),
-        ),
-      ),
+      body: CustomErrorWidget(errorMsg: errorMsg),
     );
   }
 }

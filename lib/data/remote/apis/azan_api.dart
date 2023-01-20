@@ -18,6 +18,6 @@ class AzanTimeApi implements IAzanTimeApi {
   // *  Methods
   @override
   Future<Azan> getAzan() async => Azan.fromJson(
-        await _remoteClient.get(AppEndpoints.azanUrl),
+        await _remoteClient.get(AppEndpoints.azanApi),
       );
 }

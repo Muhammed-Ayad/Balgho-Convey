@@ -64,6 +64,7 @@ dependencies:
 
   permission_handler: ^10.2.0
 
+  location: ^4.4.0
 
 
   ##### ------------------------ Flutter Dependencies -------------------------- #####

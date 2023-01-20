@@ -1,4 +1,3 @@
-//* ========================================
 import 'package:great_quran/blocs/models/azan/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'azan.g.dart';
