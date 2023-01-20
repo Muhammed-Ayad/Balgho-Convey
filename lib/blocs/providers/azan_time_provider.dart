@@ -18,9 +18,10 @@ class AzanTimeNotifier extends StateNotifier<GenericState<Azan>> {
       state = GenericState.loading();
       final data = await _iAzanTimeApi.getAzan();
       state = GenericState.success(data);
-    } catch (e) {
+    } catch (e, s) {
       state = GenericState.fail();
-      debugPrint('Error $e');
+      debugPrint('Azan Notifier Error $e');
+      debugPrint('Azan Notifier Error Stack $s');
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:great_quran/data/remote/exceptions/exceptions.dart';
 import 'package:great_quran/data/remote/exceptions/handler.dart';
 import 'package:dio/dio.dart';
@@ -57,11 +58,15 @@ class RemoteClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
+
       return response.handle();
     } on SocketException {
       throw NoConnectionException();
-    } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
+    } catch (e, s) {
+      debugPrint("Remote Client Error in GET: $uri");
+      debugPrint("Error ${e.toString()}");
+      debugPrint("Error Stack ${s.toString()}");
+
       throw FetchDataException();
     }
   }
@@ -89,8 +94,10 @@ class RemoteClient {
       return response.handle();
     } on SocketException {
       throw NoConnectionException();
-    } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
+    } catch (e, s) {
+      debugPrint("Remote Client Error in POST: $uri");
+      debugPrint("Error ${e.toString()}");
+      debugPrint("Error Stack ${s.toString()}");
       throw FetchDataException();
     }
   }
@@ -118,8 +125,10 @@ class RemoteClient {
       return response.handle();
     } on SocketException {
       throw NoConnectionException();
-    } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
+    } catch (e, s) {
+      debugPrint("Remote Client Error in PUT: $uri");
+      debugPrint("Error ${e.toString()}");
+      debugPrint("Error Stack ${s.toString()}");
       throw FetchDataException();
     }
   }
@@ -147,8 +156,10 @@ class RemoteClient {
       return response.handle();
     } on SocketException {
       throw NoConnectionException();
-    } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
+    } catch (e, s) {
+      debugPrint("Remote Client Error in PATCH: $uri");
+      debugPrint("Error ${e.toString()}");
+      debugPrint("Error Stack ${s.toString()}");
       throw FetchDataException();
     }
   }
@@ -174,8 +185,10 @@ class RemoteClient {
       return response.handle();
     } on SocketException {
       throw NoConnectionException();
-    } catch (e) {
-      log("${(e as DioError).response}", error: "Dio Error");
+    } catch (e, s) {
+      debugPrint("Remote Client Error in DELETE: $uri");
+      debugPrint("Error ${e.toString()}");
+      debugPrint("Error Stack ${s.toString()}");
       throw FetchDataException();
     }
   }

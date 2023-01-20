@@ -12,15 +12,15 @@ import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 import 'package:share_plus/share_plus.dart';
 
-class AzkarItem extends StatefulWidget {
-  const AzkarItem({Key? key, required this.azkar}) : super(key: key);
+class AzkarCategoryScreen extends StatefulWidget {
+  const AzkarCategoryScreen({Key? key, required this.azkar}) : super(key: key);
   final String azkar;
 
   @override
-  State<AzkarItem> createState() => _AzkarItemState();
+  State<AzkarCategoryScreen> createState() => _AzkarCategoryScreenState();
 }
 
-class _AzkarItemState extends State<AzkarItem> {
+class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
   AzkarByCategory azkarByCategory = AzkarByCategory();
 
   @override

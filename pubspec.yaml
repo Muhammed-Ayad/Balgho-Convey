@@ -51,11 +51,7 @@ dependencies:
   share_plus: ^4.0.9
 
   upgrader: ^4.2.1
-
-  in_app_update: ^3.0.0
-
-  open_store: ^0.2.4
-
+  
   intl: ^0.17.0
 
   dio: ^4.0.6
@@ -64,6 +60,12 @@ dependencies:
 
   url_launcher: ^6.0.15
 
+  flutter_qiblah: ^2.1.0
+
+  permission_handler: ^10.2.0
+
+  location: ^4.4.0
+
 
   ##### ------------------------ Flutter Dependencies -------------------------- #####
 
@@ -71,8 +73,6 @@ dependencies:
 
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.1
-  flutter_compass: ^0.7.0
   flutter_localizations:
     sdk: flutter
   http: ^0.13.4

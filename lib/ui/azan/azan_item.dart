@@ -16,7 +16,7 @@ class AzanItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final results = data.results.datetime[0].times;
+    final results = data.data.timings;
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
