@@ -2,7 +2,7 @@ mixin AppEndpoints {
   static const _baseUrl = 'assets/json';
 
   static const quranApi = '$_baseUrl/quran.json';
-  static const radiosApi = '$_baseUrl/radios.json';
+  static const radiosApi = '$_baseUrl/radios_new.json';
   static const nawawiApi = '$_baseUrl/nawawi.json';
   static String azanApi =
       'https://api.aladhan.com/v1/timingsByCity?city=cairo&country=Egypt';

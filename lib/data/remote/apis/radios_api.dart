@@ -12,18 +12,14 @@ class RadiosApi implements IRadiosApi {
 
   @override
   Future<List<Radios>> getRadios() async {
+    final url = await rootBundle.loadString(AppEndpoints.radiosApi);
     try {
-      final response = await rootBundle.loadString(AppEndpoints.radiosApi);
-      List<Radios> radiosList = [];
-      final Map<String, dynamic> responseBody = jsonDecode(response);
-      var radiosListBody = responseBody['Radios'] as List;
-
-      for (var radio in radiosListBody) {
-        radiosList.add(Radios.fromJson(radio));
-      }
-      return radiosList;
+      final response = jsonDecode(url);
+      return (response as List)
+          .map((e) => Radios.fromJson(e as Map<String, dynamic>))
+          .toList();
     } catch (e, s) {
-      debugPrint('Error Api $e\n$s');
+      debugPrint('Radios Api Error   $e\n$s');
       rethrow;
     }
   }
