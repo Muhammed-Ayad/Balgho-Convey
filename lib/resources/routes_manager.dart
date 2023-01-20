@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:great_quran/theme/colors.dart';
 import '../ui/qibla/qibla_screen.dart';
 import '../ui/nawawi/nawawi_screen.dart';
 import '../ui/quran/quran_screen.dart';
-import '../ui/radios/radios_screen.dart';
+import '../ui/radios/radio_categories_screen.dart';
 import '../ui/azan/azan_screen.dart';
 import '../ui/azkar/alzkar_screen.dart';
 import '../ui/contant_us/contant_us_view.dart';
@@ -39,7 +40,7 @@ class RouteGenerator {
       case Routes.quranRoute:
         return MaterialPageRoute(builder: (_) => const QuranScreen());
       case Routes.radiosRoute:
-        return MaterialPageRoute(builder: (_) => const RadiosScreen());
+        return MaterialPageRoute(builder: (_) => const RadioCategoriesScreen());
       default:
         return _errorRoute();
     }
@@ -48,12 +49,7 @@ class RouteGenerator {
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('No Routes Error"'),
-        ),
-        body: const Center(
-          child: Text('No Routes Error"'),
-        ),
+        backgroundColor: AppColors.white,
       );
     });
   }

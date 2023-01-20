@@ -55,7 +55,7 @@ class _CardAzan extends StatelessWidget {
         padding: const EdgeInsets.all(
           D.sizeLarge,
         ),
-        height: context.heightR(0.2),
+        height: context.heightR(0.1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(D.sizeMedium),
           boxShadow: [

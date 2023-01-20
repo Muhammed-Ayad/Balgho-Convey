@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:great_quran/blocs/models/radios/radios.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
-import 'package:great_quran/ui/radios/audio_page.dart';
 
 class RadioItem extends StatelessWidget {
-  final Radios radios;
-  const RadioItem({Key? key, required this.radios}) : super(key: key);
+  final String title;
+  final VoidCallback onTap;
+
+  const RadioItem({
+    Key? key,
+    required this.title,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AudioPage(radios: radios),
-          ),
-        );
-      },
+      onTap: onTap,
       child: Card(
         elevation: D.sizeXSmall,
         shape: RoundedRectangleBorder(
@@ -43,7 +40,7 @@ class RadioItem extends StatelessWidget {
                 const SizedBox(width: D.sizeSmall),
                 Flexible(
                   child: Text(
-                    radios.name,
+                    title,
                     style: context.textTheme.headlineSmall,
                   ),
                 ),
