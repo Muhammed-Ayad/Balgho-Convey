@@ -20,7 +20,7 @@ class RadiosNotifier extends StateNotifier<GenericState<List<Radios>>> {
       state = GenericState.success(data);
     } catch (e) {
       state = GenericState.fail();
-      debugPrint('Error $e');
+      debugPrint('Radios Notifier Error $e');
     }
   }
 }
