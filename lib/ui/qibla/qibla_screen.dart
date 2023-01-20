@@ -29,7 +29,7 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
     super.initState();
 
     UiHelper.postBuild((_) {
-      ref.read(QiblaDirectionNotifier.provider.notifier).fetchQiblaDirection();
+      ref.read(QiblaDirectionNotifier.provider.notifier).fetchData();
     });
     _getCompassDirection();
   }
@@ -88,7 +88,14 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
             );
           },
           loading: () => const LoadingWidget(),
-          error: (errorMsg) => CustomErrorWidget(errorMsg: errorMsg),
+          error: (errorMsg) => CustomErrorWidget(
+            errorMsg: errorMsg,
+            onRefresh: () {
+              UiHelper.postBuild((_) {
+                ref.read(QiblaDirectionNotifier.provider.notifier).fetchData();
+              });
+            },
+          ),
         );
       }),
     );
