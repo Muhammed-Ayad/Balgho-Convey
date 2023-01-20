@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:great_quran/blocs/models/radios/radios.dart';
+import 'package:great_quran/blocs/models/radios/radio.dart';
 import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
@@ -9,8 +9,8 @@ import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class AudioPage extends StatefulWidget {
-  final Radios radios;
-  const AudioPage({Key? key, required this.radios}) : super(key: key);
+  final RadioDetalis radioDetalis;
+  const AudioPage({Key? key, required this.radioDetalis}) : super(key: key);
 
   @override
   State<AudioPage> createState() => _AudioPageState();
@@ -24,7 +24,7 @@ class _AudioPageState extends State<AudioPage> {
   @override
   void initState() {
     _audioPlayer = AudioPlayer();
-    _audioPlayer.play(widget.radios.url);
+    _audioPlayer.play(widget.radioDetalis.url);
     _isPlaying = true;
     listenRadio();
     super.initState();
@@ -57,7 +57,7 @@ class _AudioPageState extends State<AudioPage> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: CustomAppBar(
-        title: widget.radios.name,
+        title: widget.radioDetalis.name,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -94,7 +94,7 @@ class _AudioPageState extends State<AudioPage> {
                         ],
                         borderRadius: BorderRadius.circular(D.sizeXLarge),
                         border: Border.all(
-                          color: AppColors.cyanTwo,
+                          color: AppColors.primary,
                           width: D.sizeXXSmall,
                         ),
                       ),
@@ -104,16 +104,6 @@ class _AudioPageState extends State<AudioPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.skip_next,
-                                size: context.widthR(0.12),
-                                color: AppColors.black38,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(D.sizeSmall),
-                              child: IconButton(
                                 onPressed: () {
                                   if (_isPlaying) {
                                     _audioPlayer.stop();
@@ -122,30 +112,17 @@ class _AudioPageState extends State<AudioPage> {
                                     });
                                   } else {
                                     _isPlaying = true;
-                                    _playMusic(widget.radios.url);
+                                    _playMusic(widget.radioDetalis.url);
                                   }
                                 },
-                                icon: _isPlaying
-                                    ? Icon(
-                                        Icons.stop_circle_outlined,
-                                        size: context.widthR(0.12),
-                                        color: AppColors.darkGrey,
-                                      )
-                                    : Icon(
-                                        Icons.play_circle_filled,
-                                        size: context.widthR(0.12),
-                                        color: AppColors.darkGrey,
-                                      ),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.skip_previous,
-                                size: context.widthR(0.12),
-                                color: AppColors.black38,
-                              ),
-                            ),
+                                padding: EdgeInsets.zero,
+                                icon: Icon(
+                                  _isPlaying
+                                      ? Icons.stop_circle_outlined
+                                      : Icons.play_circle_filled,
+                                  size: context.widthR(0.12),
+                                  color: AppColors.primary,
+                                )),
                           ],
                         ),
                       ),
