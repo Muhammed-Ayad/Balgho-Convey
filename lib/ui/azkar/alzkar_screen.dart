@@ -11,7 +11,6 @@ import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
-import 'package:great_quran/ui/widgets/error_widget.dart';
 import 'package:great_quran/ui/widgets/loading_widget.dart';
 import 'azkar_category_screen.dart';
 
@@ -54,10 +53,25 @@ class _AzkarScreenState extends ConsumerState<AzkarScreen> {
                   );
                 }));
               },
-              loading: () => const LoadingWidget(),
-              error: (e) => CustomErrorWidget(
-                errorMsg: e.toString(),
+              loading: () => const Padding(
+                padding: EdgeInsets.all(D.sizeSmall),
+                child: LoadingWidget(
+                  size: D.size3XLarge,
+                ),
               ),
+              error: (e) => IconButton(
+                  onPressed: () async {
+                    "Refresh the notification subscription fetching".log();
+                    await ref
+                        .read(
+                            NotificationsSubscriptionNotifier.provider.notifier)
+                        .fetchData();
+                  },
+                  icon: Icon(
+                    Icons.refresh,
+                    size: D.size3XLarge,
+                    color: AppColors.red,
+                  )),
             );
           })
         ],
