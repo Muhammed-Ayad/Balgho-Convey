@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:great_quran/services/local_notification_service.dart';
 
 import '../../data/local/json/all_azkar.dart';
@@ -28,8 +29,18 @@ class NotificationsSubscriptionNotifier
     if (state.isSuccess) {
       if (state.getData()!) {
         await _service.cancelAll();
+        Fluttertoast.showToast(
+            msg: "تم إلغاء الإشعارات",
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            toastLength: Toast.LENGTH_LONG);
       } else {
         await registerAzkarNotifications();
+        Fluttertoast.showToast(
+            msg: "تم الاشتراك في الإشعارات",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            toastLength: Toast.LENGTH_LONG);
       }
       state = GenericState.success(!state.getData()!);
     }
@@ -56,7 +67,8 @@ class NotificationsSubscriptionNotifier
   }
 
   /// Checks if the app launched via a press on notification
-  /// if so calls the navigateOnLaunch function with the given route navigate to the corresponding azkar screen
+  /// if so calls the navigateOnLaunch function with the given route and
+  /// then you should use it to navigate to the corresponding azkar screen
   Future<void> navigateOnNotificationLaunch(
       Function(PageRoute) navigateOnLaunch) async {
     final notificationAtLaunch = await _service.flutterLocalNotificationsPlugin
