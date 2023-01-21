@@ -17,7 +17,7 @@ class LocalNotificationService {
   });
 
   // Dependencies
-  final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   /// A flag to indicate wether the initialization process was a success
   bool get isInitSuccess => _isInitSuccess;
@@ -67,7 +67,7 @@ class LocalNotificationService {
       );
 
       // Initialize the plugin
-      await _flutterLocalNotificationsPlugin.initialize(
+      await flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
         onDidReceiveNotificationResponse: (details) {
           "Notification is pressed".log();
@@ -88,7 +88,9 @@ class LocalNotificationService {
       required String title,
       required String body,
       String? payload}) async {
-    _flutterLocalNotificationsPlugin.zonedSchedule(
+    "Schedule notification on $dateTime on a $scheduleReminder".log();
+
+    flutterLocalNotificationsPlugin.zonedSchedule(
       dateTime.microsecond, // use it as an id
       title,
       body,
@@ -113,7 +115,7 @@ class LocalNotificationService {
   Future<int> show(
       {required String title, required String body, String? payload}) async {
     final id = DateTime.now().microsecond;
-    await _flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin.show(
         id, title, body, _platformChannelSpecificsNotificationDetails,
         payload: payload);
     return id;
@@ -121,11 +123,11 @@ class LocalNotificationService {
 
   /// Cancels a specific notification given its `id`
   Future<void> cancelWithId(int id, {String? tag}) async =>
-      await _flutterLocalNotificationsPlugin.cancel(id, tag: tag);
+      await flutterLocalNotificationsPlugin.cancel(id, tag: tag);
 
   /// Cancels all  notifications
   Future<void> cancelAll() async =>
-      await _flutterLocalNotificationsPlugin.cancelAll();
+      await flutterLocalNotificationsPlugin.cancelAll();
 }
 
 enum ScheduleReminder {

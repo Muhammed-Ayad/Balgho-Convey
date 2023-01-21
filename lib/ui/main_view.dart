@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/dimensions.dart';
@@ -8,8 +9,77 @@ import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/routes_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
-class MainView extends StatelessWidget {
+import '../data/local/json/all_azkar.dart';
+import '../helpers/enums.dart';
+import '../services/local_notification_service.dart';
+import 'azkar/azkar_category_screen.dart';
+
+class MainView extends ConsumerStatefulWidget {
   const MainView({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends ConsumerState<MainView> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAppLaunchNotification();
+  }
+
+  Future<void> _checkAppLaunchNotification() async {
+    final notificationService = ref.read(LocalNotificationService.provider);
+
+    final notificationLaunch = await notificationService
+        .flutterLocalNotificationsPlugin
+        .getNotificationAppLaunchDetails();
+
+    if (notificationLaunch?.didNotificationLaunchApp ?? false) {
+      if (notificationLaunch?.notificationResponse?.payload ==
+          AzkarType.morning.name) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AzkarCategoryScreen(
+              azkar: azkarDataList[AzkarType.morning.index].toString().trim(),
+            ),
+          ),
+        );
+      } else if (notificationLaunch?.notificationResponse?.payload ==
+          AzkarType.evening.name) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AzkarCategoryScreen(
+              azkar: azkarDataList[AzkarType.evening.index].toString().trim(),
+            ),
+          ),
+        );
+      }
+      await notificationService.cancelAll();
+    }
+
+    registerAzkarNotifications();
+  }
+
+  void registerAzkarNotifications() {
+    final now = DateTime.now();
+
+    ref.read(LocalNotificationService.provider).schedule(
+        scheduleReminder: ScheduleReminder.daily,
+        dateTime: DateTime(now.year, now.month, now.day, 7),
+        title: "بلغوا",
+        body: "نذكرك بقراءة أذكار الصباح",
+        payload: AzkarType.morning.name);
+
+    ref.read(LocalNotificationService.provider).schedule(
+        scheduleReminder: ScheduleReminder.daily,
+        dateTime: DateTime(now.year, now.month, now.day, 16, 30),
+        title: "بلغوا",
+        body: "نذكرك بقراءة أذكار المساء",
+        payload: AzkarType.evening.name);
+  }
 
   @override
   Widget build(BuildContext context) {
