@@ -23,6 +23,10 @@ class LocalNotificationService {
   bool get isInitSuccess => _isInitSuccess;
   bool _isInitSuccess = false;
 
+  /// A flag to indicate wether the app has pending notifications or not
+  bool get hasPendingNotifications => _hasPendingNotifications;
+  bool _hasPendingNotifications = false;
+
   /// Creates platform specific notification details for each platform
   final NotificationDetails _platformChannelSpecificsNotificationDetails =
       const NotificationDetails(
@@ -74,6 +78,7 @@ class LocalNotificationService {
           details.payload.log();
         },
       );
+
       return _isInitSuccess = true;
     } catch (e, s) {
       "Local notification service initialization failed due to:\n$e\n$s";
@@ -108,6 +113,7 @@ class LocalNotificationService {
       matchDateTimeComponents: scheduleReminder.dateTimeComponents,
       payload: scheduleReminder.toString(),
     );
+    _hasPendingNotifications = true;
   }
 
   /// Shows a local notification and returns an `id` so that the caller can
@@ -126,8 +132,18 @@ class LocalNotificationService {
       await flutterLocalNotificationsPlugin.cancel(id, tag: tag);
 
   /// Cancels all  notifications
-  Future<void> cancelAll() async =>
-      await flutterLocalNotificationsPlugin.cancelAll();
+  Future<void> cancelAll() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+    _hasPendingNotifications = false;
+  }
+
+  /// Check If the app has pending (scheduled) notifications
+  Future<bool> checkPendingNotifications() async {
+    final pendingRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    "Has Pending Notifications ? ${pendingRequests.isNotEmpty}".log();
+    return _hasPendingNotifications = pendingRequests.isNotEmpty;
+  }
 }
 
 enum ScheduleReminder {

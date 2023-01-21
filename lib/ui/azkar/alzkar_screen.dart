@@ -30,13 +30,8 @@ class _AzkarScreenState extends ConsumerState<AzkarScreen> {
     super.initState();
     _notificationService = ref.read(LocalNotificationService.provider);
     UiHelper.postBuild((_) async {
-      final pendingRequests = await _notificationService
-          .flutterLocalNotificationsPlugin
-          .pendingNotificationRequests();
-
-      "Has Pending Notifications ? ${pendingRequests.isNotEmpty}".log();
       ref.read(_hasRegisteredNotifications.notifier).state =
-          pendingRequests.isNotEmpty;
+          await _notificationService.checkPendingNotifications();
     });
   }
 
