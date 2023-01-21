@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_quran/blocs/notifiers/notifications_subscription_notifier.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/dimensions.dart';
@@ -8,11 +9,6 @@ import 'package:great_quran/ui/drawer/drawer_page.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/routes_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
-
-import '../data/local/json/all_azkar.dart';
-import '../helpers/enums.dart';
-import '../services/local_notification_service.dart';
-import 'azkar/azkar_category_screen.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -25,31 +21,11 @@ class _MainViewState extends ConsumerState<MainView> {
   @override
   void initState() {
     super.initState();
-    _checkAppLaunchNotification();
-  }
-
-  Future<void> _checkAppLaunchNotification() async {
-    final notificationService = ref.read(LocalNotificationService.provider);
-
-    final notificationLaunch = await notificationService
-        .flutterLocalNotificationsPlugin
-        .getNotificationAppLaunchDetails();
-
-    if (notificationLaunch?.didNotificationLaunchApp ?? false) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AzkarCategoryScreen(
-            azkar: azkarDataList[AzkarType.fromName(
-                            notificationLaunch?.notificationResponse?.payload)
-                        ?.index ??
-                    0]
-                .toString()
-                .trim(),
-          ),
-        ),
-      );
-    }
+    ref
+        .read(NotificationsSubscriptionNotifier.provider.notifier)
+        .navigateOnNotificationLaunch(
+          (route) => Navigator.of(context).push(route),
+        );
   }
 
   @override

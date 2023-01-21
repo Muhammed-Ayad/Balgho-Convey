@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/services/local_notification_service.dart';
 
+import '../../data/local/json/all_azkar.dart';
 import '../../helpers/enums.dart';
+import '../../ui/azkar/azkar_category_screen.dart';
 import '../state_mix/_index.dart';
 
 class NotificationsSubscriptionNotifier
@@ -32,6 +35,8 @@ class NotificationsSubscriptionNotifier
     }
   }
 
+  /// Registers scheduled notifications for Azkar
+  /// currently we only add for morning and evening azkar
   Future<void> registerAzkarNotifications() async {
     final now = DateTime.now();
 
@@ -48,5 +53,28 @@ class NotificationsSubscriptionNotifier
         title: "بلغوا",
         body: "نذكرك بقراءة أذكار المساء",
         payload: AzkarType.evening.name);
+  }
+
+  /// Checks if the app launched via a press on notification
+  /// if so calls the navigateOnLaunch function with the given route navigate to the corresponding azkar screen
+  Future<void> navigateOnNotificationLaunch(
+      Function(PageRoute) navigateOnLaunch) async {
+    final notificationAtLaunch = await _service.flutterLocalNotificationsPlugin
+        .getNotificationAppLaunchDetails();
+
+    if (notificationAtLaunch?.didNotificationLaunchApp ?? false) {
+      navigateOnLaunch(
+        MaterialPageRoute(
+          builder: (context) => AzkarCategoryScreen(
+            azkar: azkarDataList[AzkarType.fromName(
+                            notificationAtLaunch?.notificationResponse?.payload)
+                        ?.index ??
+                    0]
+                .toString()
+                .trim(),
+          ),
+        ),
+      );
+    }
   }
 }
