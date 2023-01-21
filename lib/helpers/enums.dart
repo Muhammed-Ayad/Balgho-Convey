@@ -3,3 +3,5 @@ enum OS {
   ios,
   web,
 }
+
+enum AzkarType { morning, evening }

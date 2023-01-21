@@ -66,6 +66,11 @@ dependencies:
 
   location: ^4.4.0
 
+  # Local Notifications Service
+  flutter_local_notifications: ^13.0.0
+  timezone: ^0.9.1
+  flutter_native_timezone: ^2.0.0
+
 
   ##### ------------------------ Flutter Dependencies -------------------------- #####
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:great_quran/theme/colors.dart';
 import '../ui/qibla/qibla_screen.dart';
 import '../ui/nawawi/nawawi_screen.dart';
-import '../ui/quran/quran_screen.dart';
 import '../ui/radios/radio_categories_screen.dart';
 import '../ui/azan/azan_screen.dart';
 import '../ui/azkar/alzkar_screen.dart';
@@ -10,13 +9,12 @@ import '../ui/contant_us/contant_us_view.dart';
 import '../ui/main_view.dart';
 
 class Routes {
-  static const String mainRoute = "/main";
+  static const String mainRoute = "/";
   static const String azanRoute = "/azan";
   static const String azkarRoute = "/azkarView";
-  static const String contantUsRoute = "/contantUs";
-  static const String kibleRoute = "/kible";
+  static const String contantUsRoute = "/contactUs";
+  static const String qiblaRoute = "/qibla";
   static const String nawawiRoute = "/nawawi";
-  static const String quranRoute = "/quran";
   static const String radiosRoute = "/radios";
 }
 
@@ -33,12 +31,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ContantUsView());
       case Routes.azkarRoute:
         return MaterialPageRoute(builder: (_) => const AzkarScreen());
-      case Routes.kibleRoute:
+      case Routes.qiblaRoute:
         return MaterialPageRoute(builder: (_) => const QiblaScreen());
       case Routes.nawawiRoute:
         return MaterialPageRoute(builder: (_) => const NawawiScreen());
-      case Routes.quranRoute:
-        return MaterialPageRoute(builder: (_) => const QuranScreen());
+
       case Routes.radiosRoute:
         return MaterialPageRoute(builder: (_) => const RadioCategoriesScreen());
       default:

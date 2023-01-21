@@ -26,12 +26,6 @@ class MainView extends StatelessWidget {
               child: Row(
                 children: [
                   buildCard(
-                    LocaleKeys.title_quran.tr(),
-                    Routes.quranRoute,
-                    ImageAssets.quran,
-                    context,
-                  ),
-                  buildCard(
                     LocaleKeys.title_radio.tr(),
                     Routes.radiosRoute,
                     ImageAssets.radio,
@@ -65,7 +59,7 @@ class MainView extends StatelessWidget {
                 children: [
                   buildCard(
                     LocaleKeys.title_kible.tr(),
-                    Routes.kibleRoute,
+                    Routes.qiblaRoute,
                     ImageAssets.qubla,
                     context,
                   ),
