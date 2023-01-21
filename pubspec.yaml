@@ -71,6 +71,7 @@ dependencies:
   timezone: ^0.9.1
   flutter_native_timezone: ^2.0.0
 
+  fluttertoast: ^8.1.2
 
   ##### ------------------------ Flutter Dependencies -------------------------- #####
 

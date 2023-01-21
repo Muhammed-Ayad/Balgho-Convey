@@ -36,49 +36,20 @@ class _MainViewState extends ConsumerState<MainView> {
         .getNotificationAppLaunchDetails();
 
     if (notificationLaunch?.didNotificationLaunchApp ?? false) {
-      if (notificationLaunch?.notificationResponse?.payload ==
-          AzkarType.morning.name) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AzkarCategoryScreen(
-              azkar: azkarDataList[AzkarType.morning.index].toString().trim(),
-            ),
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AzkarCategoryScreen(
+            azkar: azkarDataList[AzkarType.fromName(
+                            notificationLaunch?.notificationResponse?.payload)
+                        ?.index ??
+                    0]
+                .toString()
+                .trim(),
           ),
-        );
-      } else if (notificationLaunch?.notificationResponse?.payload ==
-          AzkarType.evening.name) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AzkarCategoryScreen(
-              azkar: azkarDataList[AzkarType.evening.index].toString().trim(),
-            ),
-          ),
-        );
-      }
-      await notificationService.cancelAll();
+        ),
+      );
     }
-
-    registerAzkarNotifications();
-  }
-
-  void registerAzkarNotifications() {
-    final now = DateTime.now();
-
-    ref.read(LocalNotificationService.provider).schedule(
-        scheduleReminder: ScheduleReminder.daily,
-        dateTime: DateTime(now.year, now.month, now.day, 7),
-        title: "بلغوا",
-        body: "نذكرك بقراءة أذكار الصباح",
-        payload: AzkarType.morning.name);
-
-    ref.read(LocalNotificationService.provider).schedule(
-        scheduleReminder: ScheduleReminder.daily,
-        dateTime: DateTime(now.year, now.month, now.day, 16, 30),
-        title: "بلغوا",
-        body: "نذكرك بقراءة أذكار المساء",
-        payload: AzkarType.evening.name);
   }
 
   @override

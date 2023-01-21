@@ -4,4 +4,16 @@ enum OS {
   web,
 }
 
-enum AzkarType { morning, evening }
+enum AzkarType {
+  morning,
+  evening;
+
+  static AzkarType? fromName(String? name) {
+    if (name == AzkarType.morning.name) {
+      return AzkarType.morning;
+    } else if (name == AzkarType.evening.name) {
+      return AzkarType.evening;
+    }
+    return null;
+  }
+}
