@@ -15,5 +15,6 @@ class ImageAssets {
   static const String star = "$imagePath/star.png";
   static const String qibla = "$imagePath/qibla.png";
   static const String compass = "$imagePath/compass.png";
+  static const String detailedCompass = "$imagePath/detailed_compass.png";
   static const String starTwo = "$imagePath/startwo.png";
 }
