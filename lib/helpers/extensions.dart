@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:developer' as devtools;
 import 'package:intl/intl.dart' as intl;
 
 import '../blocs/events/bus.dart';
@@ -18,12 +17,6 @@ extension WidgetRefEx on WidgetRef {
     }
     read(Bus.provider).fire(event);
   }
-}
-
-extension LogEx on Object? {
-  void log({bool isError = false, String tag = "Enigma"}) =>
-      devtools.log(toString(),
-          error: this is Exception || isError ? "Error" : null, name: tag);
 }
 
 extension ContextEx on BuildContext {

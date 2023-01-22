@@ -6,9 +6,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.title,
     this.elevation = D.sizeXXSmall,
+    this.actions,
   }) : super(key: key);
   final String title;
   final double elevation;
+  final List<Widget>? actions;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -25,6 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: Colors.white,
+      actions: actions,
     );
   }
 
