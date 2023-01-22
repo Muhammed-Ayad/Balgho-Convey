@@ -3,20 +3,21 @@
     "title": "القراء",
     "radio": [
       {
-        "name": "-عبدالباسط عبدالصمد -مجود",
+        "name": "عبدالباسط عبدالصمد -مجود",
         "url": "https://qurango.net/radio/abdulbasit_abdulsamad_mojawwad"
       },
       {
         "name": "عبدالباسط عبدالصمد ",
         "url": "https://Qurango.net/radio/abdulbasit_abdulsamad"
       },
+
+      {
+        "name": "محمد صديق المنشاوي -مجود",
+        "url": "https://qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad"
+      },
       {
         "name": "محمد صديق المنشاوي",
         "url": "https://Qurango.net/radio/mohammed_siddiq_alminshawi"
-      },
-      {
-        "name": "-محمد صديق المنشاوي -مجود",
-        "url": "https://qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad"
       },
       {
         "name": "بندر بليله",
