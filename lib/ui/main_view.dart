@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/notifiers/notifications_subscription_notifier.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
-import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/drawer/drawer_page.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/routes_manager.dart';
+import 'package:great_quran/ui/widgets/card_view.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class MainView extends ConsumerStatefulWidget {
@@ -42,11 +41,10 @@ class _MainViewState extends ConsumerState<MainView> {
               flex: 1,
               child: Row(
                 children: [
-                  buildCard(
+                  CardViewWidget(
                     LocaleKeys.title_radio.tr(),
                     Routes.radiosRoute,
                     ImageAssets.radio,
-                    context,
                   ),
                 ],
               ),
@@ -55,17 +53,15 @@ class _MainViewState extends ConsumerState<MainView> {
               flex: 1,
               child: Row(
                 children: [
-                  buildCard(
+                  CardViewWidget(
                     LocaleKeys.title_azkar.tr(),
                     Routes.azkarRoute,
                     ImageAssets.azkar,
-                    context,
                   ),
-                  buildCard(
+                  CardViewWidget(
                     LocaleKeys.title_azan.tr(),
                     Routes.azanRoute,
                     ImageAssets.azan,
-                    context,
                   ),
                 ],
               ),
@@ -74,83 +70,20 @@ class _MainViewState extends ConsumerState<MainView> {
               flex: 1,
               child: Row(
                 children: [
-                  buildCard(
+                  CardViewWidget(
                     LocaleKeys.title_kible.tr(),
                     Routes.qiblaRoute,
                     ImageAssets.qubla,
-                    context,
                   ),
-                  buildCard(
+                  CardViewWidget(
                     LocaleKeys.title_nawawi.tr(),
                     Routes.nawawiRoute,
                     ImageAssets.nawawi,
-                    context,
                   ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildCard(
-      String title, String route, String image, BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, route);
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(
-            D.sizeSmall,
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                flex: 8,
-                child: Card(
-                  elevation: D.sizeSmall,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      D.sizeSmall,
-                    ),
-                  ),
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        D.sizeSmall,
-                      ),
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(image),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Card(
-                  elevation: D.sizeSmall,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      D.sizeSmall,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      title,
-                      style: context.textTheme.bodyLarge,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
