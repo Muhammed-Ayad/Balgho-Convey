@@ -4,7 +4,7 @@ import '../ui/qibla/qibla_screen.dart';
 import '../ui/nawawi/nawawi_screen.dart';
 import '../ui/radios/radio_categories_screen.dart';
 import '../ui/azan/azan_screen.dart';
-import '../ui/azkar/alzkar_screen.dart';
+import '../ui/azkar/azkar_screen.dart';
 import '../ui/contant_us/contant_us_view.dart';
 import '../ui/main_view.dart';
 

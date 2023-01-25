@@ -14,19 +14,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      iconTheme: const IconThemeData(
-        color: Colors.black,
-      ),
       elevation: elevation,
       title: Text(
         title,
         style: const TextStyle(
-          color: Colors.black,
           fontSize: 25,
         ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.white,
       actions: actions,
     );
   }

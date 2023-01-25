@@ -42,7 +42,7 @@ class CardButtonWidget extends StatelessWidget {
                   flex: 1,
                   child: Icon(
                     icon,
-                    color: AppColors.blue,
+                    color: context.colorScheme.primary,
                   ),
                 )
               ],

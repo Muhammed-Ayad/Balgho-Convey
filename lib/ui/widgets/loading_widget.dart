@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 
 class LoadingWidget extends StatelessWidget {
   final double? size;
@@ -11,7 +10,7 @@ class LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SpinKitCircle(
-        color: AppColors.primary,
+        color: context.colorScheme.primary,
         size: size ?? context.heightR(0.1),
       ),
     );
