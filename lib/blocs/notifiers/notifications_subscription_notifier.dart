@@ -73,20 +73,21 @@ class NotificationsSubscriptionNotifier
       Function(PageRoute) navigateOnLaunch) async {
     final notificationAtLaunch = await _service.flutterLocalNotificationsPlugin
         .getNotificationAppLaunchDetails();
-
-    if (notificationAtLaunch?.didNotificationLaunchApp ?? false) {
+    final didLaunchApp =
+        notificationAtLaunch?.didNotificationLaunchApp ?? false;
+    final payload = notificationAtLaunch?.notificationResponse?.payload;
+    if (didLaunchApp && payload != null) {
       navigateOnLaunch(
         MaterialPageRoute(
           builder: (context) => AzkarCategoryScreen(
-            azkar: azkarDataList[AzkarType.fromName(
-                            notificationAtLaunch?.notificationResponse?.payload)
-                        ?.index ??
-                    0]
-                .toString()
-                .trim(),
+            azkar: getAzkarCategory(payload),
           ),
         ),
       );
     }
+  }
+
+  String getAzkarCategory(String payload) {
+    return azkarDataList[AzkarType.fromName(payload).index].toString().trim();
   }
 }
