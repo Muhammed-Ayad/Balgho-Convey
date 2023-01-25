@@ -35,53 +35,33 @@ class _MainViewState extends ConsumerState<MainView> {
           title: LocaleKeys.title_app_bar.tr(),
         ),
         drawer: const DrawerPage(),
-        body: Column(
+        body: GridView.count(
+          crossAxisCount: 2,
           children: [
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  CardViewWidget(
-                    LocaleKeys.title_radio.tr(),
-                    Routes.radiosRoute,
-                    ImageAssets.radio,
-                  ),
-                ],
-              ),
+            CardViewWidget(
+              LocaleKeys.title_radio.tr(),
+              Routes.radiosRoute,
+              ImageAssets.radio,
             ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  CardViewWidget(
-                    LocaleKeys.title_azkar.tr(),
-                    Routes.azkarRoute,
-                    ImageAssets.azkar,
-                  ),
-                  CardViewWidget(
-                    LocaleKeys.title_azan.tr(),
-                    Routes.azanRoute,
-                    ImageAssets.azan,
-                  ),
-                ],
-              ),
+            CardViewWidget(
+              LocaleKeys.title_azkar.tr(),
+              Routes.azkarRoute,
+              ImageAssets.azkar,
             ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  CardViewWidget(
-                    LocaleKeys.title_kible.tr(),
-                    Routes.qiblaRoute,
-                    ImageAssets.qubla,
-                  ),
-                  CardViewWidget(
-                    LocaleKeys.title_nawawi.tr(),
-                    Routes.nawawiRoute,
-                    ImageAssets.nawawi,
-                  ),
-                ],
-              ),
+            CardViewWidget(
+              LocaleKeys.title_azan.tr(),
+              Routes.azanRoute,
+              ImageAssets.prayer,
+            ),
+            CardViewWidget(
+              LocaleKeys.title_kible.tr(),
+              Routes.qiblaRoute,
+              ImageAssets.kabaa,
+            ),
+            CardViewWidget(
+              LocaleKeys.title_nawawi.tr(),
+              Routes.nawawiRoute,
+              ImageAssets.nawawi,
             ),
           ],
         ),

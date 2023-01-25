@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/dimensions.dart';
 
+import '../../helpers/boxes.dart';
+
 class CardViewWidget extends StatelessWidget {
   const CardViewWidget(this.title, this.route, this.image, {super.key});
   final String title;
@@ -9,60 +11,50 @@ class CardViewWidget extends StatelessWidget {
   final String image;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
+      padding: const EdgeInsets.symmetric(
+          vertical: D.sizeSmall, horizontal: D.sizeMedium),
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, route);
         },
-        child: Padding(
-          padding: const EdgeInsets.all(
-            D.sizeSmall,
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                flex: 8,
-                child: Card(
-                  elevation: D.sizeSmall,
-                  shape: RoundedRectangleBorder(
+        child: Column(
+          children: [
+            Flexible(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(D.sizeLarge),
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       D.sizeSmall,
                     ),
-                  ),
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        D.sizeSmall,
-                      ),
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(image),
-                      ),
-                    ),
-                  ),
+                    color: context.colorScheme.secondary),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.contain,
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: Card(
-                  elevation: D.sizeSmall,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      D.sizeSmall,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      title,
-                      style: context.textTheme.bodyLarge,
-                    ),
-                  ),
+            ),
+            B.verticalSizedBoxSmall,
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(
+                  D.sizeSmall,
+                ),
+                color: context.colorScheme.primary,
+              ),
+              child: Center(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: context.colorScheme.onPrimary),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

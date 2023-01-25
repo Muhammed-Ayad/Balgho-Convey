@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/notifiers/qibla_direction_notifier.dart';
 import 'package:great_quran/blocs/state_mix/_index.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:great_quran/helpers/extensions.dart';
 
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
@@ -91,7 +92,7 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
                               child: Icon(
                                 Icons.arrow_upward_rounded,
                                 size: 40,
-                                color: Colors.green.shade600,
+                                color: context.colorScheme.primary,
                               ),
                             ),
 
@@ -104,7 +105,7 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
                                 "${event.heading?.ceilToDouble()} °",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.green.shade600,
+                                    color: context.colorScheme.primary,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -119,7 +120,7 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
                                 "طابق أيقونة الكعبة مع السهم لتحديد اتجاه القبلة",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.green.shade600,
+                                    color: context.colorScheme.primary,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold),
                               ),

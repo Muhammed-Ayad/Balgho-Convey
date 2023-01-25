@@ -10,13 +10,12 @@ mixin AppTheme {
     return ThemeData(
       // <------------------------------------------------ Main Theme Font
       fontFamily: FontFamilyNames.messiriFont,
-      primaryColor: AppColors.white,
-      primaryColorLight: AppColors.white,
-      primaryColorDark: AppColors.white,
-      disabledColor: AppColors.white,
-      splashColor: AppColors.white,
+
       // <------------------------------------------ Color Scheme
-      // colorScheme: const ColorScheme(),
+      colorScheme: ThemeData().colorScheme.copyWith(
+            primary: const Color(0xFF64BFBE),
+            secondary: const Color(0xFFCEC3C3),
+          ),
 
       // <------------------------------------------------ Icon Theme
       iconTheme: const IconThemeData(),
