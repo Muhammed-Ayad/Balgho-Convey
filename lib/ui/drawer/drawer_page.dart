@@ -36,7 +36,7 @@ class DrawerPage extends StatelessWidget {
               ),
             ),
             Divider(
-              color: AppColors.black38,
+              color: context.colorScheme.primary,
             ),
             CardButtonWidget(
               onTap: () {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 
 class CardButtonWidget extends StatelessWidget {
@@ -22,7 +21,7 @@ class CardButtonWidget extends StatelessWidget {
         ),
         child: Card(
           elevation: D.sizeXXSmall,
-          color: AppColors.greyShade200,
+          color: context.colorScheme.shadow,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               D.sizeXLarge,

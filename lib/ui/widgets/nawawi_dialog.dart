@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 
 class _NawawiDialog extends StatelessWidget {
@@ -26,8 +25,9 @@ class _NawawiDialog extends StatelessWidget {
           },
           child: Text(
             LocaleKeys.title_close.tr(),
-            style:
-                context.textTheme.titleSmall!.copyWith(color: AppColors.blue),
+            style: context.textTheme.titleSmall!.copyWith(
+              color: context.colorScheme.primary,
+            ),
           ),
         ),
       ],

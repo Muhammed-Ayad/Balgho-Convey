@@ -21,7 +21,7 @@ class HeaderAzan extends StatelessWidget {
             padding: EdgeInsets.zero,
             icon: Icon(
               Icons.arrow_back_ios_outlined,
-              color: AppColors.white,
+              color: context.colorScheme.surface,
             ),
           ),
           Column(
@@ -29,12 +29,12 @@ class HeaderAzan extends StatelessWidget {
               Text(
                 azan.data.date.readable.toString(),
                 style: context.textTheme.headlineMedium!
-                    .copyWith(color: AppColors.brown),
+                    .copyWith(color: context.colorScheme.background),
               ),
               Text(
                 azan.data.date.hijri.weekday.ar.toString(),
                 style: context.textTheme.headlineMedium!
-                    .copyWith(color: AppColors.brown),
+                    .copyWith(color: context.colorScheme.background),
               ),
             ],
           )

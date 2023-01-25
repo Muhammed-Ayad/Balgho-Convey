@@ -6,7 +6,7 @@ import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
- import 'package:great_quran/ui/widgets/nawawi_dialog.dart';
+import 'package:great_quran/ui/widgets/nawawi_dialog.dart';
 
 class NawawiItem extends StatelessWidget {
   final Nawawi nawawi;
@@ -63,10 +63,11 @@ class NawawiItem extends StatelessWidget {
                 minWidth: double.infinity,
                 child: Text(
                   LocaleKeys.title_explanation_the_hadith.tr(),
-                  style: context.textTheme.displayLarge!
-                      .copyWith(color: AppColors.white),
+                  style: context.textTheme.displayLarge!.copyWith(
+                    color: context.colorScheme.surface,
+                  ),
                 ),
-                color: AppColors.brownShade300,
+                color: context.colorScheme.secondary,
               ),
             ),
           ),

@@ -55,7 +55,7 @@ class _AudioPageState extends State<AudioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: context.colorScheme.surface,
       appBar: CustomAppBar(
         title: widget.radioDetalis.name,
       ),
@@ -85,16 +85,16 @@ class _AudioPageState extends State<AudioPage> {
                         borderRadius: BorderRadius.circular(D.sizeXLarge)),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppColors.cyanOne,
+                        color: context.colorScheme.primary.withOpacity(0.2),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.cyanTwo,
+                            color: context.colorScheme.primary.withOpacity(0.1),
                             offset: const Offset(0, 2),
                           ),
                         ],
                         borderRadius: BorderRadius.circular(D.sizeXLarge),
                         border: Border.all(
-                          color: AppColors.primary,
+                          color: context.colorScheme.primary,
                           width: D.sizeXXSmall,
                         ),
                       ),
@@ -121,7 +121,7 @@ class _AudioPageState extends State<AudioPage> {
                                       ? Icons.stop_circle_outlined
                                       : Icons.play_circle_filled,
                                   size: context.widthR(0.12),
-                                  color: AppColors.primary,
+                                  color: context.colorScheme.primary,
                                 )),
                           ],
                         ),
