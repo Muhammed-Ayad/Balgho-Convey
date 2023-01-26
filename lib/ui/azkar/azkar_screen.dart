@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/notifiers/notifications_subscription_notifier.dart';
-import 'package:great_quran/blocs/state_mix/_index.dart';
+import 'package:great_quran/blocs/state_mix/state_mix.dart';
 import 'package:great_quran/data/local/json/all_azkar.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';

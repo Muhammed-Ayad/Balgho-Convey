@@ -1,3 +1,7 @@
+// Copyright (c) 2023 by Salama Enigma (salama92work@gmail.com)
+// All rights reserved.
+// Check out my Github account (https://github.com/salamaEnigma) for more projects.
+
 import '../generic_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
