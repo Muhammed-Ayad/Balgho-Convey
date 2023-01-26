@@ -34,6 +34,7 @@ class RadiosScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => AudioPage(
                       radioDetalis: radioDetalis[index],
+                    
                     ),
                   ),
                 );
