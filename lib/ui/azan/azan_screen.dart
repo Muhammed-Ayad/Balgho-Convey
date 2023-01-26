@@ -65,7 +65,14 @@ class _AzanScreenState extends ConsumerState<AzanScreen> {
               );
             },
             loading: () => const LoadingWidget(),
-            error: (_) => const ErrorWidgetApp(),
+            error: (errorMsg) => CustomErrorWidget(
+              errorMsg: errorMsg,
+              onRefresh: () {
+                UiHelper.postBuild((_) {
+                  ref.read(AzanTimeNotifier.provider.notifier).getAzan();
+                });
+              },
+            ),
           );
         }),
       ),

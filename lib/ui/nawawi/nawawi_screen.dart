@@ -100,7 +100,14 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
               );
             },
             loading: () => const LoadingWidget(),
-            error: (_) => const ErrorWidgetApp(),
+            error: (errorMsg) => CustomErrorWidget(
+              errorMsg: errorMsg,
+              onRefresh: () {
+                UiHelper.postBuild((_) {
+                  ref.read(NawawiNotifier.provider.notifier).getNawawi();
+                });
+              },
+            ),
           );
         }),
       ),

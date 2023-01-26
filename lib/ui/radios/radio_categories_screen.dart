@@ -61,7 +61,14 @@ class _RadiosViewState extends ConsumerState<RadioCategoriesScreen> {
             );
           },
           loading: () => const LoadingWidget(),
-          error: (_) => const ErrorWidgetApp(),
+          error: (errorMsg) => CustomErrorWidget(
+            errorMsg: errorMsg,
+            onRefresh: () {
+              UiHelper.postBuild((_) {
+                ref.read(RadiosNotifier.provider.notifier).getRadios();
+              });
+            },
+          ),
         );
       }),
     );
