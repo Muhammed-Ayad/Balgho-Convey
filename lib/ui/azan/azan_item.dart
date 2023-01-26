@@ -60,7 +60,7 @@ class _CardAzan extends StatelessWidget {
           borderRadius: BorderRadius.circular(D.sizeMedium),
           boxShadow: [
             BoxShadow(
-              color: AppColors.grey,
+              color: context.colorScheme.background,
               blurRadius: D.sizeXSmall,
             )
           ],
@@ -75,13 +75,15 @@ class _CardAzan extends StatelessWidget {
           children: [
             Text(
               date,
-              style: context.textTheme.titleMedium!
-                  .copyWith(color: AppColors.white),
+              style: context.textTheme.titleMedium!.copyWith(
+                color: context.colorScheme.surface,
+              ),
             ),
             Text(
               DateFormat.jm().format(newDate),
-              style: context.textTheme.titleMedium!
-                  .copyWith(color: AppColors.white),
+              style: context.textTheme.titleMedium!.copyWith(
+                color: context.colorScheme.surface,
+              ),
             ),
           ],
         ),

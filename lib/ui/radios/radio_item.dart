@@ -24,7 +24,7 @@ class RadioItem extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colorScheme.surface,
             borderRadius: BorderRadius.circular(D.sizeLarge),
           ),
           height: context.heightR(0.1),
@@ -34,7 +34,7 @@ class RadioItem extends StatelessWidget {
               children: [
                 Icon(
                   Icons.radio_outlined,
-                  color: AppColors.primary,
+                  color: context.colorScheme.primary,
                   size: D.size3XLarge,
                 ),
                 const SizedBox(width: D.sizeSmall),

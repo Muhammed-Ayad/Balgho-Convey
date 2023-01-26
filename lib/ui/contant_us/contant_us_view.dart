@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/helpers/utilities.dart';
-import 'package:great_quran/theme/colors.dart';
-import 'package:great_quran/theme/dimensions.dart';
+ import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
@@ -19,7 +18,7 @@ class ContantUsView extends StatelessWidget {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surface,
           image: const DecorationImage(
             image: AssetImage(ImageAssets.contact),
             fit: BoxFit.fitWidth,
@@ -44,7 +43,7 @@ class ContantUsView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CircleAvatar(
-                        backgroundColor: AppColors.red,
+                        backgroundColor: context.colorScheme.error,
                         radius: D.sizeXXLarge,
                         child: CircleAvatar(
                           radius: D.sizeXLarge,
@@ -52,7 +51,7 @@ class ContantUsView extends StatelessWidget {
                           child: IconButton(
                             icon: Icon(
                               Icons.mail_outline_outlined,
-                              color: AppColors.red,
+                              color: context.colorScheme.error,
                             ),
                             onPressed: Utilities.sendMessage,
                           ),

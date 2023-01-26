@@ -15,6 +15,11 @@ mixin AppTheme {
       colorScheme: ThemeData().colorScheme.copyWith(
             primary: const Color(0xFF64BFBE),
             secondary: const Color(0xFFCEC3C3),
+            surface: AppColors.white,
+            background: AppColors.grey,
+            shadow: AppColors.greyShade200,
+            onBackground: AppColors.greyShade500,
+            error: AppColors.red,
           ),
 
       // <------------------------------------------------ Icon Theme
@@ -67,7 +72,7 @@ mixin AppTheme {
         bodySmall: AppTextStyles.getRegularStyle(color: AppColors.grey),
         bodyMedium: AppTextStyles.getMediumStyle(color: AppColors.grey),
         bodyLarge: AppTextStyles.getSemiBoldStyle(
-            color: AppColors.grey1, fontSize: FontSizeManager.s14),
+            color: AppColors.grey, fontSize: FontSizeManager.s14),
       ),
 
       // <--------------------------------------- Bottomsheet Theme

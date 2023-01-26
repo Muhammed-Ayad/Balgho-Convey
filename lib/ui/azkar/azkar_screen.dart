@@ -71,7 +71,7 @@ class _AzkarScreenState extends ConsumerState<AzkarScreen> {
                   icon: Icon(
                     Icons.refresh,
                     size: D.size3XLarge,
-                    color: AppColors.red,
+                    color: context.colorScheme.error,
                   )),
             );
           })
@@ -99,7 +99,7 @@ class _ItemWidget extends StatelessWidget {
       height: context.heightR(0.12),
       margin: const EdgeInsets.symmetric(horizontal: D.sizeSmall),
       decoration: BoxDecoration(
-        color: AppColors.greyShade200,
+        color: context.colorScheme.shadow,
         borderRadius: BorderRadius.circular(D.sizeSmall),
       ),
       child: Card(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/nawawi_provider.dart';
+import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
 import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/ui/nawawi/nawawi_item.dart';
@@ -31,7 +32,7 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colorScheme.surface,
         body: Consumer(builder: (_, ref, __) {
           final state = ref.watch(NawawiNotifier.provider);
           return state.when(
@@ -60,7 +61,7 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
                             },
                             icon: Icon(
                               Icons.arrow_back_ios_rounded,
-                              color: AppColors.brown,
+                              color: context.colorScheme.background,
                             ),
                           ),
                           IconButton(
@@ -73,7 +74,7 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
                             },
                             icon: Icon(
                               Icons.arrow_forward_ios_outlined,
-                              color: AppColors.brown,
+                              color: context.colorScheme.background,
                             ),
                           ),
                         ],

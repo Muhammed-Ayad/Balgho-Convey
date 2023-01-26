@@ -54,7 +54,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                       ),
                       borderRadius: BorderRadius.circular(D.sizeMedium),
                       border: Border.all(
-                        color: AppColors.greyShade500,
+                        color: context.colorScheme.onBackground,
                         width: D.sizeXXSmall,
                       ),
                     ),
@@ -73,12 +73,12 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                   padding: const EdgeInsets.all(D.sizeSmall),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.greyShade200,
+                      color: context.colorScheme.shadow,
                       borderRadius: BorderRadius.circular(
                         D.sizeSmall,
                       ),
                       border: Border.all(
-                        color: AppColors.greyShade500,
+                        color:context.colorScheme.onBackground ,
                         width: D.sizeXXSmall,
                       ),
                     ),
@@ -93,7 +93,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                           },
                           icon: Icon(
                             Icons.share,
-                            color: AppColors.blue,
+                            color: context.colorScheme.primary,
                           ),
                         ),
                         const Spacer(),
@@ -105,11 +105,14 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                                 SnackBar(
                                   duration: Duration(
                                       milliseconds: Constants.milliseconds),
-                                  backgroundColor: AppColors.grey2,
+                                  backgroundColor:
+                                      context.colorScheme.background,
                                   content: Text(
                                     LocaleKeys.title_copy.tr(),
                                     style: context.textTheme.headlineSmall!
-                                        .copyWith(color: AppColors.white),
+                                        .copyWith(
+                                      color: context.colorScheme.surface,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -117,7 +120,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                           },
                           icon: Icon(
                             Icons.copy,
-                            color: AppColors.blue,
+                            color:context.colorScheme.primary,
                           ),
                         ),
                         const Spacer(),
@@ -130,7 +133,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                         B.horizontalSizedBoxXSmall,
                         Icon(
                           Icons.repeat,
-                          color: AppColors.blue,
+                          color:context.colorScheme.primary,
                         ),
                         const Spacer(),
                       ],
