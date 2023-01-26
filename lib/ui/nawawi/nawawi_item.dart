@@ -4,7 +4,6 @@ import 'package:great_quran/blocs/models/nawawi/nawawi.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/widgets/nawawi_dialog.dart';
 

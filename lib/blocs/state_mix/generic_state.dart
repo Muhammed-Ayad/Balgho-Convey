@@ -1,3 +1,7 @@
+// Copyright (c) 2023 by Salama Enigma (salama92work@gmail.com)
+// All rights reserved.
+// Check out my Github account (https://github.com/salamaEnigma) for more projects.
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'mix_extensions.dart';

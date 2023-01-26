@@ -1,9 +1,13 @@
+// Copyright (c) 2023 by Salama Enigma (salama92work@gmail.com)
+// All rights reserved.
+// Check out my Github account (https://github.com/salamaEnigma) for more projects.
+
 import 'dart:developer';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:great_quran/blocs/state_mix/_index.dart';
+import 'package:great_quran/blocs/state_mix/state_mix.dart';
 import 'package:timezone/data/latest.dart';
 
 import 'package:timezone/timezone.dart' as tz;

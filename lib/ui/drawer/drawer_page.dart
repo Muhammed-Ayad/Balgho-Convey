@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:great_quran/data/remote/endpoints.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/routes_manager.dart';
 import 'package:great_quran/ui/widgets/card_button_widget.dart';

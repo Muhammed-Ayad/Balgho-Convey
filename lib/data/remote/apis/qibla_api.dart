@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:great_quran/blocs/state_mix/_index.dart';
+import 'package:great_quran/blocs/state_mix/state_mix.dart';
 import 'package:great_quran/data/remote/endpoints.dart';
 import 'package:great_quran/data/remote/interfaces/i_qibla_api.dart';
 import 'package:great_quran/services/location_service.dart';

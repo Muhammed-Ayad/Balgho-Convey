@@ -6,7 +6,7 @@ import 'package:great_quran/services/local_notification_service.dart';
 import '../../data/local/json/all_azkar.dart';
 import '../../helpers/enums.dart';
 import '../../ui/azkar/azkar_category_screen.dart';
-import '../state_mix/_index.dart';
+import '../state_mix/state_mix.dart';
 
 class NotificationsSubscriptionNotifier
     extends StateNotifier<GenericState<bool>> with DataFetcherForStateNotifier {

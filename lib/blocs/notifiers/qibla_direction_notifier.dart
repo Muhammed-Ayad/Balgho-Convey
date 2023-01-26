@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/remote/apis/qibla_api.dart';
 import '../../data/remote/interfaces/i_qibla_api.dart';
-import '../state_mix/_index.dart';
+import '../state_mix/state_mix.dart';
 
 class QiblaDirectionNotifier extends StateNotifier<GenericState<double>>
     with DataFetcherForStateNotifier {

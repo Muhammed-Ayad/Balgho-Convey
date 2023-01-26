@@ -1,6 +1,10 @@
+// Copyright (c) 2023 by Salama Enigma (salama92work@gmail.com)
+// All rights reserved.
+// Check out my Github account (https://github.com/salamaEnigma) for more projects.
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:great_quran/blocs/state_mix/_index.dart';
+import 'package:great_quran/blocs/state_mix/state_mix.dart';
 import 'package:location/location.dart';
 
 class LocationService {
