@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:great_quran/data/local/json/azkar_by_category.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
-import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/constants.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/theme/dimensions.dart';
@@ -49,6 +50,12 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
   }
 }
 
+//
+
+final zekrCounterProvider = StateProvider.family<int, String>((ref, key) {
+  return 0;
+});
+
 class ZekrCard extends StatelessWidget {
   final Azkar azkar;
   const ZekrCard({
@@ -58,12 +65,12 @@ class ZekrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(D.sizeSmall),
-          child: Container(
+    return Padding(
+      padding: const EdgeInsets.all(D.sizeSmall),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
             decoration: BoxDecoration(
               image: const DecorationImage(
                 opacity: 0.6,
@@ -88,10 +95,11 @@ class ZekrCard extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(D.sizeSmall),
-          child: Container(
+          Text(
+            "عدد مرات التكرار : ${azkar.count}",
+            style: TextStyle(color: context.colorScheme.primary, fontSize: 17),
+          ),
+          Container(
             decoration: BoxDecoration(
               color: context.colorScheme.shadow,
               borderRadius: BorderRadius.circular(
@@ -106,7 +114,6 @@ class ZekrCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Spacer(),
                 IconButton(
                   onPressed: () {
                     Share.share(azkar.zekr);
@@ -116,7 +123,6 @@ class ZekrCard extends StatelessWidget {
                     color: context.colorScheme.primary,
                   ),
                 ),
-                const Spacer(),
                 IconButton(
                   onPressed: () {
                     FlutterClipboard.copy(azkar.zekr).then(
@@ -140,24 +146,47 @@ class ZekrCard extends StatelessWidget {
                     color: context.colorScheme.primary,
                   ),
                 ),
-                const Spacer(),
-                Text(
-                  azkar.count,
-                  style: context.textTheme.headlineSmall!.copyWith(
-                    fontSize: D.sizeXXLarge,
-                  ),
-                ),
-                B.horizontalSizedBoxXSmall,
-                Icon(
-                  Icons.repeat,
-                  color: context.colorScheme.primary,
-                ),
-                const Spacer(),
+                Consumer(builder: (context, ref, _) {
+                  return InkWell(
+                    onTap: () {
+                      final currentCount =
+                          ref.read(zekrCounterProvider(azkar.zekr));
+                      final zekrCount = int.tryParse(azkar.count) ?? 0;
+                      if (currentCount < zekrCount) {
+                        ref
+                            .read(zekrCounterProvider(azkar.zekr).notifier)
+                            .state++;
+                      } else {
+                        // Vibrate to alert using with the completion
+                        Vibrate.vibrate();
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: context.colorScheme.primary,
+                          border: Border.all(color: Colors.white),
+                          boxShadow: const [BoxShadow(offset: Offset(0, 0.3))]),
+                      width: 50,
+                      height: 30,
+                      child: Consumer(builder: (context, ref, _) {
+                        final count =
+                            ref.watch(zekrCounterProvider(azkar.zekr));
+                        return Text(
+                          count.toString(),
+                          textAlign: TextAlign.center,
+                          style: context.textTheme.button
+                              ?.copyWith(color: Colors.white),
+                        );
+                      }),
+                    ),
+                  );
+                }),
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
