@@ -9,6 +9,7 @@ import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/resources/routes_manager.dart';
 import 'package:great_quran/ui/widgets/card_view.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
+import 'package:great_quran/ui/widgets/grid_tile_widget.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -41,45 +42,36 @@ class _MainViewState extends ConsumerState<MainView> {
           mainAxisSpacing: 4,
           crossAxisSpacing: 4,
           children: [
-            StaggeredGridTile.count(
-              crossAxisCellCount: 2,
-              mainAxisCellCount: 2,
+            GridTileWidget(
               child: CardViewWidget(
                 LocaleKeys.title_radio.tr(),
                 Routes.radiosRoute,
                 ImageAssets.radio,
               ),
             ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 2,
-              mainAxisCellCount: 2,
+            GridTileWidget(
               child: CardViewWidget(
                 LocaleKeys.title_azkar.tr(),
                 Routes.azkarRoute,
                 ImageAssets.azkar,
               ),
             ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 2,
-              mainAxisCellCount: 2,
+            GridTileWidget(
               child: CardViewWidget(
                 LocaleKeys.title_azan.tr(),
                 Routes.azanRoute,
                 ImageAssets.prayer,
               ),
             ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 2,
-              mainAxisCellCount: 2,
+            GridTileWidget(
               child: CardViewWidget(
                 LocaleKeys.title_kible.tr(),
                 Routes.qiblaRoute,
                 ImageAssets.kabaa,
               ),
             ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 4,
-              mainAxisCellCount: 2,
+            GridTileWidget(
+              isLast: true,
               child: CardViewWidget(
                 LocaleKeys.title_nawawi.tr(),
                 Routes.nawawiRoute,
