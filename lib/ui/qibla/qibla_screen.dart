@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/notifiers/qibla_direction_notifier.dart';
 import 'package:great_quran/blocs/state_mix/state_mix.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
-import 'package:great_quran/resources/strings_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 import '../../helpers/ui_helpers.dart';
@@ -38,8 +39,8 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: AppStrings.qibla,
+      appBar: CustomAppBar(
+        title: LocaleKeys.title_kible.tr(),
       ),
       body: Consumer(builder: (context, ref, _) {
         final state = ref.watch(QiblaDirectionNotifier.provider);

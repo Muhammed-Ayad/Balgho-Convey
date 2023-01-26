@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
  import 'package:great_quran/theme/dimensions.dart';
-import 'package:great_quran/ui/widgets/custom_app_bar.dart';
-
+ 
 class CustomErrorWidget extends StatelessWidget {
   const CustomErrorWidget({
     Key? key,
@@ -47,14 +46,4 @@ class CustomErrorWidget extends StatelessWidget {
   }
 }
 
-class ErrorWidgetApp extends StatelessWidget {
-  const ErrorWidgetApp({super.key, this.errorMsg});
-  final String? errorMsg;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(title: LocaleKeys.error_error.tr()),
-      body: CustomErrorWidget(errorMsg: errorMsg),
-    );
-  }
-}
+ 
