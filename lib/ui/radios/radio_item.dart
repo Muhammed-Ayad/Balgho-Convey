@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 
 class RadioItem extends StatelessWidget {

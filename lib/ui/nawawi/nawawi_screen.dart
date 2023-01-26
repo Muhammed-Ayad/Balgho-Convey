@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/providers/nawawi_provider.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/ui/nawawi/nawawi_item.dart';
 import 'package:great_quran/ui/widgets/error_widget.dart';
 import 'package:great_quran/ui/widgets/loading_widget.dart';

@@ -6,7 +6,6 @@ import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/constants.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
@@ -78,7 +77,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                         D.sizeSmall,
                       ),
                       border: Border.all(
-                        color:context.colorScheme.onBackground ,
+                        color: context.colorScheme.onBackground,
                         width: D.sizeXXSmall,
                       ),
                     ),
@@ -120,7 +119,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                           },
                           icon: Icon(
                             Icons.copy,
-                            color:context.colorScheme.primary,
+                            color: context.colorScheme.primary,
                           ),
                         ),
                         const Spacer(),
@@ -133,7 +132,7 @@ class _AzkarCategoryScreenState extends State<AzkarCategoryScreen> {
                         B.horizontalSizedBoxXSmall,
                         Icon(
                           Icons.repeat,
-                          color:context.colorScheme.primary,
+                          color: context.colorScheme.primary,
                         ),
                         const Spacer(),
                       ],

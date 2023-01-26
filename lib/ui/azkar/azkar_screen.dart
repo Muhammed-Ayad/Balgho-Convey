@@ -7,7 +7,6 @@ import 'package:great_quran/data/local/json/all_azkar.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
 import 'package:great_quran/helpers/extensions.dart';
 import 'package:great_quran/helpers/ui_helpers.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/ui/animations/bottom_animation.dart';
 import 'package:great_quran/resources/assets_manager.dart';

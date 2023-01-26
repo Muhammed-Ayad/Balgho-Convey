@@ -3,7 +3,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:great_quran/blocs/models/radios/radio.dart';
 import 'package:great_quran/helpers/boxes.dart';
 import 'package:great_quran/helpers/extensions.dart';
-import 'package:great_quran/theme/colors.dart';
 import 'package:great_quran/theme/dimensions.dart';
 import 'package:great_quran/resources/assets_manager.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
