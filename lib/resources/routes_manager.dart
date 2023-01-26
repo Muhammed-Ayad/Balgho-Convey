@@ -46,7 +46,7 @@ class RouteGenerator {
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.primary,
       );
     });
   }
