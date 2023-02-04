@@ -94,9 +94,9 @@ class LocalNotificationService {
       required String body,
       String? payload}) async {
     "Schedule notification on $dateTime on a $scheduleReminder".log();
-
+    await Future.delayed(const Duration(milliseconds: 50));
     flutterLocalNotificationsPlugin.zonedSchedule(
-      dateTime.microsecond, // use it as an id
+      DateTime.now().millisecond, // use it as an id
       title,
       body,
       tz.TZDateTime(
@@ -114,21 +114,6 @@ class LocalNotificationService {
       payload: scheduleReminder.toString(),
     );
   }
-
-  /// Shows a local notification and returns an `id` so that the caller can
-  /// cancel it later
-  Future<int> show(
-      {required String title, required String body, String? payload}) async {
-    final id = DateTime.now().microsecond;
-    await flutterLocalNotificationsPlugin.show(
-        id, title, body, _platformChannelSpecificsNotificationDetails,
-        payload: payload);
-    return id;
-  }
-
-  /// Cancels a specific notification given its `id`
-  Future<void> cancelWithId(int id, {String? tag}) async =>
-      await flutterLocalNotificationsPlugin.cancel(id, tag: tag);
 
   /// Cancels all  notifications
   Future<void> cancelAll() async =>
