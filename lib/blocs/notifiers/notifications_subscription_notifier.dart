@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:great_quran/services/local_notification_service.dart';
 
 import '../../data/local/json/all_azkar.dart';
-import '../../helpers/enums.dart';
 import '../../ui/azkar/azkar_category_screen.dart';
 import '../state_mix/state_mix.dart';
 
@@ -53,17 +52,17 @@ class NotificationsSubscriptionNotifier
 
     await _service.schedule(
         scheduleReminder: ScheduleReminder.daily,
-        dateTime: DateTime(now.year, now.month, now.day, 7),
+        dateTime: DateTime(now.year, now.month, now.day, 7, 0),
         title: "بلغوا",
         body: "نذكرك بقراءة أذكار الصباح",
-        payload: AzkarType.morning.name);
+        payload: "0");
 
     await _service.schedule(
         scheduleReminder: ScheduleReminder.daily,
-        dateTime: DateTime(now.year, now.month, now.day, 17, 00),
+        dateTime: DateTime(now.year, now.month, now.day, 17, 0),
         title: "بلغوا",
         body: "نذكرك بقراءة أذكار المساء",
-        payload: AzkarType.evening.name);
+        payload: "1");
   }
 
   /// Checks if the app launched via a press on notification
@@ -80,14 +79,10 @@ class NotificationsSubscriptionNotifier
       navigateOnLaunch(
         MaterialPageRoute(
           builder: (context) => AzkarCategoryScreen(
-            azkar: getAzkarCategory(payload),
+            azkar: azkarDataList[int.parse(payload)],
           ),
         ),
       );
     }
-  }
-
-  String getAzkarCategory(String payload) {
-    return azkarDataList[AzkarType.fromName(payload).index].toString().trim();
   }
 }
