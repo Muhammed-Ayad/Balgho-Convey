@@ -41,6 +41,8 @@ class _MainViewState extends ConsumerState<MainView> {
           crossAxisCount: 4,
           mainAxisSpacing: 4,
           crossAxisSpacing: 4,
+          axisDirection: AxisDirection.down, // <----- Add this line
+
           children: [
             GridTileWidget(
               child: CardViewWidget(
