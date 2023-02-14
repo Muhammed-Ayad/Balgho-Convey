@@ -32,14 +32,14 @@ class NotificationsSubscriptionNotifier
             msg: "تم إلغاء الإشعارات",
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            toastLength: Toast.LENGTH_LONG);
+            toastLength: Toast.LENGTH_SHORT);
       } else {
         await registerAzkarNotifications();
         Fluttertoast.showToast(
             msg: "تم الاشتراك في الإشعارات",
             backgroundColor: Colors.green,
             textColor: Colors.white,
-            toastLength: Toast.LENGTH_LONG);
+            toastLength: Toast.LENGTH_SHORT);
       }
       state = GenericState.success(!state.getData()!);
     }
@@ -55,6 +55,7 @@ class NotificationsSubscriptionNotifier
         dateTime: DateTime(now.year, now.month, now.day, 7, 0),
         title: "بلغوا",
         body: "نذكرك بقراءة أذكار الصباح",
+        // The index of Azkar in azkarDataLst
         payload: "0");
 
     await _service.schedule(
@@ -76,10 +77,11 @@ class NotificationsSubscriptionNotifier
         notificationAtLaunch?.didNotificationLaunchApp ?? false;
     final payload = notificationAtLaunch?.notificationResponse?.payload;
     if (didLaunchApp && payload != null) {
+      // Execute the navigation callback
       navigateOnLaunch(
         MaterialPageRoute(
           builder: (context) => AzkarCategoryScreen(
-            azkar: azkarDataList[int.parse(payload)],
+            azkar: azkarDataList[int.tryParse(payload) ?? 0].toString().trim(),
           ),
         ),
       );
