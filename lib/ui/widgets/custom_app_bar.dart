@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:great_quran/theme/dimensions.dart';
 
@@ -15,7 +13,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   @override
   Widget build(BuildContext context) {
-    log("App bar $title");
     return AppBar(
       elevation: elevation,
       title: Text(

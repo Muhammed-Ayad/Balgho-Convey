@@ -55,7 +55,7 @@ class NotificationsSubscriptionNotifier
         dateTime: DateTime(now.year, now.month, now.day, 7, 0),
         title: "بلغوا",
         body: "نذكرك بقراءة أذكار الصباح",
-        // The index of Azkar in azkarDataLst
+        // The index of Azkar in azkarDataList
         payload: "0");
 
     await _service.schedule(
