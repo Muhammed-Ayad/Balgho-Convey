@@ -139,7 +139,7 @@ class ZekrCard extends StatelessWidget {
                         return Text(
                           count.toString(),
                           textAlign: TextAlign.center,
-                          style: context.textTheme.button
+                          style: context.textTheme.labelLarge
                               ?.copyWith(color: Colors.white),
                         );
                       }),

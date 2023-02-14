@@ -139,7 +139,7 @@ class UiHelper {
               child: Text(
                 message,
                 style:
-                    context.textTheme.bodyText1!.copyWith(color: Colors.white),
+                    context.textTheme.bodyLarge?.copyWith(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -166,7 +166,7 @@ class UiHelper {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         content: Text(
           message,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         actions: <Widget>[
           TextButton(
@@ -175,13 +175,13 @@ class UiHelper {
             },
             child: Text(
               cancelButtonText,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
           TextButton(
             onPressed: action,
             child: Text(okButtonText,
-                style: Theme.of(context).textTheme.subtitle2),
+                style: Theme.of(context).textTheme.titleSmall),
           ),
         ],
       ),

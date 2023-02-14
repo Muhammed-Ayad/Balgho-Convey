@@ -9,7 +9,6 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/blocs/state_mix/state_mix.dart';
 import 'package:timezone/data/latest.dart';
-
 import 'package:timezone/timezone.dart' as tz;
 
 /// Service that handle local notifications for android and iOS
@@ -94,6 +93,7 @@ class LocalNotificationService {
       required String body,
       String? payload}) async {
     "Schedule notification on $dateTime on a $scheduleReminder".log();
+
     await Future.delayed(const Duration(milliseconds: 50));
     flutterLocalNotificationsPlugin.zonedSchedule(
       DateTime.now().millisecond, // use it as an id
@@ -111,7 +111,7 @@ class LocalNotificationService {
           UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,
       matchDateTimeComponents: scheduleReminder.dateTimeComponents,
-      payload: scheduleReminder.toString(),
+      payload: payload,
     );
   }
 

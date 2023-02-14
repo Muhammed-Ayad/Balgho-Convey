@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:great_quran/generated/locale_keys.g.dart';
+import 'package:great_quran/resources/routes_manager.dart';
 import 'package:great_quran/services/local_notification_service.dart';
 import 'package:great_quran/theme/themes.dart';
-import 'package:great_quran/resources/routes_manager.dart';
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp._internal();
@@ -31,7 +31,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: LocaleKeys.app_name.tr(),
+      onGenerateTitle: (context) => LocaleKeys.app_name.tr(),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.themeFactory(),
       onGenerateRoute: RouteGenerator.generateRoute,
