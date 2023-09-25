@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class Animator extends StatefulWidget {
@@ -9,7 +8,7 @@ class Animator extends StatefulWidget {
   const Animator({Key? key, this.child, this.time}) : super(key: key);
 
   @override
-  _AnimatorState createState() => _AnimatorState();
+  State<Animator> createState() => _AnimatorState();
 }
 
 class _AnimatorState extends State<Animator>
@@ -74,8 +73,8 @@ class WidgetAnimator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Animator(
-      child: child,
       time: wait(),
+      child: child,
     );
   }
 }

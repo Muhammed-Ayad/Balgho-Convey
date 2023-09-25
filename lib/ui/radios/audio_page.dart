@@ -10,9 +10,9 @@ import 'package:great_quran/ui/radios/play_radio_card.dart';
 import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 
 class AudioPage extends ConsumerStatefulWidget {
-  final RadioDetalis radioDetalis;
+  final RadioDetails radioDetails;
 
-  const AudioPage({Key? key, required this.radioDetalis}) : super(key: key);
+  const AudioPage({Key? key, required this.radioDetails}) : super(key: key);
 
   @override
   ConsumerState<AudioPage> createState() => _AudioPageState();
@@ -22,7 +22,7 @@ class _AudioPageState extends ConsumerState<AudioPage> {
   @override
   void initState() {
     UiHelper.postBuild((_) {
-      ref.read(AudioNotifier.provider.notifier).init(widget.radioDetalis.url);
+      ref.read(AudioNotifier.provider.notifier).init(widget.radioDetails.url);
     });
     super.initState();
   }
@@ -32,7 +32,7 @@ class _AudioPageState extends ConsumerState<AudioPage> {
     return Scaffold(
       backgroundColor: context.colorScheme.surface,
       appBar: CustomAppBar(
-        title: widget.radioDetalis.name,
+        title: widget.radioDetails.name,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,7 +47,7 @@ class _AudioPageState extends ConsumerState<AudioPage> {
                 ),
               ),
             ),
-            PlayRadioCard(url: widget.radioDetalis.url),
+            PlayRadioCard(url: widget.radioDetails.url),
             B.verticalSizedBoxXXLarge,
           ],
         ),

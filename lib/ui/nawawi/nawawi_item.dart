@@ -60,13 +60,13 @@ class NawawiItem extends StatelessWidget {
                   nawawi.description,
                 ),
                 minWidth: double.infinity,
+                color: context.colorScheme.secondary,
                 child: Text(
                   LocaleKeys.title_explanation_the_hadith.tr(),
                   style: context.textTheme.displayLarge!.copyWith(
                     color: context.colorScheme.surface,
                   ),
                 ),
-                color: context.colorScheme.secondary,
               ),
             ),
           ),

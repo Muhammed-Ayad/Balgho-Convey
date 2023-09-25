@@ -23,7 +23,7 @@ class QiblaScreen extends ConsumerStatefulWidget {
   const QiblaScreen({Key? key}) : super(key: key);
 
   @override
-  _QiblaScreenState createState() => _QiblaScreenState();
+  ConsumerState<QiblaScreen> createState() => _QiblaScreenState();
 }
 
 class _QiblaScreenState extends ConsumerState<QiblaScreen> {

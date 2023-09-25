@@ -1,3 +1,4 @@
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'weekday.g.dart';
 
@@ -8,8 +9,7 @@ class Weekday {
 
   Weekday(this.en, this.ar);
 
-  factory Weekday.fromJson(Map<String, dynamic> json) =>
-      _$WeekdayFromJson(json);
+  factory Weekday.fromJson(JSON json) => _$WeekdayFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WeekdayToJson(this);
+  JSON toJson() => _$WeekdayToJson(this);
 }

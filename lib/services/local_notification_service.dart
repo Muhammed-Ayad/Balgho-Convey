@@ -5,8 +5,8 @@
 import 'dart:developer';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+ import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:great_quran/blocs/state_mix/state_mix.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -45,7 +45,7 @@ class LocalNotificationService {
       initializeTimeZones();
 
       // Get device time zone
-      final currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+      final currentTimeZone = await FlutterTimezone.getLocalTimezone();
       currentTimeZone.log();
 
       // Set location with currentTimeZone

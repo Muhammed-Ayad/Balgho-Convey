@@ -1,4 +1,5 @@
 import 'package:great_quran/blocs/models/azan/hijri.dart';
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'date.g.dart';
@@ -15,7 +16,7 @@ class Date {
     this.hijri,
   );
 
-  factory Date.fromJson(Map<String, dynamic> json) => _$DateFromJson(json);
+  factory Date.fromJson(JSON json) => _$DateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DateToJson(this);
+  JSON toJson() => _$DateToJson(this);
 }

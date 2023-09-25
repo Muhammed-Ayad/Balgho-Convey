@@ -1,4 +1,5 @@
 import 'package:great_quran/blocs/models/azan/data.dart';
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'azan.g.dart';
 
@@ -10,7 +11,7 @@ class Azan {
 
   Azan(this.code, this.status, this.data);
 
-  factory Azan.fromJson(Map<String, dynamic> json) => _$AzanFromJson(json);
+  factory Azan.fromJson(JSON json) => _$AzanFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AzanToJson(this);
+  JSON toJson() => _$AzanToJson(this);
 }

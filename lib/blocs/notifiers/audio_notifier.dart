@@ -16,7 +16,7 @@ class AudioNotifier extends ChangeNotifier {
 
   void init(String url) {
     _audioPlayer = AudioPlayer();
-    _audioPlayer.play(url);
+    _audioPlayer.play(UrlSource(url));
     _isPlaying = true;
     _listenRadio();
     notifyListeners();
@@ -24,7 +24,7 @@ class AudioNotifier extends ChangeNotifier {
 
   void _listenRadio() {
     _audioPlayer.onPlayerStateChanged.listen((event) {
-      if (event == PlayerState.PLAYING) {
+      if (event == PlayerState.playing) {
         _isPlaying = true;
       } else {
         _isPlaying = false;
@@ -34,7 +34,7 @@ class AudioNotifier extends ChangeNotifier {
   }
 
   Future<void> playMusic(String url) async {
-    await _audioPlayer.play(url);
+    await _audioPlayer.play(UrlSource(url));
     notifyListeners();
   }
 

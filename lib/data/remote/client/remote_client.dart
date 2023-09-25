@@ -1,51 +1,51 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:great_quran/data/remote/exceptions/exceptions.dart';
 import 'package:great_quran/data/remote/exceptions/handler.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_quran/helpers/type_def.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'remote_client.g.dart';
 
 // Dio Instance Provider
-final _dioProvider = Provider<Dio>(
-  (ref) => Dio()
-    ..options.connectTimeout = 7000
-    ..options.receiveTimeout = 7000,
-);
+@riverpod
+Dio _dio(_DioRef ref) {
+  return Dio()
+    ..options.connectTimeout = const Duration(milliseconds: 7000)
+    ..options.receiveTimeout = const Duration(milliseconds: 7000);
+}
 
-class RemoteClient {
-  static final provider = Provider<RemoteClient>((ref) {
-    final dio = ref.read(_dioProvider);
+@riverpod
+RemoteClient remoteClient(RemoteClientRef ref) {
+  final dio = ref.read(_dioProvider);
 
-    //* Interceptors
-    dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) {
-      log('Error Intercepted',
-          name: 'DIO Error Interceptor', error: "Api Error");
-      log('''
+  //* Interceptors
+  dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) {
+    log('Error Intercepted', name: 'DIO Error Interceptor', error: "Api Error");
+    log('''
             Intercepted an error on api request
               # Request path: ${error.requestOptions.path}
               # Error Message: ${error.message}
               # Response: ${error.response?.data}
               # Request Injected Queries: ${error.requestOptions.queryParameters}
               # Request Headers: ${error.requestOptions.headers}''',
-          error: "Dio Client");
-      return handler.reject(error);
-    }));
+        error: "Dio Client");
+    return handler.reject(error);
+  }));
 
-    return RemoteClient(dio);
-  });
+  return RemoteClient(dio);
+}
 
-  // dio instance
+class RemoteClient {
+  const RemoteClient(this._dio);
   final Dio _dio;
-
-  // injecting dio instance
-  RemoteClient(this._dio);
 
   // Get:
   Future<dynamic> get(
     String uri, {
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
@@ -75,7 +75,7 @@ class RemoteClient {
   Future<dynamic> post(
     String uri, {
     dynamic data,
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
@@ -106,7 +106,7 @@ class RemoteClient {
   Future<dynamic> put(
     String uri, {
     dynamic data,
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
@@ -137,7 +137,7 @@ class RemoteClient {
   Future<dynamic> patch(
     String uri, {
     dynamic data,
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
@@ -168,7 +168,7 @@ class RemoteClient {
   Future<dynamic> delete(
     String uri, {
     dynamic data,
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,

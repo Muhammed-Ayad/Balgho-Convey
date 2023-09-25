@@ -1,20 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_quran/blocs/models/qibla/qibla_data.dart';
 import 'package:great_quran/blocs/state_mix/state_mix.dart';
+import 'package:great_quran/data/remote/client/remote_client.dart';
 import 'package:great_quran/data/remote/endpoints.dart';
 import 'package:great_quran/data/remote/interfaces/i_qibla_api.dart';
 import 'package:great_quran/services/location_service.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'qibla_api.g.dart';
 
-import '../../../blocs/models/qibla/qibla_data.dart';
-import '../client/remote_client.dart';
+@riverpod
+QiblaApi qiblaApi(QiblaApiRef ref) {
+  return QiblaApi(
+    ref.read(remoteClientProvider),
+    ref.read(LocationService.provider),
+  );
+}
 
 class QiblaApi implements IQiblaApi {
-  static final provider = Provider<IQiblaApi>(
-    (ref) => QiblaApi(
-      ref.read(RemoteClient.provider),
-      ref.read(LocationService.provider),
-    ),
-  );
-
   // * Dependencies
   final RemoteClient _remoteClient;
   final LocationService _locationService;

@@ -50,7 +50,7 @@ class _RadiosViewState extends ConsumerState<RadioCategoriesScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => RadiosScreen(
-                              radioDetalis: data[index].radio,
+                              radioDetails: data[index].radio,
                               title: data[index].title),
                         ),
                       );

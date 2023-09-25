@@ -1,5 +1,6 @@
 import 'package:great_quran/blocs/models/azan/date.dart';
 import 'package:great_quran/blocs/models/azan/timings.dart';
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'data.g.dart';
 
@@ -12,7 +13,7 @@ class Data {
     this.timings,
     this.date,
   );
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  factory Data.fromJson(JSON json) => _$DataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataToJson(this);
+  JSON toJson() => _$DataToJson(this);
 }

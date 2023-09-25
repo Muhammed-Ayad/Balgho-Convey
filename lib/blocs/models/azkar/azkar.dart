@@ -1,3 +1,4 @@
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'azkar.g.dart';
 
@@ -10,7 +11,7 @@ class Azkar {
   final String zekr;
 
   Azkar(this.category, this.count, this.description, this.reference, this.zekr);
-  factory Azkar.fromJson(Map<String, dynamic> json) => _$AzkarFromJson(json);
+  factory Azkar.fromJson(JSON json) => _$AzkarFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AzkarToJson(this);
+  JSON toJson() => _$AzkarToJson(this);
 }

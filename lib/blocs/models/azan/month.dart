@@ -1,3 +1,4 @@
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'month.g.dart';
 
@@ -7,7 +8,7 @@ class Month {
   final String en;
 
   Month(this.number, this.en);
-  factory Month.fromJson(Map<String, dynamic> json) => _$MonthFromJson(json);
+  factory Month.fromJson(JSON json) => _$MonthFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MonthToJson(this);
+  JSON toJson() => _$MonthToJson(this);
 }

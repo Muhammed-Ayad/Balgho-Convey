@@ -1,3 +1,4 @@
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part "qibla_data.g.dart";
 
@@ -9,8 +10,7 @@ class QiblaData {
 
   QiblaData(this.latitude, this.longitude, this.direction);
 
-  factory QiblaData.fromJson(Map<String, dynamic> json) =>
-      _$QiblaDataFromJson(json);
+  factory QiblaData.fromJson(JSON json) => _$QiblaDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$QiblaDataToJson(this);
+  JSON toJson() => _$QiblaDataToJson(this);
 }

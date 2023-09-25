@@ -1,3 +1,4 @@
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'designation.g.dart';
 
@@ -8,8 +9,7 @@ class Designation {
 
   Designation(this.abbreviated, this.expanded);
 
-  factory Designation.fromJson(Map<String, dynamic> json) =>
-      _$DesignationFromJson(json);
+  factory Designation.fromJson(JSON json) => _$DesignationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DesignationToJson(this);
+  JSON toJson() => _$DesignationToJson(this);
 }

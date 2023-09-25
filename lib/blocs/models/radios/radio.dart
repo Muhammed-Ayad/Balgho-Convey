@@ -1,14 +1,14 @@
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'radio.g.dart';
 
 @JsonSerializable()
-class RadioDetalis {
+class RadioDetails {
   final String name;
   final String url;
 
-  RadioDetalis(this.name, this.url);
+  RadioDetails(this.name, this.url);
 
-  factory RadioDetalis.fromJson(Map<String, dynamic> json) =>
-      _$RadioDetalisFromJson(json);
-  Map<String, dynamic> toJson() => _$RadioDetalisToJson(this);
+  factory RadioDetails.fromJson(JSON json) => _$RadioDetailsFromJson(json);
+  JSON toJson() => _$RadioDetailsToJson(this);
 }

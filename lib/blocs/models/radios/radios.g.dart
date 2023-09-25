@@ -9,7 +9,7 @@ part of 'radios.dart';
 Radios _$RadiosFromJson(Map<String, dynamic> json) => Radios(
       json['title'] as String,
       (json['radio'] as List<dynamic>)
-          .map((e) => RadioDetalis.fromJson(e as Map<String, dynamic>))
+          .map((e) => RadioDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

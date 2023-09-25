@@ -9,10 +9,10 @@ import 'package:great_quran/ui/widgets/custom_app_bar.dart';
 class RadiosScreen extends StatelessWidget {
   const RadiosScreen({
     super.key,
-    required this.radioDetalis,
+    required this.radioDetails,
     required this.title,
   });
-  final List<RadioDetalis> radioDetalis;
+  final List<RadioDetails> radioDetails;
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -23,17 +23,17 @@ class RadiosScreen extends StatelessWidget {
       body: ListView.builder(
         primary: false,
         shrinkWrap: true,
-        itemCount: radioDetalis.length,
+        itemCount: radioDetails.length,
         itemBuilder: (BuildContext context, int index) {
           return WidgetAnimator(
             child: RadioItem(
-              title: radioDetalis[index].name,
+              title: radioDetails[index].name,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AudioPage(
-                      radioDetalis: radioDetalis[index],
+                      radioDetails: radioDetails[index],
                     
                     ),
                   ),

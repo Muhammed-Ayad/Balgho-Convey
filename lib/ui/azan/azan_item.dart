@@ -45,7 +45,7 @@ class _CardAzan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var newDate = DateTime.parse(Utilities.dateTimeNow() + " " + time);
+    var newDate = DateTime.parse("${Utilities.dateTimeNow()} $time");
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: D.sizeLarge,

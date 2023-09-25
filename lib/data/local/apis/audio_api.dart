@@ -3,12 +3,12 @@ import 'package:great_quran/data/local/interfaces/i_audio_api.dart';
 
 class AudioApi extends IAudioApi {
   @override
-  Future<RadioDetalis> next(int currentAudioIndex) {
+  Future<RadioDetails> next(int currentAudioIndex) {
     throw UnimplementedError();
   }
 
   @override
-  Future<RadioDetalis> previous(int currentAudioIndex) {
+  Future<RadioDetails> previous(int currentAudioIndex) {
     throw UnimplementedError();
   }
 }

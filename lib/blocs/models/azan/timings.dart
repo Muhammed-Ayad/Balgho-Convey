@@ -1,3 +1,4 @@
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'timings.g.dart';
 
@@ -28,8 +29,7 @@ class Timings {
       this.firstthird,
       this.lastthird);
 
-  factory Timings.fromJson(Map<String, dynamic> json) =>
-      _$TimingsFromJson(json);
+  factory Timings.fromJson(JSON json) => _$TimingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimingsToJson(this);
+  JSON toJson() => _$TimingsToJson(this);
 }

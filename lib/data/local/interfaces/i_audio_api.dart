@@ -1,7 +1,7 @@
 import 'package:great_quran/blocs/models/radios/radio.dart';
 
 abstract class IAudioApi {
-  Future<RadioDetalis> next(int currentAudioIndex);
+  Future<RadioDetails> next(int currentAudioIndex);
 
-  Future<RadioDetalis> previous(int currentAudioIndex);
+  Future<RadioDetails> previous(int currentAudioIndex);
 }

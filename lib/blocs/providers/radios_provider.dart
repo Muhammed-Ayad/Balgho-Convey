@@ -8,7 +8,7 @@ import 'package:great_quran/data/remote/interfaces/i_radios_api.dart';
 class RadiosNotifier extends StateNotifier<GenericState<List<Radios>>> {
   static final provider =
       StateNotifierProvider<RadiosNotifier, GenericState<List<Radios>>>((ref) {
-    return RadiosNotifier(ref.read(RadiosApi.provider));
+    return RadiosNotifier(ref.read(radiosApiProvider));
   });
   final IRadiosApi _iRadiosApi;
   RadiosNotifier(this._iRadiosApi) : super(GenericState.initial());

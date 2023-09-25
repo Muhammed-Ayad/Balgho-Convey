@@ -1,6 +1,7 @@
 import 'package:great_quran/blocs/models/azan/designation.dart';
 import 'package:great_quran/blocs/models/azan/month.dart';
 import 'package:great_quran/blocs/models/azan/weekday.dart';
+import 'package:great_quran/helpers/type_def.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'hijri.g.dart';
 
@@ -24,7 +25,7 @@ class Hijri {
     this.designation,
   );
 
-  factory Hijri.fromJson(Map<String, dynamic> json) => _$HijriFromJson(json);
+  factory Hijri.fromJson(JSON json) => _$HijriFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HijriToJson(this);
+  JSON toJson() => _$HijriToJson(this);
 }

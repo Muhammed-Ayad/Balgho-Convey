@@ -14,12 +14,16 @@ void main() async {
     ),
   );
   runApp(
-    EasyLocalization(
-      path: 'assets/translations',
-      supportedLocales: const [
-        AppLocales.arabic,
-      ],
-      child: ProviderScope(child: MyApp()),
+    ProviderScope(
+      child: EasyLocalization(
+        path: 'assets/translations',
+        supportedLocales: const [
+          AppLocales.arabic,
+        ],
+        child: ProviderScope(
+          child: MyApp(),
+        ),
+      ),
     ),
   );
 }

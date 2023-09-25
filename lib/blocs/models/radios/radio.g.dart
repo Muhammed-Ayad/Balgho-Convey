@@ -6,12 +6,12 @@ part of 'radio.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RadioDetalis _$RadioDetalisFromJson(Map<String, dynamic> json) => RadioDetalis(
+RadioDetails _$RadioDetailsFromJson(Map<String, dynamic> json) => RadioDetails(
       json['name'] as String,
       json['url'] as String,
     );
 
-Map<String, dynamic> _$RadioDetalisToJson(RadioDetalis instance) =>
+Map<String, dynamic> _$RadioDetailsToJson(RadioDetails instance) =>
     <String, dynamic>{
       'name': instance.name,
       'url': instance.url,
