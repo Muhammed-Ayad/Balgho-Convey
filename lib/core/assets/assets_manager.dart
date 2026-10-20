@@ -17,4 +17,6 @@ class ImageAssets {
   static const String compass = "$imagePath/compass.png";
   static const String detailedCompass = "$imagePath/detailed_compass.png";
   static const String starTwo = "$imagePath/startwo.png";
+
+  static const String logo = "assets/new_logo.png";
 }

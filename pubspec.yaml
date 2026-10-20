@@ -57,6 +57,7 @@ flutter:
     - assets/images/
     - assets/json/
     - assets/fonts/
+    - assets/new_logo.png
 
   fonts:
     - family: UthmanicHafs
@@ -65,5 +66,5 @@ flutter:
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/logo.png
+  image: assets/new_logo.png
   android_gravity: center
