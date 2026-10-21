@@ -30,7 +30,7 @@ dependencies:
   timezone: ^0.9.3
   flutter_timezone: ^3.0.1
 
-  fluttertoast: ^8.2.5
+  fluttertoast: ^8.2.14
   flutter_compass: ^0.8.0
 
   flutter:
@@ -53,6 +53,7 @@ dev_dependencies:
 dependency_overrides:
   watcher: ^1.1.0
   win32: ^5.5.4
+  web: ^1.0.0
 
 flutter:
   uses-material-design: true
