@@ -46,10 +46,10 @@ class PlayRadioCard extends StatelessWidget {
                 Consumer(builder: (_, ref, __) {
                   final notifier = ref.watch(AudioNotifier.provider);
                   return IconButton(
-                    onPressed: () => notifier.onPressed(url),
+                    onPressed: () => notifier.togglePlayPause(),
                     padding: EdgeInsets.zero,
                     icon: Icon(
-                      notifier.isPlaying()
+                      notifier.isPlaying
                           ? Icons.stop_circle_outlined
                           : Icons.play_circle_filled,
                       size: context.widthR(0.12),

@@ -3,12 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/helpers/ui_helpers.dart';
 import 'package:great_quran/core/routes/routes_manager.dart';
-import 'package:great_quran/core/widgets/bottom_animation.dart';
+import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/widgets/custom_app_bar.dart';
 import 'package:great_quran/core/widgets/error_widget.dart';
 import 'package:great_quran/core/widgets/loading_widget.dart';
 import 'package:great_quran/feature/radios/logic/providers/radios_provider.dart';
 import 'package:great_quran/feature/radios/view/widgets/radio_item.dart';
+import 'package:great_quran/feature/radios/view/widgets/radio_mini_player_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RadioCategoriesScreen extends ConsumerStatefulWidget {
@@ -33,28 +34,27 @@ class _RadiosViewState extends ConsumerState<RadioCategoriesScreen> {
       appBar: CustomAppBar(
         title: context.l10n.titleRadio,
       ),
+      bottomNavigationBar: const RadioMiniPlayerWidget(),
       body: Consumer(builder: (_, ref, __) {
         final state = ref.watch(RadiosNotifier.provider);
         return state.when(
           data: (data) {
             return ListView.builder(
-              primary: false,
-              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(vertical: D.sizeSmall),
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
-                return WidgetAnimator(
-                  child: RadioItem(
-                    title: data[index].title,
-                    onTap: () {
-                      context.push(
-                        Routes.radiosScreenRoute,
-                        extra: {
-                          'radioDetalis': data[index].radio,
-                          'title': data[index].title,
-                        },
-                      );
-                    },
-                  ),
+                return RadioItem(
+                  title: data[index].title,
+                  icon: Icons.podcasts_rounded,
+                  onTap: () {
+                    context.push(
+                      Routes.radiosScreenRoute,
+                      extra: {
+                        'radioDetalis': data[index].radio,
+                        'title': data[index].title,
+                      },
+                    );
+                  },
                 );
               },
             );
