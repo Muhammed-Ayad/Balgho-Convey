@@ -11,15 +11,15 @@ enum DaylightSavingMode {
 
 enum AzanVoice {
   makkah("أذان الحرم المكي", "بصوت مؤذني المسجد الحرام",
-      "https://archive.org/download/AdhanMakkah/Adhan_Makkah.mp3"),
-  madinah("أذان المسجد النبوي", "أذان المدينة المنورة العذب",
-      "https://archive.org/download/AdhanMadinah/Adhan_Madinah.mp3"),
-  aqsa("أذان المسجد الأقصى", "أذان القدس الشريف المبارك",
-      "https://archive.org/download/AdhanAlAqsa/Adhan_AlAqsa.mp3"),
+      "https://raw.githubusercontent.com/abodehq/Athan-MP3/master/Sounds/Athan%20Makkah.mp3"),
+  madinah("أذان المسجد النبوي - العفاسي", "أذان بصوت مشاري راشد العفاسي",
+      "https://raw.githubusercontent.com/abodehq/Athan-MP3/master/Sounds/Athan%20Mishary%20Alafasi.mp3"),
+  aqsa("أذان المسجد الأقصى - المنشاوي", "أذان بصوت الشيخ محمد صديق المنشاوي",
+      "https://raw.githubusercontent.com/abodehq/Athan-MP3/master/Sounds/Athan%20Mohammad%20Almenshawy.mp3"),
   egypt("أذان القاهرة - الشيخ محمد رفعت", "الأذان التراثي الروحاني الخاشع",
-      "https://archive.org/download/AdhanMohamedRefaat/Adhan_Refaat.mp3"),
-  takbeerat("تكبيرات الأذان فقط", "تكبيرات بصوت شجي دون الأذان كاملاً",
-      "https://archive.org/download/TakbeeratEid/Takbeerat.mp3"),
+      "https://raw.githubusercontent.com/abodehq/Athan-MP3/master/Sounds/Athan%20Mohammad%20Ref3at.mp3"),
+  takbeerat("أذان الحرم - ناصر القطامي", "أذان بصوت الشيخ ناصر القطامي",
+      "https://raw.githubusercontent.com/abodehq/Athan-MP3/master/Sounds/Athan%20Nasser%20Alqatami.mp3"),
   silent("إشعار نصي صامت", "إشعار بدون صوت الأذان", "");
 
   final String title;

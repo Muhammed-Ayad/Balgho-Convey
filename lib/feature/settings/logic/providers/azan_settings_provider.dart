@@ -108,7 +108,10 @@ class AzanSettingsNotifier
         await _audioPlayer.stop();
         if (voice.sampleUrl.isNotEmpty) {
           _currentlyPlayingVoice = voice;
-          await _audioPlayer.play(UrlSource(voice.sampleUrl));
+          await _audioPlayer.play(
+            UrlSource(voice.sampleUrl),
+            mode: PlayerMode.mediaPlayer,
+          );
         } else {
           _currentlyPlayingVoice = null;
         }
