@@ -1,17 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
+import 'package:great_quran/core/widgets/app_lottie_widget.dart';
 
 class LoadingWidget extends StatelessWidget {
   final double? size;
-  const LoadingWidget({super.key, this.size});
+  final String? message;
+
+  const LoadingWidget({super.key, this.size, this.message});
 
   @override
   Widget build(BuildContext context) {
+    final primary = context.colorScheme.primary;
+
     return Center(
-      child: SpinKitCircle(
-        color: context.colorScheme.primary,
-        size: size ?? context.heightR(0.1),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppLottieWidget.loading(
+            width: size ?? 100,
+            height: size ?? 100,
+            fallback: SizedBox(
+              width: size ?? 48,
+              height: size ?? 48,
+              child: CircularProgressIndicator(
+                color: primary,
+                strokeWidth: 3,
+              ),
+            ),
+          ),
+          if (message != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              message!,
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
