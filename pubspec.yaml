@@ -2,7 +2,7 @@ name: great_quran
 description: Great Quran.
 
 publish_to: "none"
-version: 1.4.0+5
+version: 1.5.0+6
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -37,6 +37,10 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  adhan: ^2.0.0+1
+  hijri: ^3.0.1
+  audio_service: ^0.18.19
+  lottie: ^3.3.3
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -44,6 +48,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
 
 dependency_overrides:
   watcher: ^1.1.0
@@ -68,3 +73,11 @@ flutter_native_splash:
   color: "#FFFFFF"
   image: assets/new_logo.png
   android_gravity: center
+
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/new_logo.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+  background_color_ios: "#FFFFFF"
