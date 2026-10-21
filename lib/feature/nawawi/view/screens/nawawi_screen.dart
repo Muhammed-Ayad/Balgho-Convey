@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/helpers/ui_helpers.dart';
+import 'package:great_quran/core/widgets/custom_app_bar.dart';
 import 'package:great_quran/core/widgets/error_widget.dart';
 import 'package:great_quran/core/widgets/loading_widget.dart';
 import 'package:great_quran/feature/nawawi/logic/providers/nawawi_provider.dart';
 import 'package:great_quran/feature/nawawi/view/widgets/nawawi_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final _changePageProvider = StateProvider.autoDispose<int>((ref) => 0);
+final _currentPageProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 class NawawiScreen extends ConsumerStatefulWidget {
   const NawawiScreen({super.key});
@@ -28,95 +29,148 @@ class _NawawiScreenState extends ConsumerState<NawawiScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: context.colorScheme.surface,
-        body: Consumer(builder: (_, ref, __) {
-          final state = ref.watch(NawawiNotifier.provider);
-          return state.when(
-            data: (data) {
-              return Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (ref.read(_changePageProvider) > 0) {
-                                _pageController.animateToPage(
-                                  --ref
-                                      .read(_changePageProvider.notifier)
-                                      .state,
-                                  duration: const Duration(microseconds: 250),
-                                  curve: Curves.bounceInOut,
-                                );
-                              } else if (ref.read(_changePageProvider) == 0) {
-                                Navigator.pop(context);
-                              }
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_ios_rounded,
-                              color: context.colorScheme.primary,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              _pageController.animateToPage(
-                                ++ref.read(_changePageProvider.notifier).state,
-                                duration: const Duration(microseconds: 250),
-                                curve: Curves.bounceInOut,
-                              );
-                            },
-                            icon: Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: context.colorScheme.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 10,
-                    child: PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return NawawiItem(
-                          nawawi: data[index],
-                        );
-                      },
-                      controller: _pageController,
-                      onPageChanged: (index) {
-                        ref.watch(_changePageProvider.notifier).state = index;
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
-            loading: () => const LoadingWidget(),
-            error: (err, stack) => CustomErrorWidget(
-              errorMsg: err.toString(),
-              onRefresh: () {
-                UiHelper.postBuild((_) {
-                  ref.read(NawawiNotifier.provider.notifier).getNawawi();
-                });
-              },
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
-  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _goToPreviousPage() {
+    final current = ref.read(_currentPageProvider);
+    if (current > 0) {
+      _pageController.animateToPage(
+        current - 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _goToNextPage(int total) {
+    final current = ref.read(_currentPageProvider);
+    if (current < total - 1) {
+      _pageController.animateToPage(
+        current + 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(NawawiNotifier.provider);
+    final currentPage = ref.watch(_currentPageProvider);
+
+    return Scaffold(
+      backgroundColor: context.colorScheme.surface,
+      appBar: const CustomAppBar(
+        title: "الأربعون النووية",
+      ),
+      body: state.when(
+        data: (data) {
+          if (data.isEmpty) {
+            return const Center(child: Text("لا توجد أحاديث متاحة"));
+          }
+
+          return Column(
+            children: [
+              NawawiPageNavigatorWidget(
+                currentPage: currentPage,
+                totalCount: data.length,
+                onPrevious: _goToPreviousPage,
+                onNext: () => _goToNextPage(data.length),
+              ),
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: data.length,
+                  onPageChanged: (index) {
+                    ref.read(_currentPageProvider.notifier).state = index;
+                  },
+                  itemBuilder: (context, index) {
+                    return NawawiItem(
+                      nawawi: data[index],
+                      index: index,
+                      totalCount: data.length,
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+        loading: () => const LoadingWidget(),
+        error: (err, stack) => CustomErrorWidget(
+          errorMsg: err.toString(),
+          onRefresh: () {
+            ref.read(NawawiNotifier.provider.notifier).getNawawi();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class NawawiPageNavigatorWidget extends StatelessWidget {
+  final int currentPage;
+  final int totalCount;
+  final VoidCallback onPrevious;
+  final VoidCallback onNext;
+
+  const NawawiPageNavigatorWidget({
+    super.key,
+    required this.currentPage,
+    required this.totalCount,
+    required this.onPrevious,
+    required this.onNext,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = context.colorScheme.primary;
+    final hasPrevious = currentPage > 0;
+    final hasNext = currentPage < totalCount - 1;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            onPressed: hasPrevious ? onPrevious : null,
+            icon: Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: hasPrevious ? primary : Colors.grey.shade400,
+              size: 20,
+            ),
+            tooltip: "الحديث السابق",
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            decoration: BoxDecoration(
+              color: primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              "الحديث ${currentPage + 1} من $totalCount",
+              style: TextStyle(
+                color: primary,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: hasNext ? onNext : null,
+            icon: Icon(
+              Icons.arrow_back_ios_rounded,
+              color: hasNext ? primary : Colors.grey.shade400,
+              size: 20,
+            ),
+            tooltip: "الحديث التالي",
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -11,10 +11,18 @@ class LocationService {
   final location = Location();
   Future<LocationData?> getCurrentLocation() async {
     try {
-      final isServiceAvailable = await checkLocationServiceAvailability();
+      final isServiceAvailable = await checkLocationServiceAvailability()
+          .timeout(const Duration(seconds: 3), onTimeout: () => false);
 
       if (isServiceAvailable) {
-        return await location.getLocation();
+        return await location.getLocation().timeout(
+          const Duration(seconds: 4),
+          onTimeout: () {
+            "Location fetch timed out, falling back to cached coordinates"
+                .log();
+            return LocationData.fromMap({});
+          },
+        );
       }
     } catch (e) {
       e.log();
@@ -23,28 +31,27 @@ class LocationService {
   }
 
   Future<bool> checkLocationServiceAvailability() async {
-    bool serviceEnabled;
-    PermissionStatus permissionStatus;
+    if (kIsWeb) return true;
 
-    if (!kIsWeb) {
-      serviceEnabled = await location.serviceEnabled();
+    try {
+      bool serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
-        debugPrint("Location service is not enabled");
         serviceEnabled = await location.requestService();
         if (!serviceEnabled) {
           return false;
         }
       }
 
-      permissionStatus = await location.hasPermission();
+      PermissionStatus permissionStatus = await location.hasPermission();
       if (permissionStatus == PermissionStatus.denied) {
         permissionStatus = await location.requestPermission();
-        if (permissionStatus != PermissionStatus.granted) {
-          return false;
-        }
       }
-    }
 
-    return true;
+      return permissionStatus == PermissionStatus.granted ||
+          permissionStatus == PermissionStatus.grantedLimited;
+    } catch (e) {
+      debugPrint("Location service availability check error: $e");
+      return false;
+    }
   }
 }

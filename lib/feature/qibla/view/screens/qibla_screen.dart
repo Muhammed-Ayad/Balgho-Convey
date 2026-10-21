@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:great_quran/core/assets/assets_manager.dart';
-import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/helpers/ui_helpers.dart';
-import 'package:great_quran/core/theme/dimensions.dart';
-import 'package:great_quran/core/widgets/custom_app_bar.dart';
 import 'package:great_quran/core/widgets/error_widget.dart';
 import 'package:great_quran/core/widgets/loading_widget.dart';
 import 'package:great_quran/feature/qibla/logic/providers/qibla_provider.dart';
+import 'package:great_quran/feature/qibla/view/widgets/qibla_bottom_bar.dart';
+import 'package:great_quran/feature/qibla/view/widgets/qibla_compass_dial.dart';
+import 'package:great_quran/feature/qibla/view/widgets/qibla_fallback_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QiblaScreen extends ConsumerStatefulWidget {
@@ -28,100 +28,178 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(QiblaDirectionNotifier.provider);
+
     return Scaffold(
-      appBar: CustomAppBar(
-        title: context.l10n.titleQibla,
-      ),
-      body: Consumer(builder: (context, ref, _) {
-        final state = ref.watch(QiblaDirectionNotifier.provider);
-
-        return state.when(
-          data: (qiblaDirection) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: D.sizeXLarge,
-                ),
-                child: Consumer(builder: (context, ref, _) {
-                  final compassState = ref.watch(compassStreamProvider);
-
-                  return compassState.when(
-                      data: (event) {
-                        if (event.heading?.ceilToDouble() ==
-                            qiblaDirection.ceilToDouble()) {
-                          "Vibrate".log();
-                          HapticFeedback.vibrate();
-                        }
-                        final compassAngle = 0.0175 * (event.heading ?? 0) * -1;
-                        final qiblaAngle =
-                            (qiblaDirection * 0.0175) + compassAngle;
-                        return Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Transform.rotate(
-                              angle: qiblaAngle,
-                              child: Image.asset(ImageAssets.qibla),
-                            ),
-                            Transform.rotate(
-                              angle: compassAngle,
-                              child: Image.asset(ImageAssets.compass),
-                            ),
-                            Positioned(
-                              right: 0,
-                              left: 0,
-                              top: -30,
-                              child: Icon(
-                                Icons.arrow_upward_rounded,
-                                size: 40,
-                                color: context.colorScheme.primary,
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              left: 0,
-                              top: -60,
-                              child: Text(
-                                "${event.heading?.ceilToDouble()} °",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: context.colorScheme.primary,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              left: 0,
-                              top: -90,
-                              child: Text(
-                                "طابق أيقونة الكعبة مع السهم لتحديد اتجاه القبلة",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: context.colorScheme.primary,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                      loading: () => const LoadingWidget(),
-                      error: (e, s) => const CustomErrorWidget());
-                }),
-              ),
-            );
-          },
-          loading: () => const LoadingWidget(),
-          error: (err, stack) => CustomErrorWidget(
-            errorMsg: err.toString(),
-            onRefresh: () {
-              UiHelper.postBuild((_) {
-                ref.read(QiblaDirectionNotifier.provider.notifier).fetchData();
-              });
-            },
+      backgroundColor: const Color(0xFF002B26),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF003833),
+              Color(0xFF00544B),
+              Color(0xFF002924),
+            ],
           ),
+        ),
+        child: SafeArea(
+          child: state.when(
+            data: (qiblaDirection) {
+              return QiblaCompassView(qiblaDirection: qiblaDirection);
+            },
+            loading: () => const LoadingWidget(),
+            error: (err, stack) => CustomErrorWidget(
+              errorMsg: err.toString(),
+              onRefresh: () {
+                ref.read(QiblaDirectionNotifier.provider.notifier).fetchData();
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class QiblaCompassView extends ConsumerWidget {
+  final double qiblaDirection;
+
+  const QiblaCompassView({
+    super.key,
+    required this.qiblaDirection,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final compassState = ref.watch(compassStreamProvider);
+
+    return compassState.when(
+      loading: () => const LoadingWidget(),
+      error: (e, s) => Column(
+        children: [
+          const QiblaTopBarWidget(isAligned: false),
+          Expanded(
+            child: QiblaNoSensorFallbackWidget(
+              qiblaDirection: qiblaDirection,
+            ),
+          ),
+          const QiblaBottomBar(isCalibrated: false),
+        ],
+      ),
+      data: (event) {
+        final heading = event.heading ?? 0.0;
+        final diff = (heading - qiblaDirection).abs();
+        final isAligned = diff <= 3.0 || diff >= 357.0;
+
+        if (isAligned) {
+          HapticFeedback.selectionClick();
+        }
+
+        return Column(
+          children: [
+            QiblaTopBarWidget(isAligned: isAligned),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    QiblaCompassDial(
+                      heading: heading,
+                      qiblaDirection: qiblaDirection,
+                      isAligned: isAligned,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      "${heading.round()}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                        fontFamily: 'sans-serif',
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      "الاتجاه التقريبي للقبلة في",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      "موقعك الحالي ${qiblaDirection.round()}°",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            QiblaBottomBar(isCalibrated: isAligned),
+          ],
         );
-      }),
+      },
+    );
+  }
+}
+
+class QiblaTopBarWidget extends StatelessWidget {
+  final bool isAligned;
+
+  const QiblaTopBarWidget({super.key, required this.isAligned});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              icon: const Icon(Icons.close_rounded,
+                  color: Colors.white, size: 26),
+              tooltip: "إغلاق",
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isAligned
+                  ? Colors.greenAccent.withValues(alpha: 0.2)
+                  : Colors.white.withValues(alpha: 0.1),
+              boxShadow: isAligned
+                  ? [
+                      BoxShadow(
+                        color: Colors.greenAccent.withValues(alpha: 0.5),
+                        blurRadius: 16,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Image.asset(
+              ImageAssets.kabaa,
+              width: 32,
+              height: 32,
+              color: isAligned ? Colors.greenAccent : Colors.white70,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

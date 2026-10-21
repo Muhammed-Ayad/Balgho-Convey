@@ -17,5 +17,6 @@ void main() async {
     final titleFinder = find.text("بلغوا عني ولو آية");
 
     expect(titleFinder, findsOneWidget);
+    await widgetTester.pump(const Duration(seconds: 5));
   });
 }

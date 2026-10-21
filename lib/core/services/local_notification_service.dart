@@ -31,7 +31,13 @@ class LocalNotificationService {
       final currentTimeZone = await FlutterTimezone.getLocalTimezone();
       currentTimeZone.log();
 
-      tz.setLocalLocation(tz.getLocation(currentTimeZone));
+      try {
+        tz.setLocalLocation(tz.getLocation(currentTimeZone));
+      } catch (e) {
+        "Failed to set timezone $currentTimeZone, fallback to Africa/Cairo: $e"
+            .log();
+        tz.setLocalLocation(tz.getLocation('Africa/Cairo'));
+      }
 
       const AndroidInitializationSettings initializationSettingsAndroid =
           AndroidInitializationSettings('app_icon');
@@ -60,6 +66,76 @@ class LocalNotificationService {
     }
   }
 
+  Future<void> requestPermissions() async {
+    try {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestNotificationsPermission();
+
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+    } catch (e) {
+      "Error requesting notification permissions: $e".log();
+    }
+  }
+
+  Future<void> showInstantNotification({
+    int id = 999,
+    required String title,
+    required String body,
+    String? payload,
+  }) async {
+    await flutterLocalNotificationsPlugin.show(
+      id,
+      title,
+      body,
+      _platformChannelSpecificsNotificationDetails,
+      payload: payload,
+    );
+  }
+
+  Future<void> scheduleNotification({
+    required int id,
+    required DateTime dateTime,
+    required String title,
+    required String body,
+    DateTimeComponents? matchDateTimeComponents,
+    String? payload,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 10));
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      tz.TZDateTime(
+        tz.local,
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour,
+        dateTime.minute,
+        dateTime.second,
+      ),
+      _platformChannelSpecificsNotificationDetails,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      matchDateTimeComponents: matchDateTimeComponents,
+      payload: payload,
+    );
+  }
+
+  Future<void> cancel(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
   Future<void> schedule(
       {required ScheduleReminder scheduleReminder,
       required DateTime dateTime,
@@ -79,6 +155,7 @@ class LocalNotificationService {
         dateTime.month,
         dateTime.day,
         dateTime.hour,
+        dateTime.minute,
       ),
       _platformChannelSpecificsNotificationDetails,
       uiLocalNotificationDateInterpretation:

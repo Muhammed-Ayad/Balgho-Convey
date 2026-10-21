@@ -1,151 +1,358 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:great_quran/core/assets/assets_manager.dart';
 import 'package:great_quran/core/helpers/constants.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
-import 'package:great_quran/feature/azkar/logic/models/azkar.dart';
+import 'package:great_quran/feature/azkar/logic/providers/azkar_category_provider.dart';
+import 'package:great_quran/feature/favorites/logic/models/favorite_item.dart';
+import 'package:great_quran/feature/favorites/logic/providers/favorites_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
-final zekrCounterProvider =
-    StateProvider.autoDispose.family<int, String>((ref, key) {
-  return 0;
-});
+class ZekrCard extends ConsumerStatefulWidget {
+  final ZekrProgressItem item;
+  final String category;
 
-class ZekrCard extends StatelessWidget {
-  final Azkar azkar;
   const ZekrCard({
     super.key,
-    required this.azkar,
+    required this.item,
+    required this.category,
+  });
+
+  @override
+  ConsumerState<ZekrCard> createState() => _ZekrCardState();
+}
+
+class _ZekrCardState extends ConsumerState<ZekrCard>
+    with SingleTickerProviderStateMixin {
+  bool _isExiting = false;
+
+  void _handleTap() {
+    if (_isExiting || widget.item.isCompleted) return;
+
+    if (widget.item.remainingCount <= 1) {
+      setState(() {
+        _isExiting = true;
+      });
+      Future.delayed(const Duration(milliseconds: 350), () {
+        if (mounted) {
+          ref
+              .read(azkarCategoryProvider(widget.category).notifier)
+              .increment(widget.item.id);
+        }
+      });
+    } else {
+      ref
+          .read(azkarCategoryProvider(widget.category).notifier)
+          .increment(widget.item.id);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    final colorScheme = theme.colorScheme;
+    final item = widget.item;
+
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 300),
+      opacity: _isExiting ? 0.0 : 1.0,
+      curve: Curves.easeInOut,
+      child: AnimatedSize(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        child: _isExiting
+            ? const SizedBox(width: double.infinity, height: 0)
+            : Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: D.sizeMedium,
+                  vertical: D.sizeSmall,
+                ),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.circular(D.sizeLarge),
+                  border: Border.all(
+                    color: colorScheme.primary.withValues(alpha: 0.2),
+                    width: 1.2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colorScheme.primary.withValues(alpha: 0.06),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(D.sizeLarge),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(D.sizeLarge),
+                    splashColor: colorScheme.primary.withValues(alpha: 0.12),
+                    highlightColor: colorScheme.primary.withValues(alpha: 0.06),
+                    onTap: _handleTap,
+                    child: Padding(
+                      padding: const EdgeInsets.all(D.sizeLarge),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ZekrCountBadgeWidget(
+                                remainingCount: item.remainingCount,
+                                targetCount: item.targetCount,
+                                isExiting: _isExiting,
+                              ),
+                              ZekrActionButtonsWidget(
+                                zekrText: item.zekr.zekr,
+                                zekrId:
+                                    'zekr_${item.id}_${item.zekr.zekr.hashCode}',
+                                category: widget.category,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: D.sizeMedium),
+                          Text(
+                            item.zekr.zekr,
+                            style: context.textTheme.headlineMedium?.copyWith(
+                              fontSize: 19,
+                              height: 1.8,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF2C3E50),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          if (item.zekr.description.isNotEmpty ||
+                              item.zekr.reference.isNotEmpty) ...[
+                            const SizedBox(height: D.sizeMedium),
+                            ZekrFadlWidget(
+                              description: item.zekr.description,
+                              reference: item.zekr.reference,
+                            ),
+                          ],
+                          const SizedBox(height: D.sizeSmall),
+                          Text(
+                            "اضغط في أي مكان لاحتساب التكرار",
+                            style: context.textTheme.bodySmall?.copyWith(
+                              fontSize: 11,
+                              color: colorScheme.primary.withValues(alpha: 0.6),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+      ),
+    );
+  }
+}
+
+class ZekrCountBadgeWidget extends StatelessWidget {
+  final int remainingCount;
+  final int targetCount;
+  final bool isExiting;
+
+  const ZekrCountBadgeWidget({
+    super.key,
+    required this.remainingCount,
+    required this.targetCount,
+    required this.isExiting,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(D.sizeSmall),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                opacity: 0.6,
-                fit: BoxFit.fill,
-                image: AssetImage(
-                  ImageAssets.test1,
-                ),
-              ),
-              borderRadius: BorderRadius.circular(D.sizeMedium),
-              border: Border.all(
-                color: context.colorScheme.outline,
-                width: D.sizeXXSmall,
-              ),
-            ),
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(D.sizeSmall),
-              child: SelectableText(
-                azkar.zekr,
-                style: context.textTheme.headlineMedium!
-                    .copyWith(color: Colors.black),
-              ),
-            ),
-          ),
-          Text(
-            "عدد مرات التكرار : ${azkar.count}",
-            style: TextStyle(color: context.colorScheme.primary, fontSize: 17),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: context.colorScheme.shadow,
-              borderRadius: BorderRadius.circular(
-                D.sizeSmall,
-              ),
-              border: Border.all(
-                color: context.colorScheme.outline,
-                width: D.sizeXXSmall,
-              ),
-            ),
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Share.share(azkar.zekr);
-                  },
-                  icon: Icon(
-                    Icons.share,
-                    color: context.colorScheme.primary,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    await FlutterClipboard.copy(azkar.zekr);
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: const Duration(
-                            milliseconds: Constants.milliseconds),
-                        backgroundColor: context.colorScheme.surface,
-                        content: Text(
-                          context.l10n.titleCopy,
-                          style: context.textTheme.headlineSmall!.copyWith(
-                            color: context.colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.copy,
-                    color: context.colorScheme.primary,
-                  ),
-                ),
-                Consumer(builder: (context, ref, _) {
-                  return InkWell(
-                    onTap: () {
-                      final currentCount =
-                          ref.read(zekrCounterProvider(azkar.zekr));
-                      final zekrCount = int.tryParse(azkar.count) ?? 0;
-                      if (currentCount < zekrCount) {
-                        ref
-                            .read(zekrCounterProvider(azkar.zekr).notifier)
-                            .state++;
+    final primary = context.colorScheme.primary;
 
-                        if (currentCount + 1 == zekrCount) {
-                          HapticFeedback.vibrate();
-                        }
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: context.colorScheme.primary,
-                          border: Border.all(color: Colors.white),
-                          boxShadow: const [BoxShadow(offset: Offset(0, 0.3))]),
-                      width: 50,
-                      height: 30,
-                      child: Consumer(builder: (context, ref, _) {
-                        final count =
-                            ref.watch(zekrCounterProvider(azkar.zekr));
-                        return Text(
-                          count.toString(),
-                          textAlign: TextAlign.center,
-                          style: context.textTheme.labelLarge
-                              ?.copyWith(color: Colors.white),
-                        );
-                      }),
-                    ),
-                  );
-                }),
-              ],
+    if (isExiting || remainingCount <= 0) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.green.shade600,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.check, size: 16, color: Colors.white),
+            SizedBox(width: 4),
+            Text(
+              "اكتمل",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        color: primary.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: primary.withValues(alpha: 0.3),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.touch_app_outlined, size: 15, color: primary),
+          const SizedBox(width: 6),
+          Text(
+            "متبقي: $remainingCount من $targetCount",
+            style: TextStyle(
+              color: primary,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class ZekrFadlWidget extends StatelessWidget {
+  final String description;
+  final String reference;
+
+  const ZekrFadlWidget({
+    super.key,
+    required this.description,
+    required this.reference,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(D.sizeSmall),
+      decoration: BoxDecoration(
+        color: context.colorScheme.shadow.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(D.sizeSmall),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (description.isNotEmpty)
+            Text(
+              description,
+              style: context.textTheme.bodySmall?.copyWith(
+                fontSize: 12,
+                height: 1.5,
+                color: const Color(0xFF607D8B),
+              ),
+            ),
+          if (reference.isNotEmpty) ...[
+            if (description.isNotEmpty) const SizedBox(height: 4),
+            Text(
+              reference,
+              style: context.textTheme.bodySmall?.copyWith(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: context.colorScheme.primary,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class ZekrActionButtonsWidget extends ConsumerWidget {
+  final String zekrText;
+  final String zekrId;
+  final String category;
+
+  const ZekrActionButtonsWidget({
+    super.key,
+    required this.zekrText,
+    required this.zekrId,
+    required this.category,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final primary = context.colorScheme.primary;
+    final isFav = ref.watch(isFavoriteProvider(zekrId));
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          constraints: const BoxConstraints(),
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          icon: Icon(
+            isFav ? Icons.star_rounded : Icons.star_border_rounded,
+            size: 20,
+            color: isFav ? Colors.amber : primary,
+          ),
+          tooltip: isFav ? "إزالة من المفضلة" : "إضافة للمفضلة",
+          onPressed: () async {
+            final added = await ref
+                .read(FavoritesNotifier.provider.notifier)
+                .toggleFavorite(
+                  FavoriteItem(
+                    id: zekrId,
+                    title: category,
+                    content: zekrText,
+                    extraData: category,
+                    type: FavoriteType.zekr,
+                    createdAt: DateTime.now(),
+                  ),
+                );
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(milliseconds: Constants.milliseconds),
+                content: Text(
+                  added ? "تمت الإضافة للمفضلة ⭐" : "تمت الإزالة من المفضلة",
+                ),
+              ),
+            );
+          },
+        ),
+        IconButton(
+          constraints: const BoxConstraints(),
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          icon: Icon(Icons.copy_rounded, size: 18, color: primary),
+          tooltip: context.l10n.titleCopy,
+          onPressed: () async {
+            await FlutterClipboard.copy(zekrText);
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(milliseconds: Constants.milliseconds),
+                backgroundColor: context.colorScheme.surface,
+                content: Text(
+                  context.l10n.titleCopy,
+                  style: context.textTheme.headlineSmall!.copyWith(
+                    color: context.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        IconButton(
+          constraints: const BoxConstraints(),
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          icon: Icon(Icons.share_rounded, size: 18, color: primary),
+          tooltip: context.l10n.titleShare,
+          onPressed: () {
+            Share.share(zekrText);
+          },
+        ),
+      ],
     );
   }
 }
