@@ -15,7 +15,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // Failing repository to test error states
 class ThrowingAzanRepository implements IAzanRepository {
   @override
-  Future<Azan> getAzan() async {
+  Future<Azan> getAzan({bool allowPrompt = false}) async {
     throw Exception("Network failure 500");
   }
 

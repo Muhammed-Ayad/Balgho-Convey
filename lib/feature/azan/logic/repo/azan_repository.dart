@@ -17,7 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IAzanRepository {
-  Future<Azan> getAzan();
+  Future<Azan> getAzan({bool allowPrompt = false});
   Future<Azan?> getCachedAzan();
   Azan getInitialAzan();
 }
@@ -99,7 +99,7 @@ class AzanRepository implements IAzanRepository {
   }
 
   @override
-  Future<Azan> getAzan() async {
+  Future<Azan> getAzan({bool allowPrompt = false}) async {
     double lat = _defaultLat;
     double lng = _defaultLng;
     DaylightSavingMode mode = DaylightSavingMode.auto;
@@ -119,7 +119,8 @@ class AzanRepository implements IAzanRepository {
     } catch (_) {}
 
     try {
-      final locationData = await _locationService.getCurrentLocation();
+      final locationData =
+          await _locationService.getCurrentLocation(allowPrompt: allowPrompt);
       if (locationData != null &&
           locationData.latitude != null &&
           locationData.longitude != null) {

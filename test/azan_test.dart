@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MockLocationService extends LocationService {
   @override
-  Future<LocationData?> getCurrentLocation() async {
+  Future<LocationData?> getCurrentLocation({bool allowPrompt = false}) async {
     return LocationData.fromMap({
       'latitude': 30.0444,
       'longitude': 31.2357,

@@ -10,7 +10,7 @@ class MockLocationService extends LocationService {
   MockLocationService(this.lat, this.lng);
 
   @override
-  Future<LocationData?> getCurrentLocation() async {
+  Future<LocationData?> getCurrentLocation({bool allowPrompt = false}) async {
     return LocationData.fromMap({
       'latitude': lat,
       'longitude': lng,

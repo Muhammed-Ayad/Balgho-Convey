@@ -26,8 +26,9 @@ class QiblaDirectionNotifier extends StateNotifier<AsyncValue<double>> {
   final IQiblaRepository _repository;
   QiblaDirectionNotifier(this._repository) : super(const AsyncValue.loading());
 
-  Future<void> fetchData() async {
+  Future<void> fetchData({bool allowPrompt = false}) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _repository.getQiblaDirection());
+    state = await AsyncValue.guard(
+        () => _repository.getQiblaDirection(allowPrompt: allowPrompt));
   }
 }

@@ -21,9 +21,9 @@ class AzanTimeNotifier extends StateNotifier<AsyncValue<Azan>> {
     }
   }
 
-  Future<void> getAzan() async {
+  Future<void> getAzan({bool allowPrompt = false}) async {
     try {
-      final azan = await _azanRepository.getAzan();
+      final azan = await _azanRepository.getAzan(allowPrompt: allowPrompt);
       state = AsyncValue.data(azan);
     } catch (e, stack) {
       if (!state.hasValue) {

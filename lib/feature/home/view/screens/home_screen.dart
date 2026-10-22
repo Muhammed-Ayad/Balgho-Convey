@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
-import 'package:great_quran/core/helpers/ui_helpers.dart';
 import 'package:great_quran/core/routes/routes_manager.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/widgets/custom_app_bar.dart';
-import 'package:great_quran/feature/azan/logic/providers/azan_provider.dart';
 import 'package:great_quran/feature/azkar/logic/providers/notifications_subscription_notifier.dart';
 import 'package:great_quran/feature/daily_zekr/view/widgets/daily_zekr_card.dart';
 import 'package:great_quran/feature/home/view/widgets/feature_grid_card.dart';
@@ -32,10 +30,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           (category) =>
               context.push(Routes.azkarCategoryRoute, extra: category),
         );
-
-    UiHelper.postBuild((_) {
-      ref.read(AzanTimeNotifier.provider.notifier).getAzan();
-    });
   }
 
   @override

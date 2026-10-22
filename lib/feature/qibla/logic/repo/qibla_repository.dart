@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IQiblaRepository {
-  Future<double> getQiblaDirection();
+  Future<double> getQiblaDirection({bool allowPrompt = false});
 }
 
 class QiblaRepository implements IQiblaRepository {
@@ -27,12 +27,13 @@ class QiblaRepository implements IQiblaRepository {
   static const double _defaultLng = 31.2357;
 
   @override
-  Future<double> getQiblaDirection() async {
+  Future<double> getQiblaDirection({bool allowPrompt = false}) async {
     double? lat;
     double? lng;
 
     try {
-      final locationData = await _locationService.getCurrentLocation();
+      final locationData =
+          await _locationService.getCurrentLocation(allowPrompt: allowPrompt);
       if (locationData != null &&
           locationData.latitude != null &&
           locationData.longitude != null) {

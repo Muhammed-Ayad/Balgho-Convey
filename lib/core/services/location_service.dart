@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:location/location.dart';
 
 class LocationService {
@@ -9,30 +9,21 @@ class LocationService {
   );
 
   final location = Location();
-  Future<LocationData?> getCurrentLocation() async {
-    try {
-      final isServiceAvailable = await checkLocationServiceAvailability()
-          .timeout(const Duration(seconds: 3), onTimeout: () => false);
 
-      if (isServiceAvailable) {
-        return await location.getLocation().timeout(
-          const Duration(seconds: 4),
-          onTimeout: () {
-            "Location fetch timed out, falling back to cached coordinates"
-                .log();
-            return LocationData.fromMap({});
-          },
-        );
-      }
+  Future<bool> hasPermission() async {
+    if (kIsWeb) return true;
+    try {
+      final status = await location.hasPermission();
+      return status == PermissionStatus.granted ||
+          status == PermissionStatus.grantedLimited;
     } catch (e) {
-      e.log();
+      debugPrint("Location hasPermission check error: $e");
+      return false;
     }
-    return null;
   }
 
-  Future<bool> checkLocationServiceAvailability() async {
+  Future<bool> requestPermission() async {
     if (kIsWeb) return true;
-
     try {
       bool serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
@@ -42,16 +33,46 @@ class LocationService {
         }
       }
 
-      PermissionStatus permissionStatus = await location.hasPermission();
-      if (permissionStatus == PermissionStatus.denied) {
-        permissionStatus = await location.requestPermission();
+      PermissionStatus status = await location.hasPermission();
+      if (status == PermissionStatus.denied) {
+        status = await location.requestPermission();
       }
 
-      return permissionStatus == PermissionStatus.granted ||
-          permissionStatus == PermissionStatus.grantedLimited;
+      return status == PermissionStatus.granted ||
+          status == PermissionStatus.grantedLimited;
     } catch (e) {
-      debugPrint("Location service availability check error: $e");
+      debugPrint("Location requestPermission error: $e");
       return false;
+    }
+  }
+
+  Future<LocationData?> getCurrentLocation({bool allowPrompt = false}) async {
+    try {
+      final isPermitted =
+          allowPrompt ? await requestPermission() : await hasPermission();
+
+      if (!isPermitted) {
+        return null;
+      }
+
+      bool serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled && allowPrompt) {
+        serviceEnabled = await location.requestService();
+      }
+      if (!serviceEnabled) {
+        return null;
+      }
+
+      return await location.getLocation().timeout(
+        const Duration(seconds: 4),
+        onTimeout: () {
+          "Location fetch timed out, falling back to cached coordinates".log();
+          return LocationData.fromMap({});
+        },
+      );
+    } catch (e) {
+      e.log();
+      return null;
     }
   }
 }
