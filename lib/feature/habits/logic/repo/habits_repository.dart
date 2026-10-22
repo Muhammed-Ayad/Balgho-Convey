@@ -58,19 +58,21 @@ class HabitsRepository implements IHabitsRepository {
     const HabitItem(
       id: 'azkar_sabah',
       title: "أذكار الصباح",
-      description: "حصن المسلم ليومه وحفظ من كل سوء",
+      description:
+          "من قال: «بسم الله الذي لا يضر مع اسمه شيء...» ثلاثاً لم يضره شيء [أبو داود والترمذي]",
       category: HabitCategory.azkar,
     ),
     const HabitItem(
       id: 'azkar_masaa',
       title: "أذكار المساء",
-      description: "سكينة وحفظ وبركة لليلتك",
+      description: "سكينة وحفظ لليلتك امتثالاً للتوجيه النبوي الشريف",
       category: HabitCategory.azkar,
     ),
     const HabitItem(
       id: 'azkar_istighfar',
       title: "الاستغفار (100 مرة)",
-      description: "مغفرة للذنوب وتفريج للكروب وسعة في الرزق",
+      description:
+          "اقتداءً بفعله ﷺ [صحيح مسلم: 2702]، وتطبيقاً لوعد الله: ﴿اسْتَغْفِرُوا رَبَّكُمْ إِنَّهُ كَانَ غَفَّارًا * يُرْسِلِ السَّمَاءَ عَلَيْكُم مِّدْرَارًا﴾ [نوح: 10-11]",
       category: HabitCategory.azkar,
     ),
     const HabitItem(

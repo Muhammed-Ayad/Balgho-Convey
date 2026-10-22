@@ -255,7 +255,7 @@ class NotificationSchedulerService {
         dateTime: DateTime(now.year, now.month, now.day, 13, 30),
         title: "قبس من الهدي النبوي 📖",
         body:
-            "قال ﷺ: «كلمتان خفيفتان على اللسان ثقيلتان في الميزان: سبحان الله وبحمده سبحان الله العظيم».",
+            "قال ﷺ: «كلمتان خفيفتان على اللسان، ثقيلتان في الميزان، حبيبتان إلى الرحمن: سبحان الله وبحمده، سبحان الله العظيم».",
         matchDateTimeComponents: DateTimeComponents.time,
         payload: "daily_hadith",
       );
@@ -272,7 +272,8 @@ class NotificationSchedulerService {
         id: idDuha,
         dateTime: DateTime(now.year, now.month, now.day, 9, 30),
         title: "صلاة الضحى (صلاة الأوابين) ☀️",
-        body: "ركعتا الضحى صدقة عن كل مَفصل من مفاصلك.. لا تفوت أجرها العظيم.",
+        body:
+            "ركعتا الضحى تُجزئان عن صدقة مفاصل الجسد (صلاة الأوابين).. لا تفوت أجرها العظيم.",
         matchDateTimeComponents: DateTimeComponents.time,
         payload: "duha",
       );
@@ -284,7 +285,7 @@ class NotificationSchedulerService {
         dateTime: DateTime(now.year, now.month, now.day, 3, 30),
         title: "قيام الليل والوتر 🌌",
         body:
-            "ينزل ربنا تبارك وتعالى كل ليلة إلى السماء الدنيا.. هل من سائل فيُعطى؟ أوتِر ولو بركعة.",
+            "ينزل ربنا تبارك وتعالى كل ليلة إلى السماء الدنيا حين يبقى ثلث الليل الآخر فيقول: هل من سائل يُعطى؟ أوتِر ولو بركعة.",
         matchDateTimeComponents: DateTimeComponents.time,
         payload: "qiyam",
       );
