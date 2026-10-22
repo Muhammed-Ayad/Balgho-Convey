@@ -10,6 +10,8 @@
 [![Riverpod](https://img.shields.io/badge/State-Hooks_Riverpod-blueviolet)](https://riverpod.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
 [![Google Play](https://img.shields.io/badge/Google_Play-Available-green?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad)
+[![Downloads](https://playbadges.pavi2410.com/badge/downloads?id=com.convey.ayah.mohamed.ayad)](https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad)
+[![Ratings](https://playbadges.pavi2410.com/badge/ratings?id=com.convey.ayah.mohamed.ayad)](https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad)
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad">
