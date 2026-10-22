@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,9 @@ class HomeWidgetSyncService {
     return HomeWidgetSyncService();
   });
 
+  static const MethodChannel _channel =
+      MethodChannel('com.convey.ayah.mohamed.ayad/widget_sync');
+
   static const String keyNextPrayerName = 'widget_next_prayer_name';
   static const String keyNextPrayerTime = 'widget_next_prayer_time';
   static const String keyNextPrayerRemaining = 'widget_next_prayer_remaining';
@@ -15,6 +19,15 @@ class HomeWidgetSyncService {
   static const String keyDailyZekr = 'widget_daily_zekr';
   static const String keyDailyZekrFadl = 'widget_daily_zekr_fadl';
   static const String keyLastUpdated = 'widget_last_updated';
+
+  Future<void> _notifyNativeWidgets() async {
+    try {
+      await _channel.invokeMethod('updateWidgets');
+      "Native Android widgets update requested".log();
+    } catch (e) {
+      "Error notifying native widgets: $e".log();
+    }
+  }
 
   Future<void> syncPrayerData({
     required String prayerName,
@@ -33,6 +46,7 @@ class HomeWidgetSyncService {
         DateFormat('hh:mm a').format(DateTime.now()),
       );
       "Home widget prayer data synced successfully".log();
+      await _notifyNativeWidgets();
     } catch (e) {
       "Error syncing prayer data to widget: $e".log();
     }
@@ -47,6 +61,7 @@ class HomeWidgetSyncService {
       await prefs.setString(keyDailyZekr, zekr);
       await prefs.setString(keyDailyZekrFadl, fadl);
       "Home widget daily zekr synced successfully".log();
+      await _notifyNativeWidgets();
     } catch (e) {
       "Error syncing daily zekr to widget: $e".log();
     }

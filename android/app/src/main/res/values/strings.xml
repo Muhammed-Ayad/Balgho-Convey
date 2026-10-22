@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">بلغوا</string>
+    <string name="widget_prayer_name_label">بلغوا - الصلاة القادمة</string>
+    <string name="widget_prayer_desc">عرض الصلاة القادمة والوقت المتبقي والتاريخ الهجري</string>
+    <string name="widget_zekr_name_label">بلغوا - ذكر اليوم</string>
+    <string name="widget_zekr_desc">تذكيرك اليومي بأذكار وأدعية مباركة من القرآن والسنة</string>
+</resources>

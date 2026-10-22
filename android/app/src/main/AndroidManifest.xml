@@ -52,6 +52,34 @@
             </intent-filter>
         </receiver>
 
+        <!-- Native Home Screen Prayer Widget -->
+        <receiver
+            android:name=".widget.PrayerAppWidgetProvider"
+            android:label="@string/widget_prayer_name_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.convey.ayah.mohamed.ayad.UPDATE_PRAYER_WIDGET" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/prayer_widget_info" />
+        </receiver>
+
+        <!-- Native Home Screen Daily Zekr Widget -->
+        <receiver
+            android:name=".widget.DailyZekrAppWidgetProvider"
+            android:label="@string/widget_zekr_name_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.convey.ayah.mohamed.ayad.UPDATE_ZEKR_WIDGET" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/daily_zekr_widget_info" />
+        </receiver>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
