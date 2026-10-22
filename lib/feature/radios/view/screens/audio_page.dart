@@ -20,7 +20,7 @@ class AudioPage extends ConsumerStatefulWidget {
     this.initialIndex = 0,
   }) : radioList = radioList.isNotEmpty
             ? radioList
-            : [RadioDetalis("إذاعة القرآن الكريم", "")];
+            : const [RadioDetalis("إذاعة القرآن الكريم", "")];
 
   AudioPage.single({
     super.key,

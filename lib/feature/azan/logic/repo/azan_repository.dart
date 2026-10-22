@@ -237,7 +237,7 @@ class AzanRepository implements IAzanRepository {
       Weekday(weekdayEn, weekdayAr),
       Month(hijriNow.hMonth, hijriNow.longMonthName),
       hijriNow.hYear.toString(),
-      Designation("AH", "Anno Hegirae"),
+      const Designation("AH", "Anno Hegirae"),
     );
 
     final readableDate = DateFormat('dd MMM yyyy').format(now);

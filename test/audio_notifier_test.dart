@@ -37,9 +37,9 @@ void main() {
       addTearDown(notifier.dispose);
 
       final stations = [
-        RadioDetalis("إذاعة القاهرة", "https://example.com/stream1"),
-        RadioDetalis("إذاعة مكة المكرمة", "https://example.com/stream2"),
-        RadioDetalis("إذاعة تلاوات خاشعة", "https://example.com/stream3"),
+        const RadioDetalis("إذاعة القاهرة", "https://example.com/stream1"),
+        const RadioDetalis("إذاعة مكة المكرمة", "https://example.com/stream2"),
+        const RadioDetalis("إذاعة تلاوات خاشعة", "https://example.com/stream3"),
       ];
 
       notifier.initPlaylist(stations, 1);
