@@ -19,7 +19,6 @@ class NotificationSchedulerService {
 
   NotificationSchedulerService(this._notificationService, this._azanRepository);
 
-  // Notification IDs
   static const int idFajr = 101;
   static const int idDhuhr = 102;
   static const int idAsr = 103;
@@ -59,7 +58,6 @@ class NotificationSchedulerService {
       payload: "test",
     );
 
-    // Also schedule a test notification for 5 seconds later to verify background scheduling works
     try {
       await _notificationService.scheduleNotification(
         id: idTestNotification + 1,
@@ -114,7 +112,6 @@ class NotificationSchedulerService {
     } catch (_) {}
 
     if (fajrTime == null) {
-      // الحساب الافتراضي بواسطة adhan
       final coordinates = Coordinates(30.0444, 31.2357);
       final params = CalculationMethod.egyptian.getParameters();
       final dateComponents = DateComponents.from(DateTime.now());
@@ -167,7 +164,6 @@ class NotificationSchedulerService {
 
     for (final prayer in prayers) {
       if (prayer.isEnabled && prayer.time != null) {
-        // وقت الصلاة
         await _notificationService.scheduleNotification(
           id: prayer.id,
           dateTime: prayer.time!,
@@ -177,7 +173,6 @@ class NotificationSchedulerService {
           payload: "prayer_${prayer.name}",
         );
 
-        // تنبيه مسبق قبل الأذان بـ 10 دقائق
         if (settings.prayerPreReminder) {
           final preTime = prayer.time!.subtract(const Duration(minutes: 10));
           await _notificationService.scheduleNotification(
@@ -323,7 +318,6 @@ class NotificationSchedulerService {
     }
 
     if (settings.fastingMondayThursday) {
-      // مساء الأحد تذكيراً بصيام الاثنين
       final nextSundayEvening =
           _nextDayOfWeek(now, DateTime.sunday, hour: 20, minute: 30);
       await _notificationService.scheduleNotification(
@@ -335,7 +329,6 @@ class NotificationSchedulerService {
         payload: "fasting_monday",
       );
 
-      // مساء الأربعاء تذكيراً بصيام الخميس
       final nextWednesdayEvening =
           _nextDayOfWeek(now, DateTime.wednesday, hour: 20, minute: 30);
       await _notificationService.scheduleNotification(

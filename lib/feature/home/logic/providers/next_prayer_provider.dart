@@ -45,7 +45,6 @@ final nextPrayerTickerProvider = StreamProvider.autoDispose<DateTime>((ref) {
 });
 
 final nextPrayerProvider = Provider<NextPrayerModel?>((ref) {
-  // Watch ticker so the remaining time and next prayer advance automatically in real-time
   ref.watch(nextPrayerTickerProvider);
   final azanState = ref.watch(AzanTimeNotifier.provider);
 
@@ -82,7 +81,6 @@ NextPrayerModel? calculateNextPrayer(Azan azan) {
       }
     }
 
-    // إذا انتهت جميع صلوات اليوم، فالصلاة القادمة هي فجر الغد
     if (nextTime == null) {
       final fajrToday = _parsePrayerTime(timings.fajr, now);
       if (fajrToday != null) {

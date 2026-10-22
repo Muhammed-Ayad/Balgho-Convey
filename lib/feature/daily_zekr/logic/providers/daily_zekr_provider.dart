@@ -83,14 +83,11 @@ const List<DailyZekr> kDailyZekrList = [
 
 final dailyZekrProvider = Provider.autoDispose<DailyZekr>((ref) {
   final now = DateTime.now();
-  // تحويل تاريخ اليوم المحلي إلى منتصف الليل بصيغة UTC لحساب الفرق الدقيق بالأيام وتفادي إزاحات التوقيت الصيفي
   final localTodayUtc = DateTime.utc(now.year, now.month, now.day);
-  // الحساب من تاريخ ثابت (Epoch) لضمان تسلسل متصل دون قفزة عند رأس السنة
   final epochUtc = DateTime.utc(2024, 1, 1);
   final daysSinceEpoch = localTodayUtc.difference(epochUtc).inDays;
   final index = daysSinceEpoch % kDailyZekrList.length;
 
-  // إعادة حساب الذكر تلقائياً في الواجهة عند حلول منتصف الليل القادم لحظياً
   final nextMidnight = DateTime(now.year, now.month, now.day + 1);
   final timeUntilMidnight = nextMidnight.difference(now);
   final timer = Timer(timeUntilMidnight, () {

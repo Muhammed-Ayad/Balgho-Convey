@@ -140,7 +140,6 @@ class HabitsRepository implements IHabitsRepository {
     final encoded = jsonEncode(updatedHabits.map((h) => h.toJson()).toList());
     await prefs.setString('$_prefKeyHabitsPrefix$todayKey', encoded);
 
-    // تحديث سلسلة الأيام المتتالية (Streak) إذا تجاوزت النسبة 50%
     final completed = updatedHabits.where((h) => h.isCompleted).length;
     if (completed >= 5) {
       final lastDate = prefs.getString(_prefKeyLastCompletedDate);

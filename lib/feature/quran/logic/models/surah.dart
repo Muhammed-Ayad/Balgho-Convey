@@ -34,9 +34,7 @@ class Surah {
   bool get isMeccan => revelationType.toLowerCase() == 'meccan';
   int get ayahCount => ayahs.length;
 
-  /// Returns the Juz number where the Surah begins
   int get startingJuz => ayahs.isNotEmpty ? ayahs.first.juz : 1;
 
-  /// Returns the Page number where the Surah begins
   int get startingPage => ayahs.isNotEmpty ? ayahs.first.page : 1;
 }

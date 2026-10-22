@@ -43,7 +43,6 @@ class NotificationCategoryContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with category switch
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: D.sizeMedium,
@@ -100,7 +99,6 @@ class NotificationCategoryContainer extends StatelessWidget {
             ),
           ),
           const Divider(height: 1, thickness: 0.5),
-          // Body items
           AnimatedOpacity(
             duration: const Duration(milliseconds: 200),
             opacity: isCategoryEnabled ? 1.0 : 0.45,

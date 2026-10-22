@@ -82,7 +82,6 @@ class AudioNotifier extends ChangeNotifier {
         initialIndex.clamp(0, playlist.isEmpty ? 0 : playlist.length - 1);
     final targetRadio = playlist.isNotEmpty ? playlist[targetIndex] : null;
 
-    // If already playing this exact radio station, keep it playing smoothly without restart
     if (targetRadio != null &&
         currentRadio?.url == targetRadio.url &&
         _isPlaying) {

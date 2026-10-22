@@ -52,14 +52,12 @@ class AzanAudioCacheService {
       return null;
     }
 
-    // Return cached file if already downloaded
     final existingPath = await getCachedFilePath(voice);
     if (existingPath != null) {
       "Azan voice ${voice.name} is already cached at $existingPath".log();
       return existingPath;
     }
 
-    // Download and cache
     try {
       final dir = await _getSoundsDirectory();
       final targetPath = '$dir/azan_${voice.name}.mp3';

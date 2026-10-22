@@ -51,7 +51,6 @@ class ProphetTopicCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top row with category badge and icon
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -81,7 +80,6 @@ class ProphetTopicCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: D.sizeSmall),
-                // Title
                 Text(
                   topic.title,
                   style: const TextStyle(
@@ -90,7 +88,6 @@ class ProphetTopicCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                // Subtitle
                 Text(
                   topic.subtitle,
                   style: TextStyle(
@@ -99,7 +96,6 @@ class ProphetTopicCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: D.sizeSmall),
-                // Summary
                 Text(
                   topic.summary,
                   maxLines: 2,
@@ -111,7 +107,6 @@ class ProphetTopicCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: D.sizeMedium),
-                // Footer badges: Sources and Verses/Hadiths
                 Row(
                   children: [
                     _FeatureBadge(

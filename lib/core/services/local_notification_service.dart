@@ -82,7 +82,6 @@ class LocalNotificationService {
         },
       );
 
-      // Create Android Notification Channels explicitly
       final androidPlugin =
           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
@@ -130,7 +129,6 @@ class LocalNotificationService {
       final granted =
           await androidPlugin?.requestNotificationsPermission() ?? false;
 
-      // Request exact alarms permission on Android 12+ / 13+ / 14+
       try {
         await androidPlugin?.requestExactAlarmsPermission();
       } catch (e) {
@@ -189,7 +187,6 @@ class LocalNotificationService {
       dateTime.second,
     );
 
-    // If scheduled time is in the past, adjust it forward based on recurrence
     if (scheduledDate.isBefore(now)) {
       if (matchDateTimeComponents == DateTimeComponents.time) {
         while (scheduledDate.isBefore(now)) {

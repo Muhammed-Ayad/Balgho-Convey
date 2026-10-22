@@ -192,7 +192,6 @@ class ContactEmailActionCard extends StatelessWidget {
           ),
           const SizedBox(height: D.sizeLarge),
 
-          // Display the email in a highlighted selectable box
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
@@ -225,7 +224,6 @@ class ContactEmailActionCard extends StatelessWidget {
           ),
           const SizedBox(height: D.sizeLarge),
 
-          // Action Buttons
           Row(
             children: [
               Expanded(

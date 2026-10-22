@@ -18,11 +18,9 @@ class QiblaRepository implements IQiblaRepository {
   final LocationService _locationService;
   QiblaRepository(this._locationService);
 
-  // إحداثيات الكعبة المشرفة في مكة المكرمة
   static const double _kaabaLat = 21.422487;
   static const double _kaabaLng = 39.826206;
 
-  // إحداثيات افتراضية للقاهرة
   static const double _defaultLat = 30.0444;
   static const double _defaultLng = 31.2357;
 

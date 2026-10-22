@@ -127,7 +127,6 @@ class AzanSettingsNotifier
             state = AsyncValue.data(state.value!);
           }
 
-          // Try playing from local cache first
           final cachedPath = await _cacheService.getCachedFilePath(voice);
           if (cachedPath != null && await File(cachedPath).exists()) {
             await _audioPlayer.play(
@@ -135,7 +134,6 @@ class AzanSettingsNotifier
               mode: PlayerMode.mediaPlayer,
             );
           } else {
-            // Attempt to cache while playing or download then play
             try {
               final newPath = await _cacheService.ensureCached(voice);
               if (newPath != null && await File(newPath).exists()) {

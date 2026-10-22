@@ -15,9 +15,7 @@ class QiblaCompassDial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // الزاوية المعكوسة لتدوير قرص البوصلة مع الهاتف
     final compassRotation = -heading * (math.pi / 180.0);
-    // زاوية سهم القبلة بالنسبة للقرص
     final qiblaAngle = (qiblaDirection - heading) * (math.pi / 180.0);
 
     return SizedBox(
@@ -26,7 +24,6 @@ class QiblaCompassDial extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // قرص البوصلة الدائري الذي يدور مع الاتجاه
           Transform.rotate(
             angle: compassRotation,
             child: CustomPaint(
@@ -34,12 +31,10 @@ class QiblaCompassDial extends StatelessWidget {
               painter: CompassDialPainter(isAligned: isAligned),
             ),
           ),
-          // سهم مؤشر القبلة المشير لمكة
           Transform.rotate(
             angle: qiblaAngle,
             child: QiblaPointerArrow(isAligned: isAligned),
           ),
-          // حلقة المركز الإسلامية الزخرفية الذهبية
           Container(
             width: 130,
             height: 130,
@@ -118,7 +113,6 @@ class CompassDialPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
 
-    // خلفية القرص الدائري الشفاف
     final bgPaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.07)
       ..style = PaintingStyle.fill;
@@ -132,11 +126,10 @@ class CompassDialPainter extends CustomPainter {
       ..strokeWidth = 1.2;
     canvas.drawCircle(center, radius - 8, borderPaint);
 
-    // رسم علامات الدرجات والاتجاهات الأساسية
     const int tickCount = 36;
     for (int i = 0; i < tickCount; i++) {
       final double angle = (i * 10) * (math.pi / 180.0);
-      final bool isMajor = (i % 9 == 0); // 0, 90, 180, 270
+      final bool isMajor = (i % 9 == 0);
       final bool isSemiMajor = (i % 3 == 0);
 
       final double tickLength = isMajor ? 14 : (isSemiMajor ? 9 : 5);
@@ -162,7 +155,6 @@ class CompassDialPainter extends CustomPainter {
       canvas.drawLine(start, end, tickPaint);
     }
 
-    // كتابة الأحرف الأساسية (N, E, S, W)
     final textPainter = TextPainter(
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
@@ -218,19 +210,16 @@ class IslamicMedallionPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
 
-    // الحلقة الخارجية الذهبية
     final goldBase = Paint()
       ..color = const Color(0xFFD4AF37)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius, goldBase);
 
-    // الحلقة الداخلية المزخرفة الداكنة
     final innerDark = Paint()
       ..color = const Color(0xFF0F2B2B)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius - 8, innerDark);
 
-    // تطريز هندسي إسلامي دائري
     final goldLine = Paint()
       ..color = const Color(0xFFF7E28B)
       ..style = PaintingStyle.stroke
@@ -239,7 +228,6 @@ class IslamicMedallionPainter extends CustomPainter {
     canvas.drawCircle(center, radius - 4, goldLine);
     canvas.drawCircle(center, radius - 16, goldLine);
 
-    // رسم نجمة إسلامية أو زخرفة أندلسية محيطية
     const int petals = 16;
     for (int i = 0; i < petals; i++) {
       final double a = (i * (360 / petals)) * (math.pi / 180.0);
@@ -254,13 +242,11 @@ class IslamicMedallionPainter extends CustomPainter {
       canvas.drawLine(p1, p2, goldLine);
     }
 
-    // قلب الحلقة المفرغة الشفافة
     final centerHole = Paint()
       ..color = isAligned ? const Color(0xFF004D40) : const Color(0xFF002424)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius - 24, centerHole);
 
-    // إطار الحلقة الداخلية
     final centerBorder = Paint()
       ..color = isAligned ? const Color(0xFF2DD4BF) : const Color(0xFFD4AF37)
       ..style = PaintingStyle.stroke

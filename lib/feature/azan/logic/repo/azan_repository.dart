@@ -32,7 +32,6 @@ class AzanRepository implements IAzanRepository {
   final LocationService _locationService;
   AzanRepository(this._locationService);
 
-  // إحداثيات افتراضية للقاهرة في حال تعذر الحصول على الموقع
   static const double _defaultLat = 30.0444;
   static const double _defaultLng = 31.2357;
 
@@ -127,7 +126,6 @@ class AzanRepository implements IAzanRepository {
         lat = locationData.latitude!;
         lng = locationData.longitude!;
 
-        // حفظ الإحداثيات الجديدة في التخزين المحلي
         final prefs = await SharedPreferences.getInstance();
         await prefs.setDouble(_prefLat, lat);
         await prefs.setDouble(_prefLng, lng);
@@ -139,7 +137,6 @@ class AzanRepository implements IAzanRepository {
     final azan =
         _calculateFor(lat, lng, mode: mode, minuteOffset: minuteAdjustment);
 
-    // حفظ نسخة من بيانات الأذان في التخزين المحلي
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefAzanJson, jsonEncode(azan.toJson()));
@@ -176,7 +173,6 @@ class AzanRepository implements IAzanRepository {
 
     final maghribAdj = adjust(prayerTimes.maghrib);
     final fajrAdj = adjust(prayerTimes.fajr);
-    // قياس الليل الشرعي من المغرب إلى فجر اليوم التالي
     final nextFajr = fajrAdj.isBefore(maghribAdj)
         ? fajrAdj.add(const Duration(days: 1))
         : fajrAdj;

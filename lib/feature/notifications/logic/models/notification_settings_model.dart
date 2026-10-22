@@ -1,7 +1,6 @@
 class NotificationSettingsModel {
   final bool allNotificationsEnabled;
 
-  // الصلوات الخمس
   final bool prayerNotificationsEnabled;
   final bool fajr;
   final bool dhuhr;
@@ -10,23 +9,19 @@ class NotificationSettingsModel {
   final bool isha;
   final bool prayerPreReminder;
 
-  // الأذكار
   final bool azkarNotificationsEnabled;
   final bool morningAzkar;
   final bool eveningAzkar;
   final bool sleepAzkar;
   final bool wakeUpAzkar;
 
-  // ذكر وحديث اليوم
   final bool dailyZekrEnabled;
   final bool dailyHadithEnabled;
 
-  // السنن والنوافل
   final bool sunanEnabled;
   final bool duhaPrayer;
   final bool qiyamNight;
 
-  // المناسبات الدورية
   final bool occasionsEnabled;
   final bool fridayKahf;
   final bool fastingMondayThursday;

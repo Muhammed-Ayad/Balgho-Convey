@@ -14,7 +14,6 @@ class ProphetRepository implements IProphetRepository {
   });
 
   static const List<ProphetTopic> _topics = [
-    // 1. النسب والمولد والنشأة
     ProphetTopic(
       id: "lineage_and_birth",
       category: "النسب الشريف والمولد والنشأة",
@@ -79,7 +78,6 @@ class ProphetRepository implements IProphetRepository {
       ],
     ),
 
-    // 2. الشمائل والصفات الخَلقية
     ProphetTopic(
       id: "physical_appearance",
       category: "شمائله وصفاته الخَلقية ﷺ",
@@ -146,7 +144,6 @@ class ProphetRepository implements IProphetRepository {
       ],
     ),
 
-    // 3. الأخلاق والصفات الخُلقية
     ProphetTopic(
       id: "mercy_and_character",
       category: "أخلاقه وصفاته الخُلقية ﷺ",
@@ -218,7 +215,6 @@ class ProphetRepository implements IProphetRepository {
       ],
     ),
 
-    // 4. أمهات المؤمنين
     ProphetTopic(
       id: "mothers_of_believers",
       category: "زوجاته أمهات المؤمنين ﷺ",
@@ -262,7 +258,6 @@ class ProphetRepository implements IProphetRepository {
       ],
     ),
 
-    // 5. أبناؤه وبناته
     ProphetTopic(
       id: "children_of_prophet",
       category: "أولاده وبناته ﷺ",
@@ -302,7 +297,6 @@ class ProphetRepository implements IProphetRepository {
       ],
     ),
 
-    // 6. المعجزات الكبرى
     ProphetTopic(
       id: "major_miracles",
       category: "معجزاته ودلائل نبوته الكبرى",
@@ -340,7 +334,6 @@ class ProphetRepository implements IProphetRepository {
       ],
     ),
 
-    // 7. محطات بارزة في السيرة
     ProphetTopic(
       id: "seerah_milestones",
       category: "محطات بارزة في سيرته وغزواته",
@@ -380,7 +373,6 @@ class ProphetRepository implements IProphetRepository {
       ],
     ),
 
-    // 8. حقوقه وواجباتنا نحوه
     ProphetTopic(
       id: "rights_and_duties",
       category: "حقوقه وواجباتنا نحوه ﷺ",

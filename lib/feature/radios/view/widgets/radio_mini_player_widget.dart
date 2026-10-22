@@ -57,7 +57,6 @@ class RadioMiniPlayerWidget extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                // Radio icon / playing wave
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -73,7 +72,6 @@ class RadioMiniPlayerWidget extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: D.sizeSmall),
-                // Title and subtitle
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -114,7 +112,6 @@ class RadioMiniPlayerWidget extends ConsumerWidget {
                     ],
                   ),
                 ),
-                // Quick controls: Previous, Play/Pause, Next
                 IconButton(
                   icon: const Icon(Icons.skip_previous_rounded),
                   iconSize: 22,
