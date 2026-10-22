@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:great_quran/core/services/azan_audio_cache_service.dart';
 import 'package:great_quran/feature/azan/logic/providers/azan_provider.dart';
 import 'package:great_quran/feature/settings/logic/models/azan_sound_option.dart';
 import 'package:great_quran/feature/settings/logic/repo/azan_settings_repository.dart';
@@ -10,16 +12,18 @@ class AzanSettingsNotifier
       AsyncValue<AzanNotificationPreferences>>((ref) {
     return AzanSettingsNotifier(
       ref.read(AzanSettingsRepository.provider),
+      ref.read(AzanAudioCacheService.provider),
       ref,
     );
   });
 
   final IAzanSettingsRepository _repository;
+  final AzanAudioCacheService _cacheService;
   final Ref _ref;
   final AudioPlayer _audioPlayer = AudioPlayer();
   AzanVoice? _currentlyPlayingVoice;
 
-  AzanSettingsNotifier(this._repository, this._ref)
+  AzanSettingsNotifier(this._repository, this._cacheService, this._ref)
       : super(const AsyncValue.loading()) {
     loadPreferences();
     _audioPlayer.onPlayerComplete.listen((_) {
@@ -108,10 +112,39 @@ class AzanSettingsNotifier
         await _audioPlayer.stop();
         if (voice.sampleUrl.isNotEmpty) {
           _currentlyPlayingVoice = voice;
-          await _audioPlayer.play(
-            UrlSource(voice.sampleUrl),
-            mode: PlayerMode.mediaPlayer,
-          );
+          if (mounted && state.hasValue) {
+            state = AsyncValue.data(state.value!);
+          }
+
+          // Try playing from local cache first
+          final cachedPath = await _cacheService.getCachedFilePath(voice);
+          if (cachedPath != null && await File(cachedPath).exists()) {
+            await _audioPlayer.play(
+              DeviceFileSource(cachedPath),
+              mode: PlayerMode.mediaPlayer,
+            );
+          } else {
+            // Attempt to cache while playing or download then play
+            try {
+              final newPath = await _cacheService.ensureCached(voice);
+              if (newPath != null && await File(newPath).exists()) {
+                await _audioPlayer.play(
+                  DeviceFileSource(newPath),
+                  mode: PlayerMode.mediaPlayer,
+                );
+              } else {
+                await _audioPlayer.play(
+                  UrlSource(voice.sampleUrl),
+                  mode: PlayerMode.mediaPlayer,
+                );
+              }
+            } catch (_) {
+              await _audioPlayer.play(
+                UrlSource(voice.sampleUrl),
+                mode: PlayerMode.mediaPlayer,
+              );
+            }
+          }
         } else {
           _currentlyPlayingVoice = null;
         }
