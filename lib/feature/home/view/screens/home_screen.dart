@@ -5,6 +5,7 @@ import 'package:great_quran/core/routes/routes_manager.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/widgets/custom_app_bar.dart';
 import 'package:great_quran/feature/azkar/logic/providers/notifications_subscription_notifier.dart';
+import 'package:great_quran/feature/daily_zekr/logic/providers/daily_zekr_provider.dart';
 import 'package:great_quran/feature/daily_zekr/view/widgets/daily_zekr_card.dart';
 import 'package:great_quran/feature/home/view/widgets/feature_grid_card.dart';
 import 'package:great_quran/feature/home/view/widgets/morning_evening_azkar_card.dart';
@@ -20,16 +21,31 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     ref
         .read(NotificationsSubscriptionNotifier.provider.notifier)
         .navigateOnNotificationLaunch(
           (category) =>
               context.push(Routes.azkarCategoryRoute, extra: category),
         );
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      ref.invalidate(dailyZekrProvider);
+    }
   }
 
   @override
