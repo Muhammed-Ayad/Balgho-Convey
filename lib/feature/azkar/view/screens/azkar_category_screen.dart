@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:great_quran/core/helpers/constants.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/widgets/custom_app_bar.dart';
@@ -6,6 +7,8 @@ import 'package:great_quran/core/widgets/error_widget.dart';
 import 'package:great_quran/core/widgets/loading_widget.dart';
 import 'package:great_quran/feature/azkar/logic/providers/azkar_category_provider.dart';
 import 'package:great_quran/feature/azkar/view/widgets/zekr_card.dart';
+import 'package:great_quran/feature/favorites/logic/models/favorite_item.dart';
+import 'package:great_quran/feature/favorites/logic/providers/favorites_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AzkarCategoryScreen extends ConsumerWidget {
@@ -20,6 +23,7 @@ class AzkarCategoryScreen extends ConsumerWidget {
       appBar: CustomAppBar(
         title: azkar,
         actions: [
+          AzkarCategoryFavoriteActionButton(categoryName: azkar),
           IconButton(
             tooltip: "إعادة تعيين الأذكار",
             icon: const Icon(Icons.refresh_rounded),
@@ -218,6 +222,55 @@ class AzkarCompletedView extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AzkarCategoryFavoriteActionButton extends ConsumerWidget {
+  final String categoryName;
+
+  const AzkarCategoryFavoriteActionButton({
+    super.key,
+    required this.categoryName,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categoryId = 'category_${categoryName.trim()}';
+    final isFav = ref.watch(isFavoriteProvider(categoryId));
+
+    return IconButton(
+      tooltip: isFav ? "إزالة من المفضلة" : "إضافة للمفضلة",
+      icon: Icon(
+        isFav ? Icons.star_rounded : Icons.star_border_rounded,
+        color: isFav ? Colors.amber : null,
+      ),
+      onPressed: () async {
+        final added =
+            await ref.read(FavoritesNotifier.provider.notifier).toggleFavorite(
+                  FavoriteItem(
+                    id: categoryId,
+                    title: categoryName.trim(),
+                    content: "أذكار وأدعية: ${categoryName.trim()}",
+                    extraData: categoryName.trim(),
+                    type: FavoriteType.zekr,
+                    createdAt: DateTime.now(),
+                  ),
+                );
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(
+              milliseconds: Constants.milliseconds,
+            ),
+            content: Text(
+              added
+                  ? "تمت إضافة \"$categoryName\" للمفضلة ⭐"
+                  : "تمت الإزالة من المفضلة",
+            ),
+          ),
+        );
+      },
     );
   }
 }

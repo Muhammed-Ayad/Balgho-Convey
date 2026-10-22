@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/helpers/ui_helpers.dart';
+import 'package:great_quran/core/routes/routes_manager.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/widgets/custom_app_bar.dart';
 import 'package:great_quran/core/widgets/loading_widget.dart';
@@ -69,6 +71,7 @@ class _AzkarScreenState extends ConsumerState<AzkarScreen> {
       appBar: CustomAppBar(
         title: context.l10n.titleAzkar,
         actions: const [
+          AzkarFavoritesActionButton(),
           AzkarNotificationActionButton(),
         ],
       ),
@@ -172,6 +175,21 @@ class AzkarEmptySearchResultWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class AzkarFavoritesActionButton extends StatelessWidget {
+  const AzkarFavoritesActionButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.star_rounded, color: Colors.amber),
+      tooltip: "المفضلة",
+      onPressed: () {
+        context.push(Routes.favoritesRoute);
+      },
     );
   }
 }

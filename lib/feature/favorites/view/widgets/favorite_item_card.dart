@@ -51,7 +51,13 @@ class FavoriteItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(D.sizeLarge),
           onTap: () {
             if (isZekr) {
-              if (item.extraData.isNotEmpty) {
+              if (item.id.startsWith('category_')) {
+                context.push(
+                  Routes.azkarCategoryRoute,
+                  extra: item.title,
+                );
+              } else if (item.extraData.isNotEmpty &&
+                  !item.id.startsWith('daily_')) {
                 context.push(
                   Routes.azkarCategoryRoute,
                   extra: item.extraData,
@@ -95,7 +101,9 @@ class FavoriteItemCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            isZekr ? "ذكر / دعاء" : "إذاعة قرآن",
+                            item.id.startsWith('category_')
+                                ? "قسم أذكار"
+                                : (isZekr ? "ذكر / دعاء" : "إذاعة قرآن"),
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.bold,

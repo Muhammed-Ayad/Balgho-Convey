@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:great_quran/core/helpers/constants.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/routes/routes_manager.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
+import 'package:great_quran/feature/favorites/logic/models/favorite_item.dart';
+import 'package:great_quran/feature/favorites/logic/providers/favorites_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AzkarCategoryTile extends StatelessWidget {
+class AzkarCategoryTile extends ConsumerWidget {
   final String title;
   final int index;
 
@@ -15,8 +19,10 @@ class AzkarCategoryTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final primary = context.colorScheme.primary;
+    final categoryId = 'category_${title.trim()}';
+    final isFav = ref.watch(isFavoriteProvider(categoryId));
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -52,13 +58,13 @@ class AzkarCategoryTile extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: D.sizeMedium,
-              vertical: D.sizeMedium,
+              vertical: 8.0,
             ),
             child: Row(
               children: [
                 Container(
-                  width: 38,
-                  height: 38,
+                  width: 36,
+                  height: 36,
                   decoration: BoxDecoration(
                     color: primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
@@ -85,7 +91,41 @@ class AzkarCategoryTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: D.sizeSmall),
+                IconButton(
+                  icon: Icon(
+                    isFav ? Icons.star_rounded : Icons.star_border_rounded,
+                    size: 24,
+                    color: isFav ? Colors.amber : Colors.grey.shade400,
+                  ),
+                  tooltip: isFav ? "إزالة من المفضلة" : "إضافة للمفضلة",
+                  onPressed: () async {
+                    final added = await ref
+                        .read(FavoritesNotifier.provider.notifier)
+                        .toggleFavorite(
+                          FavoriteItem(
+                            id: categoryId,
+                            title: title.trim(),
+                            content: "أذكار وأدعية: ${title.trim()}",
+                            extraData: title.trim(),
+                            type: FavoriteType.zekr,
+                            createdAt: DateTime.now(),
+                          ),
+                        );
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: const Duration(
+                          milliseconds: Constants.milliseconds,
+                        ),
+                        content: Text(
+                          added
+                              ? "تمت إضافة \"$title\" للمفضلة ⭐"
+                              : "تمت الإزالة من المفضلة",
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 14,

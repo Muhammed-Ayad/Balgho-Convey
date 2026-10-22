@@ -7,6 +7,8 @@ import 'package:great_quran/core/services/home_widget_sync_service.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/feature/daily_zekr/logic/models/daily_zekr.dart';
 import 'package:great_quran/feature/daily_zekr/logic/providers/daily_zekr_provider.dart';
+import 'package:great_quran/feature/favorites/logic/models/favorite_item.dart';
+import 'package:great_quran/feature/favorites/logic/providers/favorites_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -166,6 +168,7 @@ class DailyZekrFooterWidget extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            DailyZekrFavoriteButtonWidget(item: item),
             IconButton(
               icon: Icon(Icons.copy_rounded, size: 18, color: primary),
               tooltip: "نسخ",
@@ -195,6 +198,55 @@ class DailyZekrFooterWidget extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class DailyZekrFavoriteButtonWidget extends ConsumerWidget {
+  final DailyZekr item;
+
+  const DailyZekrFavoriteButtonWidget({
+    super.key,
+    required this.item,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final primary = context.colorScheme.primary;
+    final favId = 'daily_${item.text.hashCode}';
+    final isFav = ref.watch(isFavoriteProvider(favId));
+
+    return IconButton(
+      icon: Icon(
+        isFav ? Icons.star_rounded : Icons.star_border_rounded,
+        size: 20,
+        color: isFav ? Colors.amber : primary,
+      ),
+      tooltip: isFav ? "إزالة من المفضلة" : "إضافة للمفضلة",
+      onPressed: () async {
+        final added =
+            await ref.read(FavoritesNotifier.provider.notifier).toggleFavorite(
+                  FavoriteItem(
+                    id: favId,
+                    title: item.isHadith ? "حديث اليوم" : "دعاء اليوم",
+                    content: item.text,
+                    extraData: item.reference,
+                    type: FavoriteType.zekr,
+                    createdAt: DateTime.now(),
+                  ),
+                );
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(
+              milliseconds: Constants.milliseconds,
+            ),
+            content: Text(
+              added ? "تمت الإضافة للمفضلة ⭐" : "تمت الإزالة من المفضلة",
+            ),
+          ),
+        );
+      },
     );
   }
 }
