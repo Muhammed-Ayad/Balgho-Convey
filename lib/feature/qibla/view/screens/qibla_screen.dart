@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:great_quran/core/assets/assets_manager.dart';
 import 'package:great_quran/core/helpers/ui_helpers.dart';
+import 'package:great_quran/core/services/location_service.dart';
 import 'package:great_quran/core/widgets/error_widget.dart';
 import 'package:great_quran/core/widgets/loading_widget.dart';
+import 'package:great_quran/core/widgets/location_rationale_dialog.dart';
 import 'package:great_quran/feature/qibla/logic/providers/qibla_provider.dart';
 import 'package:great_quran/feature/qibla/view/widgets/qibla_bottom_bar.dart';
 import 'package:great_quran/feature/qibla/view/widgets/qibla_compass_dial.dart';
@@ -21,8 +23,28 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
   @override
   void initState() {
     super.initState();
-    UiHelper.postBuild((_) {
-      ref.read(QiblaDirectionNotifier.provider.notifier).fetchData();
+    UiHelper.postBuild((_) async {
+      final locationService = ref.read(LocationService.provider);
+      final hasPerm = await locationService.hasPermission();
+      if (!hasPerm && mounted) {
+        LocationRationaleDialog.show(
+          context,
+          onAllow: () async {
+            await ref
+                .read(QiblaDirectionNotifier.provider.notifier)
+                .fetchData(allowPrompt: true);
+          },
+          onCancel: () async {
+            await ref
+                .read(QiblaDirectionNotifier.provider.notifier)
+                .fetchData(allowPrompt: false);
+          },
+        );
+      } else {
+        await ref
+            .read(QiblaDirectionNotifier.provider.notifier)
+            .fetchData(allowPrompt: false);
+      }
     });
   }
 
@@ -31,16 +53,16 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
     final state = ref.watch(QiblaDirectionNotifier.provider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF002B26),
+      backgroundColor: const Color(0xFF002B2B),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF003833),
-              Color(0xFF00544B),
-              Color(0xFF002924),
+              Color(0xFF003838),
+              Color(0xFF004D4D),
+              Color(0xFF002626),
             ],
           ),
         ),

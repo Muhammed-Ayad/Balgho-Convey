@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:great_quran/feature/azan/logic/models/azan.dart';
 import 'package:great_quran/feature/azan/logic/providers/azan_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,7 +28,25 @@ class NextPrayerModel {
   }
 }
 
+final nextPrayerTickerProvider = StreamProvider.autoDispose<DateTime>((ref) {
+  final controller = StreamController<DateTime>();
+  final timer = Timer.periodic(const Duration(seconds: 30), (_) {
+    if (!controller.isClosed) {
+      controller.add(DateTime.now());
+    }
+  });
+
+  ref.onDispose(() {
+    timer.cancel();
+    controller.close();
+  });
+
+  return controller.stream;
+});
+
 final nextPrayerProvider = Provider<NextPrayerModel?>((ref) {
+  // Watch ticker so the remaining time and next prayer advance automatically in real-time
+  ref.watch(nextPrayerTickerProvider);
   final azanState = ref.watch(AzanTimeNotifier.provider);
 
   return azanState.when(

@@ -67,9 +67,12 @@ class TasbihNotifier extends StateNotifier<AsyncValue<TasbihState>> {
 
       if (s.vibrateEnabled) {
         if (isTargetReached) {
-          HapticFeedback.heavyImpact();
+          HapticFeedback.vibrate();
+          Future.delayed(const Duration(milliseconds: 140), () {
+            HapticFeedback.vibrate();
+          });
         } else {
-          HapticFeedback.lightImpact();
+          HapticFeedback.selectionClick();
         }
       }
 

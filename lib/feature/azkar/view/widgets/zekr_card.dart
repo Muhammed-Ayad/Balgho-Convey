@@ -119,7 +119,9 @@ class _ZekrCardState extends ConsumerState<ZekrCard>
                               fontSize: 19,
                               height: 1.8,
                               fontWeight: FontWeight.w600,
-                              color: const Color(0xFF2C3E50),
+                              color: theme.brightness == Brightness.dark
+                                  ? const Color(0xFFF8FAFC)
+                                  : const Color(0xFF1E293B),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -233,11 +235,19 @@ class ZekrFadlWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = context.colorScheme.primary;
+
     return Container(
       padding: const EdgeInsets.all(D.sizeSmall),
       decoration: BoxDecoration(
-        color: context.colorScheme.shadow.withValues(alpha: 0.5),
+        color:
+            isDark ? primary.withValues(alpha: 0.12) : const Color(0xFFF1F5F9),
         borderRadius: BorderRadius.circular(D.sizeSmall),
+        border: Border.all(
+          color: primary.withValues(alpha: isDark ? 0.25 : 0.15),
+          width: 0.8,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,7 +258,8 @@ class ZekrFadlWidget extends StatelessWidget {
               style: context.textTheme.bodySmall?.copyWith(
                 fontSize: 12,
                 height: 1.5,
-                color: const Color(0xFF607D8B),
+                color:
+                    isDark ? const Color(0xFFCBD5E1) : const Color(0xFF475569),
               ),
             ),
           if (reference.isNotEmpty) ...[
@@ -258,7 +269,7 @@ class ZekrFadlWidget extends StatelessWidget {
               style: context.textTheme.bodySmall?.copyWith(
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
-                color: context.colorScheme.primary,
+                color: isDark ? primary : const Color(0xFF008080),
               ),
             ),
           ],

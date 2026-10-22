@@ -87,14 +87,14 @@ class QiblaPointerArrow extends StatelessWidget {
                 Icon(
                   Icons.navigation_rounded,
                   size: 32,
-                  color: isAligned ? const Color(0xFF00E676) : Colors.white,
+                  color: isAligned ? const Color(0xFF2DD4BF) : Colors.white,
                 ),
                 Container(
                   width: 3,
                   height: 18,
                   decoration: BoxDecoration(
                     color: isAligned
-                        ? const Color(0xFF00E676)
+                        ? const Color(0xFF2DD4BF)
                         : Colors.white.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(2),
                   ),
@@ -226,7 +226,7 @@ class IslamicMedallionPainter extends CustomPainter {
 
     // الحلقة الداخلية المزخرفة الداكنة
     final innerDark = Paint()
-      ..color = const Color(0xFF1E332E)
+      ..color = const Color(0xFF0F2B2B)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius - 8, innerDark);
 
@@ -256,13 +256,13 @@ class IslamicMedallionPainter extends CustomPainter {
 
     // قلب الحلقة المفرغة الشفافة
     final centerHole = Paint()
-      ..color = isAligned ? const Color(0xFF003D32) : const Color(0xFF002924)
+      ..color = isAligned ? const Color(0xFF004D40) : const Color(0xFF002424)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius - 24, centerHole);
 
     // إطار الحلقة الداخلية
     final centerBorder = Paint()
-      ..color = isAligned ? Colors.greenAccent : const Color(0xFFD4AF37)
+      ..color = isAligned ? const Color(0xFF2DD4BF) : const Color(0xFFD4AF37)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8;
     canvas.drawCircle(center, radius - 24, centerBorder);
