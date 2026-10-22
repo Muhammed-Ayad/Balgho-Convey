@@ -17,10 +17,29 @@ class LocalNotificationService {
   bool get isInitSuccess => _isInitSuccess;
   bool _isInitSuccess = false;
 
-  final NotificationDetails _platformChannelSpecificsNotificationDetails =
-      const NotificationDetails(
-          android: AndroidNotificationDetails("Enigma", "Local Notification"),
-          iOS: DarwinNotificationDetails());
+  static const String mainChannelId = 'convey_main_channel';
+  static const String mainChannelName = 'تنبيهات تطبيق بلغوا';
+  static const String mainChannelDescription =
+      'تنبيهات مواقيت الصلاة والأذكار اليومية والسنن النبوية';
+
+  static const NotificationDetails _notificationDetails = NotificationDetails(
+    android: AndroidNotificationDetails(
+      mainChannelId,
+      mainChannelName,
+      channelDescription: mainChannelDescription,
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+      icon: '@mipmap/ic_launcher',
+      channelShowBadge: true,
+    ),
+    iOS: DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    ),
+  );
 
   Future<bool> init() async {
     log('Init notification service');
@@ -40,10 +59,14 @@ class LocalNotificationService {
       }
 
       const AndroidInitializationSettings initializationSettingsAndroid =
-          AndroidInitializationSettings('app_icon');
+          AndroidInitializationSettings('@mipmap/ic_launcher');
 
       const DarwinInitializationSettings initializationSettingsDarwin =
-          DarwinInitializationSettings();
+          DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+      );
 
       const InitializationSettings initializationSettings =
           InitializationSettings(
@@ -59,19 +82,53 @@ class LocalNotificationService {
         },
       );
 
+      // Create Android Notification Channels explicitly
+      final androidPlugin =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      if (androidPlugin != null) {
+        const mainChannel = AndroidNotificationChannel(
+          mainChannelId,
+          mainChannelName,
+          description: mainChannelDescription,
+          importance: Importance.max,
+          playSound: true,
+          enableVibration: true,
+          showBadge: true,
+        );
+        await androidPlugin.createNotificationChannel(mainChannel);
+      }
+
       return _isInitSuccess = true;
     } catch (e, s) {
-      "Local notification service initialization failed due to:\n$e\n$s";
+      "Local notification service initialization failed due to:\n$e\n$s".log();
       return _isInitSuccess = false;
     }
   }
 
-  Future<void> requestPermissions() async {
+  Future<bool> areNotificationsEnabled() async {
     try {
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.requestNotificationsPermission();
+      final androidPlugin =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      if (androidPlugin != null) {
+        final enabled = await androidPlugin.areNotificationsEnabled();
+        return enabled ?? true;
+      }
+      return true;
+    } catch (e) {
+      return true;
+    }
+  }
+
+  Future<bool> requestPermissions() async {
+    try {
+      final androidPlugin =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      final granted =
+          await androidPlugin?.requestNotificationsPermission() ?? false;
 
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
@@ -81,8 +138,11 @@ class LocalNotificationService {
             badge: true,
             sound: true,
           );
+
+      return granted;
     } catch (e) {
       "Error requesting notification permissions: $e".log();
+      return false;
     }
   }
 
@@ -96,7 +156,7 @@ class LocalNotificationService {
       id,
       title,
       body,
-      _platformChannelSpecificsNotificationDetails,
+      _notificationDetails,
       payload: payload,
     );
   }
@@ -110,60 +170,116 @@ class LocalNotificationService {
     String? payload,
   }) async {
     await Future.delayed(const Duration(milliseconds: 10));
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime(
-        tz.local,
-        dateTime.year,
-        dateTime.month,
-        dateTime.day,
-        dateTime.hour,
-        dateTime.minute,
-        dateTime.second,
-      ),
-      _platformChannelSpecificsNotificationDetails,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      matchDateTimeComponents: matchDateTimeComponents,
-      payload: payload,
-    );
+
+    try {
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        body,
+        tz.TZDateTime(
+          tz.local,
+          dateTime.year,
+          dateTime.month,
+          dateTime.day,
+          dateTime.hour,
+          dateTime.minute,
+          dateTime.second,
+        ),
+        _notificationDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: matchDateTimeComponents,
+        payload: payload,
+      );
+    } catch (e) {
+      // Fallback to inexact if exact alarm permission failed
+      try {
+        await flutterLocalNotificationsPlugin.zonedSchedule(
+          id,
+          title,
+          body,
+          tz.TZDateTime(
+            tz.local,
+            dateTime.year,
+            dateTime.month,
+            dateTime.day,
+            dateTime.hour,
+            dateTime.minute,
+            dateTime.second,
+          ),
+          _notificationDetails,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime,
+          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+          matchDateTimeComponents: matchDateTimeComponents,
+          payload: payload,
+        );
+      } catch (e2) {
+        "Fallback notification schedule failed: $e2".log();
+      }
+    }
+  }
+
+  Future<void> schedule({
+    required ScheduleReminder scheduleReminder,
+    required DateTime dateTime,
+    required String title,
+    required String body,
+    String? payload,
+  }) async {
+    "Schedule notification on $dateTime on a $scheduleReminder".log();
+
+    await Future.delayed(const Duration(milliseconds: 50));
+    try {
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        DateTime.now().millisecond,
+        title,
+        body,
+        tz.TZDateTime(
+          tz.local,
+          dateTime.year,
+          dateTime.month,
+          dateTime.day,
+          dateTime.hour,
+          dateTime.minute,
+        ),
+        _notificationDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: scheduleReminder.dateTimeComponents,
+        payload: payload,
+      );
+    } catch (_) {
+      try {
+        await flutterLocalNotificationsPlugin.zonedSchedule(
+          DateTime.now().millisecond,
+          title,
+          body,
+          tz.TZDateTime(
+            tz.local,
+            dateTime.year,
+            dateTime.month,
+            dateTime.day,
+            dateTime.hour,
+            dateTime.minute,
+          ),
+          _notificationDetails,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime,
+          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+          matchDateTimeComponents: scheduleReminder.dateTimeComponents,
+          payload: payload,
+        );
+      } catch (e2) {
+        "Fallback schedule failed: $e2".log();
+      }
+    }
   }
 
   Future<void> cancel(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);
-  }
-
-  Future<void> schedule(
-      {required ScheduleReminder scheduleReminder,
-      required DateTime dateTime,
-      required String title,
-      required String body,
-      String? payload}) async {
-    "Schedule notification on $dateTime on a $scheduleReminder".log();
-
-    await Future.delayed(const Duration(milliseconds: 50));
-    flutterLocalNotificationsPlugin.zonedSchedule(
-      DateTime.now().millisecond,
-      title,
-      body,
-      tz.TZDateTime(
-        tz.local,
-        dateTime.year,
-        dateTime.month,
-        dateTime.day,
-        dateTime.hour,
-        dateTime.minute,
-      ),
-      _platformChannelSpecificsNotificationDetails,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      matchDateTimeComponents: scheduleReminder.dateTimeComponents,
-      payload: payload,
-    );
   }
 
   Future<void> cancelAll() async =>

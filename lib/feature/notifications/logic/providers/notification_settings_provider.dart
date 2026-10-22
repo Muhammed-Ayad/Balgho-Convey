@@ -47,8 +47,16 @@ class NotificationSettingsNotifier
     await _notificationService.requestPermissions();
   }
 
-  Future<void> sendTestNotification() async {
+  Future<bool> sendTestNotification() async {
+    final areEnabled = await _notificationService.areNotificationsEnabled();
+    if (!areEnabled) {
+      final granted = await _notificationService.requestPermissions();
+      if (!granted) {
+        return false;
+      }
+    }
     await _schedulerService.sendTestNotification();
+    return true;
   }
 
   Future<void> toggleAllNotifications(bool enabled) async {
