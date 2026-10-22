@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/feature/azkar/logic/data/all_azkar.dart';
+import 'package:great_quran/feature/notifications/logic/providers/notification_settings_provider.dart';
+import 'package:great_quran/feature/notifications/logic/repo/notification_settings_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NotificationsSubscriptionNotifier
@@ -10,56 +12,49 @@ class NotificationsSubscriptionNotifier
       NotificationsSubscriptionNotifier, AsyncValue<bool>>((ref) {
     return NotificationsSubscriptionNotifier(
       ref.read(LocalNotificationService.provider),
+      ref,
     );
   });
 
   final LocalNotificationService _service;
-  NotificationsSubscriptionNotifier(this._service)
+  final Ref _ref;
+
+  NotificationsSubscriptionNotifier(this._service, this._ref)
       : super(const AsyncValue.loading());
 
   Future<void> fetchData() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _service.checkPendingNotifications());
-  }
-
-  Future<void> toggle() async {
-    final current = state.valueOrNull;
-    if (current != null) {
-      if (current) {
-        await _service.cancelAll();
-        Fluttertoast.showToast(
-            msg: "تم إلغاء الإشعارات",
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            toastLength: Toast.LENGTH_SHORT);
-      } else {
-        await registerAzkarNotifications();
-        Fluttertoast.showToast(
-            msg: "تم الاشتراك في الإشعارات",
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            toastLength: Toast.LENGTH_SHORT);
-      }
-      state = AsyncValue.data(!current);
+    try {
+      final settings = await _ref
+          .read(NotificationSettingsRepository.provider)
+          .getSettings();
+      state = AsyncValue.data(
+          settings.allNotificationsEnabled && settings.azkarNotificationsEnabled);
+    } catch (_) {
+      state = const AsyncValue.data(false);
     }
   }
 
-  Future<void> registerAzkarNotifications() async {
-    final now = DateTime.now();
-
-    await _service.schedule(
-        scheduleReminder: ScheduleReminder.daily,
-        dateTime: DateTime(now.year, now.month, now.day, 7, 0),
-        title: "بلغوا",
-        body: "نذكرك بقراءة أذكار الصباح",
-        payload: "0");
-
-    await _service.schedule(
-        scheduleReminder: ScheduleReminder.daily,
-        dateTime: DateTime(now.year, now.month, now.day, 17, 0),
-        title: "بلغوا",
-        body: "نذكرك بقراءة أذكار المساء",
-        payload: "1");
+  Future<void> toggle() async {
+    final current = state.valueOrNull ?? false;
+    final target = !current;
+    try {
+      await _ref
+          .read(NotificationSettingsNotifier.provider.notifier)
+          .toggleAzkarCategory(target);
+      Fluttertoast.showToast(
+          msg: target ? "تم تفعيل تنبيهات الأذكار" : "تم إلغاء تنبيهات الأذكار",
+          backgroundColor: target ? Colors.green : Colors.red,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+      state = AsyncValue.data(target);
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "حدث خطأ أثناء تعديل التنبيهات",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT);
+    }
   }
 
   Future<void> navigateOnNotificationLaunch(

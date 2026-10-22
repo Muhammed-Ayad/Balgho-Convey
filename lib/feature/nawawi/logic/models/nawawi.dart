@@ -1,14 +1,19 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'nawawi.g.dart';
-
-@JsonSerializable()
 class Nawawi {
   final String hadith;
   final String description;
   final String title;
 
-  Nawawi(this.hadith, this.description, this.title);
-  factory Nawawi.fromJson(Map<String, dynamic> json) => _$NawawiFromJson(json);
+  const Nawawi(this.hadith, this.description, this.title);
 
-  Map<String, dynamic> toJson() => _$NawawiToJson(this);
+  factory Nawawi.fromJson(Map<String, dynamic> json) => Nawawi(
+        json['hadith'] as String? ?? '',
+        json['description'] as String? ?? '',
+        json['title'] as String? ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+        'hadith': hadith,
+        'description': description,
+        'title': title,
+      };
 }

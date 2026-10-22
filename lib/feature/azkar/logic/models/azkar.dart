@@ -1,7 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'azkar.g.dart';
-
-@JsonSerializable()
 class Azkar {
   final String category;
   final String count;
@@ -9,8 +5,27 @@ class Azkar {
   final String reference;
   final String zekr;
 
-  Azkar(this.category, this.count, this.description, this.reference, this.zekr);
-  factory Azkar.fromJson(Map<String, dynamic> json) => _$AzkarFromJson(json);
+  const Azkar(
+    this.category,
+    this.count,
+    this.description,
+    this.reference,
+    this.zekr,
+  );
 
-  Map<String, dynamic> toJson() => _$AzkarToJson(this);
+  factory Azkar.fromJson(Map<String, dynamic> json) => Azkar(
+        json['category'] as String? ?? '',
+        json['count'] as String? ?? '',
+        json['description'] as String? ?? '',
+        json['reference'] as String? ?? '',
+        json['zekr'] as String? ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+        'category': category,
+        'count': count,
+        'description': description,
+        'reference': reference,
+        'zekr': zekr,
+      };
 }

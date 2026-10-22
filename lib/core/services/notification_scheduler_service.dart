@@ -58,6 +58,17 @@ class NotificationSchedulerService {
           "سبحان الله وبحمده، سبحان الله العظيم.. تم تفعيل وتأكيد عمل الإشعارات بنجاح!",
       payload: "test",
     );
+
+    // Also schedule a test notification for 5 seconds later to verify background scheduling works
+    try {
+      await _notificationService.scheduleNotification(
+        id: idTestNotification + 1,
+        dateTime: DateTime.now().add(const Duration(seconds: 5)),
+        title: "تنبيه مجدول تجريبي ⏰",
+        body: "تم التحقق من عمل جدولة التنبيهات في الخلفية بنجاح!",
+        payload: "test_scheduled",
+      );
+    } catch (_) {}
   }
 
   Future<void> syncSchedules(NotificationSettingsModel settings) async {

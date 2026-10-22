@@ -130,6 +130,13 @@ class LocalNotificationService {
       final granted =
           await androidPlugin?.requestNotificationsPermission() ?? false;
 
+      // Request exact alarms permission on Android 12+ / 13+ / 14+
+      try {
+        await androidPlugin?.requestExactAlarmsPermission();
+      } catch (e) {
+        "Request exact alarms permission note: $e".log();
+      }
+
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
@@ -171,20 +178,62 @@ class LocalNotificationService {
   }) async {
     await Future.delayed(const Duration(milliseconds: 10));
 
+    final now = tz.TZDateTime.now(tz.local);
+    var scheduledDate = tz.TZDateTime(
+      tz.local,
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+      dateTime.hour,
+      dateTime.minute,
+      dateTime.second,
+    );
+
+    // If scheduled time is in the past, adjust it forward based on recurrence
+    if (scheduledDate.isBefore(now)) {
+      if (matchDateTimeComponents == DateTimeComponents.time) {
+        while (scheduledDate.isBefore(now)) {
+          scheduledDate = scheduledDate.add(const Duration(days: 1));
+        }
+      } else if (matchDateTimeComponents ==
+          DateTimeComponents.dayOfWeekAndTime) {
+        while (scheduledDate.isBefore(now)) {
+          scheduledDate = scheduledDate.add(const Duration(days: 7));
+        }
+      } else if (matchDateTimeComponents ==
+          DateTimeComponents.dayOfMonthAndTime) {
+        while (scheduledDate.isBefore(now)) {
+          final nextMonth =
+              scheduledDate.month == 12 ? 1 : scheduledDate.month + 1;
+          final nextYear = scheduledDate.month == 12
+              ? scheduledDate.year + 1
+              : scheduledDate.year;
+          scheduledDate = tz.TZDateTime(
+            tz.local,
+            nextYear,
+            nextMonth,
+            scheduledDate.day,
+            scheduledDate.hour,
+            scheduledDate.minute,
+            scheduledDate.second,
+          );
+        }
+      } else {
+        "Skipping non-recurring notification #$id in the past: $scheduledDate"
+            .log();
+        return;
+      }
+    }
+
+    "Scheduled notification #$id at $scheduledDate (match: $matchDateTimeComponents)"
+        .log();
+
     try {
       await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,
         body,
-        tz.TZDateTime(
-          tz.local,
-          dateTime.year,
-          dateTime.month,
-          dateTime.day,
-          dateTime.hour,
-          dateTime.minute,
-          dateTime.second,
-        ),
+        scheduledDate,
         _notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
@@ -193,21 +242,13 @@ class LocalNotificationService {
         payload: payload,
       );
     } catch (e) {
-      // Fallback to inexact if exact alarm permission failed
+      "Exact alarm scheduling failed ($e), falling back to inexact...".log();
       try {
         await flutterLocalNotificationsPlugin.zonedSchedule(
           id,
           title,
           body,
-          tz.TZDateTime(
-            tz.local,
-            dateTime.year,
-            dateTime.month,
-            dateTime.day,
-            dateTime.hour,
-            dateTime.minute,
-            dateTime.second,
-          ),
+          scheduledDate,
           _notificationDetails,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
@@ -222,60 +263,22 @@ class LocalNotificationService {
   }
 
   Future<void> schedule({
+    int? id,
     required ScheduleReminder scheduleReminder,
     required DateTime dateTime,
     required String title,
     required String body,
     String? payload,
   }) async {
-    "Schedule notification on $dateTime on a $scheduleReminder".log();
-
-    await Future.delayed(const Duration(milliseconds: 50));
-    try {
-      await flutterLocalNotificationsPlugin.zonedSchedule(
-        DateTime.now().millisecond,
-        title,
-        body,
-        tz.TZDateTime(
-          tz.local,
-          dateTime.year,
-          dateTime.month,
-          dateTime.day,
-          dateTime.hour,
-          dateTime.minute,
-        ),
-        _notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        matchDateTimeComponents: scheduleReminder.dateTimeComponents,
-        payload: payload,
-      );
-    } catch (_) {
-      try {
-        await flutterLocalNotificationsPlugin.zonedSchedule(
-          DateTime.now().millisecond,
-          title,
-          body,
-          tz.TZDateTime(
-            tz.local,
-            dateTime.year,
-            dateTime.month,
-            dateTime.day,
-            dateTime.hour,
-            dateTime.minute,
-          ),
-          _notificationDetails,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime,
-          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-          matchDateTimeComponents: scheduleReminder.dateTimeComponents,
-          payload: payload,
-        );
-      } catch (e2) {
-        "Fallback schedule failed: $e2".log();
-      }
-    }
+    final notificationId = id ?? (dateTime.hour * 100 + dateTime.minute);
+    await scheduleNotification(
+      id: notificationId,
+      dateTime: dateTime,
+      title: title,
+      body: body,
+      matchDateTimeComponents: scheduleReminder.dateTimeComponents,
+      payload: payload,
+    );
   }
 
   Future<void> cancel(int id) async {
@@ -288,8 +291,15 @@ class LocalNotificationService {
   Future<bool> checkPendingNotifications() async {
     final pendingRequests =
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    "Has Pending Notifications ? ${pendingRequests.isNotEmpty}".log();
+    "Has Pending Notifications ? ${pendingRequests.isNotEmpty} (count: ${pendingRequests.length})"
+        .log();
     return pendingRequests.isNotEmpty;
+  }
+
+  Future<int> getPendingNotificationCount() async {
+    final pendingRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return pendingRequests.length;
   }
 }
 

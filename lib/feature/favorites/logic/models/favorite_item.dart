@@ -1,15 +1,27 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'favorite_item.g.dart';
-
 enum FavoriteType {
-  @JsonValue('zekr')
   zekr,
-  @JsonValue('radio')
-  radio,
+  radio;
+
+  static FavoriteType fromString(String value) {
+    switch (value) {
+      case 'radio':
+        return FavoriteType.radio;
+      case 'zekr':
+      default:
+        return FavoriteType.zekr;
+    }
+  }
+
+  String toValue() {
+    switch (this) {
+      case FavoriteType.zekr:
+        return 'zekr';
+      case FavoriteType.radio:
+        return 'radio';
+    }
+  }
 }
 
-@JsonSerializable()
 class FavoriteItem {
   final String id;
   final String title;
@@ -27,8 +39,22 @@ class FavoriteItem {
     required this.createdAt,
   });
 
-  factory FavoriteItem.fromJson(Map<String, dynamic> json) =>
-      _$FavoriteItemFromJson(json);
+  factory FavoriteItem.fromJson(Map<String, dynamic> json) => FavoriteItem(
+        id: json['id'] as String? ?? '',
+        title: json['title'] as String? ?? '',
+        content: json['content'] as String? ?? '',
+        extraData: json['extraData'] as String? ?? '',
+        type: FavoriteType.fromString(json['type'] as String? ?? 'zekr'),
+        createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+            DateTime.now(),
+      );
 
-  Map<String, dynamic> toJson() => _$FavoriteItemToJson(this);
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'content': content,
+        'extraData': extraData,
+        'type': type.toValue(),
+        'createdAt': createdAt.toIso8601String(),
+      };
 }

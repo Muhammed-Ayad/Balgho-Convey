@@ -1,13 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'month.g.dart';
-
-@JsonSerializable()
 class Month {
   final int number;
   final String en;
 
-  Month(this.number, this.en);
-  factory Month.fromJson(Map<String, dynamic> json) => _$MonthFromJson(json);
+  const Month(this.number, this.en);
 
-  Map<String, dynamic> toJson() => _$MonthToJson(this);
+  factory Month.fromJson(Map<String, dynamic> json) => Month(
+        (json['number'] as num?)?.toInt() ?? 0,
+        json['en'] as String? ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+        'number': number,
+        'en': en,
+      };
 }

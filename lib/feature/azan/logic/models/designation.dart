@@ -1,15 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'designation.g.dart';
-
-@JsonSerializable()
 class Designation {
   final String abbreviated;
   final String expanded;
 
-  Designation(this.abbreviated, this.expanded);
+  const Designation(this.abbreviated, this.expanded);
 
-  factory Designation.fromJson(Map<String, dynamic> json) =>
-      _$DesignationFromJson(json);
+  factory Designation.fromJson(Map<String, dynamic> json) => Designation(
+        json['abbreviated'] as String? ?? '',
+        json['expanded'] as String? ?? '',
+      );
 
-  Map<String, dynamic> toJson() => _$DesignationToJson(this);
+  Map<String, dynamic> toJson() => {
+        'abbreviated': abbreviated,
+        'expanded': expanded,
+      };
 }

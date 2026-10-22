@@ -1,15 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'weekday.g.dart';
-
-@JsonSerializable()
 class Weekday {
   final String en;
   final String ar;
 
-  Weekday(this.en, this.ar);
+  const Weekday(this.en, this.ar);
 
-  factory Weekday.fromJson(Map<String, dynamic> json) =>
-      _$WeekdayFromJson(json);
+  factory Weekday.fromJson(Map<String, dynamic> json) => Weekday(
+        json['en'] as String? ?? '',
+        json['ar'] as String? ?? '',
+      );
 
-  Map<String, dynamic> toJson() => _$WeekdayToJson(this);
+  Map<String, dynamic> toJson() => {
+        'en': en,
+        'ar': ar,
+      };
 }

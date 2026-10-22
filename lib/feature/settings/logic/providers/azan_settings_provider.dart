@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:great_quran/core/services/azan_audio_cache_service.dart';
 import 'package:great_quran/feature/azan/logic/providers/azan_provider.dart';
+import 'package:great_quran/feature/notifications/logic/providers/notification_settings_provider.dart';
 import 'package:great_quran/feature/settings/logic/models/azan_sound_option.dart';
 import 'package:great_quran/feature/settings/logic/repo/azan_settings_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -74,6 +75,11 @@ class AzanSettingsNotifier
     final current = state.value ?? const AzanNotificationPreferences();
     final updated = current.copyWith(isEnabled: isEnabled);
     await updatePreferences(updated);
+    try {
+      await _ref
+          .read(NotificationSettingsNotifier.provider.notifier)
+          .togglePrayerCategory(isEnabled);
+    } catch (_) {}
   }
 
   Future<void> togglePrayer(String prayer, bool isEnabled) async {
@@ -99,6 +105,11 @@ class AzanSettingsNotifier
         updated = current;
     }
     await updatePreferences(updated);
+    try {
+      await _ref
+          .read(NotificationSettingsNotifier.provider.notifier)
+          .toggleSpecificPrayer(prayer, isEnabled);
+    } catch (_) {}
   }
 
   Future<void> toggleVoicePreview(AzanVoice voice) async {

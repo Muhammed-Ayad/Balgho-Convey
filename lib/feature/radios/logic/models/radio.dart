@@ -1,14 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'radio.g.dart';
-
-@JsonSerializable()
 class RadioDetalis {
   final String name;
   final String url;
 
-  RadioDetalis(this.name, this.url);
+  const RadioDetalis(this.name, this.url);
 
-  factory RadioDetalis.fromJson(Map<String, dynamic> json) =>
-      _$RadioDetalisFromJson(json);
-  Map<String, dynamic> toJson() => _$RadioDetalisToJson(this);
+  factory RadioDetalis.fromJson(Map<String, dynamic> json) => RadioDetalis(
+        json['name'] as String? ?? '',
+        json['url'] as String? ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'url': url,
+      };
 }
