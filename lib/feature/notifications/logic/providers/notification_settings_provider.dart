@@ -44,7 +44,15 @@ class NotificationSettingsNotifier
   }
 
   Future<void> requestPermissions() async {
+    await requestPermissionsAndSync();
+  }
+
+  Future<void> requestPermissionsAndSync() async {
     await _notificationService.requestPermissions();
+    final current = state.value ?? await _repository.getSettings();
+    if (current.allNotificationsEnabled) {
+      await _schedulerService.syncSchedules(current);
+    }
   }
 
   Future<bool> sendTestNotification() async {

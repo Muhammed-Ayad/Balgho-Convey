@@ -32,6 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         .navigateOnNotificationLaunch(
           (category) =>
               context.push(Routes.azkarCategoryRoute, extra: category),
+          onRoute: (route) => context.push(route),
         );
   }
 

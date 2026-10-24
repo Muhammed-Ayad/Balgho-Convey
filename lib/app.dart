@@ -17,11 +17,39 @@ class MyApp extends ConsumerStatefulWidget {
   ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _initLocalNotification();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _reSyncNotifications();
+    }
+  }
+
+  Future<void> _reSyncNotifications() async {
+    try {
+      final notificationService = ref.read(LocalNotificationService.provider);
+      if (!notificationService.isInitSuccess) return;
+
+      final settingsRepo = ref.read(NotificationSettingsRepository.provider);
+      final scheduler = ref.read(NotificationSchedulerService.provider);
+      final settings = await settingsRepo.getSettings();
+      if (settings.allNotificationsEnabled) {
+        await scheduler.syncSchedules(settings);
+      }
+    } catch (_) {}
   }
 
   Future<void> _initLocalNotification() async {
@@ -29,6 +57,8 @@ class _MyAppState extends ConsumerState<MyApp> {
     final success = await notificationService.init();
     if (success) {
       try {
+        await notificationService.requestPermissions();
+
         final settingsRepo = ref.read(NotificationSettingsRepository.provider);
         final scheduler = ref.read(NotificationSchedulerService.provider);
         final settings = await settingsRepo.getSettings();

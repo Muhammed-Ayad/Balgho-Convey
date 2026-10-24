@@ -78,11 +78,35 @@ class NotificationSchedulerService {
         return;
       }
 
-      await _schedulePrayers(settings);
-      await _scheduleAzkar(settings);
-      await _scheduleDailyReminders(settings);
-      await _scheduleSunan(settings);
-      await _scheduleOccasions(settings);
+      try {
+        await _schedulePrayers(settings);
+      } catch (e, s) {
+        "Failed to schedule prayers: $e\n$s".log();
+      }
+
+      try {
+        await _scheduleAzkar(settings);
+      } catch (e, s) {
+        "Failed to schedule azkar: $e\n$s".log();
+      }
+
+      try {
+        await _scheduleDailyReminders(settings);
+      } catch (e, s) {
+        "Failed to schedule daily reminders: $e\n$s".log();
+      }
+
+      try {
+        await _scheduleSunan(settings);
+      } catch (e, s) {
+        "Failed to schedule sunan: $e\n$s".log();
+      }
+
+      try {
+        await _scheduleOccasions(settings);
+      } catch (e, s) {
+        "Failed to schedule occasions: $e\n$s".log();
+      }
 
       "Notification schedules synced successfully.".log();
     } catch (e, stack) {
@@ -100,20 +124,20 @@ class NotificationSchedulerService {
     DateTime? ishaTime;
 
     try {
-      final cached = await _azanRepository.getCachedAzan();
-      if (cached != null) {
-        final now = DateTime.now();
-        fajrTime = _parseTime(cached.data.timings.fajr, now);
-        dhuhrTime = _parseTime(cached.data.timings.dhuhr, now);
-        asrTime = _parseTime(cached.data.timings.asr, now);
-        maghribTime = _parseTime(cached.data.timings.maghrib, now);
-        ishaTime = _parseTime(cached.data.timings.isha, now);
-      }
+      final azan = await _azanRepository.getCachedAzan() ??
+          _azanRepository.getInitialAzan();
+      final now = DateTime.now();
+      fajrTime = _parseTime(azan.data.timings.fajr, now);
+      dhuhrTime = _parseTime(azan.data.timings.dhuhr, now);
+      asrTime = _parseTime(azan.data.timings.asr, now);
+      maghribTime = _parseTime(azan.data.timings.maghrib, now);
+      ishaTime = _parseTime(azan.data.timings.isha, now);
     } catch (_) {}
 
     if (fajrTime == null) {
       final coordinates = Coordinates(30.0444, 31.2357);
       final params = CalculationMethod.egyptian.getParameters();
+      params.madhab = Madhab.shafi;
       final dateComponents = DateComponents.from(DateTime.now());
       final prayerTimes = PrayerTimes(coordinates, dateComponents, params);
 
@@ -340,6 +364,18 @@ class NotificationSchedulerService {
         payload: "fasting_thursday",
       );
     }
+
+    if (settings.fastingWhiteDays) {
+      await _notificationService.scheduleNotification(
+        id: idFastingWhiteDays,
+        dateTime: DateTime(now.year, now.month, 12, 20, 30),
+        title: "صيام الأيام البيض 🌕",
+        body:
+            "غداً بداية الأيام البيض (13، 14، 15) من الشهر الهجري.. صمها تُكتب لك صدقة عظيمة.",
+        matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
+        payload: "fasting_white_days",
+      );
+    }
   }
 
   DateTime _nextDayOfWeek(DateTime from, int targetWeekday,
@@ -360,8 +396,13 @@ class NotificationSchedulerService {
 
   DateTime? _parseTime(String timeString, DateTime reference) {
     try {
-      final clean = timeString.split(' ').first;
-      final parts = clean.split(':');
+      String clean = timeString.trim();
+      const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      for (int i = 0; i < 10; i++) {
+        clean = clean.replaceAll(arabicDigits[i], '$i');
+      }
+      final timePart = clean.split(' ').first;
+      final parts = timePart.split(':');
       if (parts.length >= 2) {
         final h = int.parse(parts[0]);
         final m = int.parse(parts[1]);

@@ -33,6 +33,8 @@ class LocalNotificationService {
       enableVibration: true,
       icon: '@mipmap/ic_launcher',
       channelShowBadge: true,
+      category: AndroidNotificationCategory.reminder,
+      visibility: NotificationVisibility.public,
     ),
     iOS: DarwinNotificationDetails(
       presentAlert: true,
@@ -47,7 +49,12 @@ class LocalNotificationService {
     try {
       initializeTimeZones();
 
-      final currentTimeZone = await FlutterTimezone.getLocalTimezone();
+      String currentTimeZone = 'Africa/Cairo';
+      try {
+        currentTimeZone = await FlutterTimezone.getLocalTimezone();
+      } catch (e) {
+        "Failed to get local timezone from platform: $e".log();
+      }
       currentTimeZone.log();
 
       try {
@@ -55,7 +62,11 @@ class LocalNotificationService {
       } catch (e) {
         "Failed to set timezone $currentTimeZone, fallback to Africa/Cairo: $e"
             .log();
-        tz.setLocalLocation(tz.getLocation('Africa/Cairo'));
+        try {
+          tz.setLocalLocation(tz.getLocation('Africa/Cairo'));
+        } catch (_) {
+          tz.setLocalLocation(tz.local);
+        }
       }
 
       const AndroidInitializationSettings initializationSettingsAndroid =

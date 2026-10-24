@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:great_quran/core/services/azan_audio_cache_service.dart';
+import 'package:great_quran/core/services/notification_scheduler_service.dart';
 import 'package:great_quran/feature/azan/logic/providers/azan_provider.dart';
 import 'package:great_quran/feature/notifications/logic/providers/notification_settings_provider.dart';
+import 'package:great_quran/feature/notifications/logic/repo/notification_settings_repository.dart';
 import 'package:great_quran/feature/settings/logic/models/azan_sound_option.dart';
 import 'package:great_quran/feature/settings/logic/repo/azan_settings_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -53,6 +55,12 @@ class AzanSettingsNotifier
     await updatePreferences(updated);
     try {
       await _ref.read(AzanTimeNotifier.provider.notifier).getAzan();
+      final settings = await _ref
+          .read(NotificationSettingsRepository.provider)
+          .getSettings();
+      await _ref
+          .read(NotificationSchedulerService.provider)
+          .syncSchedules(settings);
     } catch (_) {}
   }
 
@@ -62,6 +70,12 @@ class AzanSettingsNotifier
     await updatePreferences(updated);
     try {
       await _ref.read(AzanTimeNotifier.provider.notifier).getAzan();
+      final settings = await _ref
+          .read(NotificationSettingsRepository.provider)
+          .getSettings();
+      await _ref
+          .read(NotificationSchedulerService.provider)
+          .syncSchedules(settings);
     } catch (_) {}
   }
 

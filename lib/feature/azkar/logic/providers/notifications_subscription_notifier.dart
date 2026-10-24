@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:great_quran/core/routes/routes_manager.dart';
 import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/feature/azkar/logic/data/all_azkar.dart';
 import 'package:great_quran/feature/notifications/logic/providers/notification_settings_provider.dart';
@@ -39,6 +40,18 @@ class NotificationsSubscriptionNotifier
     final current = state.valueOrNull ?? false;
     final target = !current;
     try {
+      if (target) {
+        await _ref
+            .read(NotificationSettingsNotifier.provider.notifier)
+            .requestPermissionsAndSync();
+        final settingsRepo = _ref.read(NotificationSettingsRepository.provider);
+        final currentSettings = await settingsRepo.getSettings();
+        if (!currentSettings.allNotificationsEnabled) {
+          await _ref
+              .read(NotificationSettingsNotifier.provider.notifier)
+              .toggleAllNotifications(true);
+        }
+      }
       await _ref
           .read(NotificationSettingsNotifier.provider.notifier)
           .toggleAzkarCategory(target);
@@ -58,16 +71,45 @@ class NotificationsSubscriptionNotifier
   }
 
   Future<void> navigateOnNotificationLaunch(
-      void Function(String category) onCategory) async {
+    void Function(String category) onCategory, {
+    void Function(String route)? onRoute,
+  }) async {
     final notificationAtLaunch = await _service.flutterLocalNotificationsPlugin
         .getNotificationAppLaunchDetails();
     final didLaunchApp =
         notificationAtLaunch?.didNotificationLaunchApp ?? false;
     final payload = notificationAtLaunch?.notificationResponse?.payload;
     if (didLaunchApp && payload != null) {
-      final category =
-          azkarDataList[int.tryParse(payload) ?? 0].toString().trim();
-      onCategory(category);
+      if (payload == "0") {
+        onCategory("أذكار الصباح");
+      } else if (payload == "1") {
+        onCategory("أذكار المساء");
+      } else if (payload == "sleep") {
+        onCategory("أذكار النوم");
+      } else if (payload == "wakeup") {
+        onCategory("أذكار الاستيقاظ من النوم");
+      } else if (payload.startsWith("prayer_") ||
+          payload.startsWith("pre_prayer_") ||
+          payload == "duha" ||
+          payload == "qiyam" ||
+          payload.startsWith("fasting_")) {
+        if (onRoute != null) {
+          onRoute(Routes.azanRoute);
+        }
+      } else if (payload == "friday_kahf") {
+        if (onRoute != null) {
+          onRoute(Routes.quranRoute);
+        }
+      } else if (payload == "daily_hadith") {
+        if (onRoute != null) {
+          onRoute(Routes.nawawiRoute);
+        }
+      } else {
+        final parsed = int.tryParse(payload);
+        if (parsed != null && parsed >= 0 && parsed < azkarDataList.length) {
+          onCategory(azkarDataList[parsed]);
+        }
+      }
     }
   }
 }
