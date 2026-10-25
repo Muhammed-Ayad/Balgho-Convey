@@ -1,8 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/core/services/notification_scheduler_service.dart';
+import 'package:great_quran/feature/notifications/logic/models/notification_diagnostics_model.dart';
 import 'package:great_quran/feature/notifications/logic/models/notification_settings_model.dart';
 import 'package:great_quran/feature/notifications/logic/repo/notification_settings_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final notificationDiagnosticsProvider =
+    FutureProvider.autoDispose<NotificationDiagnosticsModel>((ref) async {
+  final notifService = ref.watch(LocalNotificationService.provider);
+  return await notifService.getDiagnostics();
+});
 
 class NotificationSettingsNotifier
     extends StateNotifier<AsyncValue<NotificationSettingsModel>> {
@@ -33,6 +41,8 @@ class NotificationSettingsNotifier
       final settings = await _repository.getSettings();
       state = AsyncValue.data(settings);
     } catch (e, stack) {
+      debugPrint(
+          "NotificationSettingsNotifier: Error loading settings: $e\n$stack");
       state = AsyncValue.error(e, stack);
     }
   }
@@ -55,7 +65,19 @@ class NotificationSettingsNotifier
     }
   }
 
-  Future<bool> sendTestNotification() async {
+  Future<void> openExactAlarmSettings() async {
+    await _notificationService.openExactAlarmSettings();
+  }
+
+  Future<bool> isExactAlarmPromptShown() async {
+    return await _repository.isExactAlarmPromptShown();
+  }
+
+  Future<void> setExactAlarmPromptShown(bool shown) async {
+    await _repository.setExactAlarmPromptShown(shown);
+  }
+
+  Future<bool> sendInstantTestNotification() async {
     final areEnabled = await _notificationService.areNotificationsEnabled();
     if (!areEnabled) {
       final granted = await _notificationService.requestPermissions();
@@ -65,6 +87,18 @@ class NotificationSettingsNotifier
     }
     await _schedulerService.sendTestNotification();
     return true;
+  }
+
+  Future<bool> scheduleTestNotification({int seconds = 15}) async {
+    final areEnabled = await _notificationService.areNotificationsEnabled();
+    if (!areEnabled) {
+      await _notificationService.requestPermissions();
+    }
+    return await _schedulerService.scheduleTestNotification(seconds: seconds);
+  }
+
+  Future<bool> sendTestNotification() async {
+    return await sendInstantTestNotification();
   }
 
   Future<void> toggleAllNotifications(bool enabled) async {
