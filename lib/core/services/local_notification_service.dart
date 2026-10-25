@@ -1,21 +1,28 @@
-import 'dart:developer';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:great_quran/core/helpers/extensions.dart';
+import 'package:great_quran/feature/notifications/logic/models/notification_diagnostics_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotificationService {
+  static final LocalNotificationService _instance =
+      LocalNotificationService._internal();
+  factory LocalNotificationService() => _instance;
+  LocalNotificationService._internal();
+
   static final provider = Provider<LocalNotificationService>((ref) {
-    return LocalNotificationService();
+    return _instance;
   });
 
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   bool get isInitSuccess => _isInitSuccess;
   bool _isInitSuccess = false;
+
+  String _detectedTimeZone = 'Africa/Cairo';
+  String get detectedTimeZone => _detectedTimeZone;
 
   static const String mainChannelId = 'convey_main_channel';
   static const String mainChannelName = 'تنبيهات تطبيق بلغوا';
@@ -44,7 +51,7 @@ class LocalNotificationService {
   );
 
   Future<bool> init() async {
-    log('Init notification service');
+    debugPrint("LocalNotificationService: Starting initialization...");
 
     try {
       initializeTimeZones();
@@ -52,20 +59,27 @@ class LocalNotificationService {
       String currentTimeZone = 'Africa/Cairo';
       try {
         currentTimeZone = await FlutterTimezone.getLocalTimezone();
-      } catch (e) {
-        "Failed to get local timezone from platform: $e".log();
+        debugPrint(
+            "LocalNotificationService: FlutterTimezone detected: $currentTimeZone");
+      } catch (e, s) {
+        debugPrint(
+            "LocalNotificationService: Failed to get local timezone from platform: $e\n$s");
       }
-      currentTimeZone.log();
+      _detectedTimeZone = currentTimeZone;
 
       try {
         tz.setLocalLocation(tz.getLocation(currentTimeZone));
+        debugPrint(
+            "LocalNotificationService: tz.local successfully set to: $currentTimeZone");
       } catch (e) {
-        "Failed to set timezone $currentTimeZone, fallback to Africa/Cairo: $e"
-            .log();
+        debugPrint(
+            "LocalNotificationService: Failed to set timezone $currentTimeZone, fallback to Africa/Cairo: $e");
         try {
           tz.setLocalLocation(tz.getLocation('Africa/Cairo'));
+          _detectedTimeZone = 'Africa/Cairo';
         } catch (_) {
           tz.setLocalLocation(tz.local);
+          _detectedTimeZone = tz.local.name;
         }
       }
 
@@ -88,8 +102,8 @@ class LocalNotificationService {
       await flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
         onDidReceiveNotificationResponse: (details) {
-          "Notification is pressed".log();
-          details.payload.log();
+          debugPrint(
+              "LocalNotificationService: Notification tapped with payload: ${details.payload}");
         },
       );
 
@@ -108,12 +122,17 @@ class LocalNotificationService {
           showBadge: true,
         );
         await androidPlugin.createNotificationChannel(mainChannel);
+        debugPrint(
+            "LocalNotificationService: Notification channel '$mainChannelId' created.");
       }
 
-      return _isInitSuccess = true;
+      _isInitSuccess = true;
+      debugPrint("LocalNotificationService: Initialized successfully ✅");
+      return true;
     } catch (e, s) {
-      "Local notification service initialization failed due to:\n$e\n$s".log();
-      return _isInitSuccess = false;
+      debugPrint("LocalNotificationService: Initialization failed ❌: $e\n$s");
+      _isInitSuccess = false;
+      return false;
     }
   }
 
@@ -124,11 +143,50 @@ class LocalNotificationService {
               AndroidFlutterLocalNotificationsPlugin>();
       if (androidPlugin != null) {
         final enabled = await androidPlugin.areNotificationsEnabled();
+        debugPrint(
+            "LocalNotificationService: areNotificationsEnabled = $enabled");
         return enabled ?? true;
       }
       return true;
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: areNotificationsEnabled error: $e\n$s");
       return true;
+    }
+  }
+
+  Future<bool> canScheduleExactNotifications() async {
+    try {
+      final androidPlugin =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      if (androidPlugin != null) {
+        final canExact = await androidPlugin.canScheduleExactNotifications();
+        debugPrint(
+            "LocalNotificationService: canScheduleExactNotifications = $canExact");
+        return canExact ?? false;
+      }
+      return true;
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: canScheduleExactNotifications error: $e\n$s");
+      return false;
+    }
+  }
+
+  Future<void> openExactAlarmSettings() async {
+    try {
+      final androidPlugin =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      if (androidPlugin != null) {
+        debugPrint(
+            "LocalNotificationService: Requesting exact alarms permission from system...");
+        await androidPlugin.requestExactAlarmsPermission();
+      }
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: openExactAlarmSettings error: $e\n$s");
     }
   }
 
@@ -139,12 +197,12 @@ class LocalNotificationService {
               AndroidFlutterLocalNotificationsPlugin>();
       final granted =
           await androidPlugin?.requestNotificationsPermission() ?? false;
+      debugPrint(
+          "LocalNotificationService: requestNotificationsPermission result = $granted");
 
-      try {
-        await androidPlugin?.requestExactAlarmsPermission();
-      } catch (e) {
-        "Request exact alarms permission note: $e".log();
-      }
+      final canExact = await canScheduleExactNotifications();
+      debugPrint(
+          "LocalNotificationService: Initial exact alarm allowed = $canExact");
 
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
@@ -156,10 +214,47 @@ class LocalNotificationService {
           );
 
       return granted;
-    } catch (e) {
-      "Error requesting notification permissions: $e".log();
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: Error requesting notification permissions: $e\n$s");
       return false;
     }
+  }
+
+  Future<NotificationDiagnosticsModel> getDiagnostics() async {
+    final areEnabled = await areNotificationsEnabled();
+    final canExact = await canScheduleExactNotifications();
+    List<PendingNotificationRequest> pending = [];
+    try {
+      pending =
+          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: Error getting pendingNotificationRequests in getDiagnostics: $e\n$s");
+    }
+
+    final summaries = pending
+        .map((p) => "#${p.id} [${p.title ?? 'No title'}]: ${p.body ?? ''}")
+        .toList();
+
+    debugPrint("=== NOTIFICATION DIAGNOSTICS ===");
+    debugPrint("Notifications Enabled: $areEnabled");
+    debugPrint("Can Schedule Exact Alarms: $canExact");
+    debugPrint(
+        "Detected Timezone: $_detectedTimeZone (tz.local: ${tz.local.name})");
+    debugPrint("Pending Notifications Count: ${pending.length}");
+    for (final s in summaries) {
+      debugPrint("  - $s");
+    }
+    debugPrint("===============================");
+
+    return NotificationDiagnosticsModel(
+      areNotificationsEnabled: areEnabled,
+      canScheduleExact: canExact,
+      timezone: _detectedTimeZone,
+      pendingCount: pending.length,
+      pendingSummaries: summaries,
+    );
   }
 
   Future<void> showInstantNotification({
@@ -168,13 +263,20 @@ class LocalNotificationService {
     required String body,
     String? payload,
   }) async {
-    await flutterLocalNotificationsPlugin.show(
-      id,
-      title,
-      body,
-      _notificationDetails,
-      payload: payload,
-    );
+    debugPrint("LocalNotificationService: showInstantNotification (#$id)");
+    try {
+      await flutterLocalNotificationsPlugin.show(
+        id,
+        title,
+        body,
+        _notificationDetails,
+        payload: payload,
+      );
+      debugPrint("LocalNotificationService: Instant notification displayed.");
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: showInstantNotification failed: $e\n$s");
+    }
   }
 
   Future<void> scheduleNotification({
@@ -185,8 +287,6 @@ class LocalNotificationService {
     DateTimeComponents? matchDateTimeComponents,
     String? payload,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 10));
-
     final now = tz.TZDateTime.now(tz.local);
     var scheduledDate = tz.TZDateTime(
       tz.local,
@@ -227,14 +327,19 @@ class LocalNotificationService {
           );
         }
       } else {
-        "Skipping non-recurring notification #$id in the past: $scheduledDate"
-            .log();
+        debugPrint(
+            "LocalNotificationService: Skipping non-recurring notification #$id in past: $scheduledDate");
         return;
       }
     }
 
-    "Scheduled notification #$id at $scheduledDate (match: $matchDateTimeComponents)"
-        .log();
+    final canExact = await canScheduleExactNotifications();
+    final preferredMode = canExact
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
+
+    debugPrint(
+        "LocalNotificationService: Scheduling #$id at $scheduledDate (match: $matchDateTimeComponents, mode: $preferredMode)");
 
     try {
       await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -245,85 +350,94 @@ class LocalNotificationService {
         _notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: preferredMode,
         matchDateTimeComponents: matchDateTimeComponents,
         payload: payload,
       );
-    } catch (e) {
-      "Exact alarm scheduling failed ($e), falling back to inexact...".log();
-      try {
-        await flutterLocalNotificationsPlugin.zonedSchedule(
-          id,
-          title,
-          body,
-          scheduledDate,
-          _notificationDetails,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime,
-          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-          matchDateTimeComponents: matchDateTimeComponents,
-          payload: payload,
-        );
-      } catch (e2) {
-        "Fallback notification schedule failed: $e2".log();
+      debugPrint(
+          "LocalNotificationService: Successfully scheduled #$id at $scheduledDate (mode: $preferredMode)");
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: Schedule attempt failed for #$id (mode: $preferredMode): $e\n$s");
+      if (preferredMode == AndroidScheduleMode.exactAllowWhileIdle) {
+        try {
+          await flutterLocalNotificationsPlugin.zonedSchedule(
+            id,
+            title,
+            body,
+            scheduledDate,
+            _notificationDetails,
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime,
+            androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+            matchDateTimeComponents: matchDateTimeComponents,
+            payload: payload,
+          );
+          debugPrint(
+              "LocalNotificationService: Fallback inexact alarm scheduled for #$id");
+        } catch (e2, s2) {
+          debugPrint(
+              "LocalNotificationService: Fallback inexact schedule also failed: $e2\n$s2");
+        }
       }
     }
   }
 
-  Future<void> schedule({
-    int? id,
-    required ScheduleReminder scheduleReminder,
-    required DateTime dateTime,
-    required String title,
-    required String body,
-    String? payload,
-  }) async {
-    final notificationId = id ?? (dateTime.hour * 100 + dateTime.minute);
+  Future<bool> scheduleTestNotification({int seconds = 15}) async {
+    final canExact = await canScheduleExactNotifications();
+    debugPrint(
+        "LocalNotificationService: scheduleTestNotification ($seconds s) - canExact = $canExact");
+
+    final scheduledTime = DateTime.now().add(Duration(seconds: seconds));
     await scheduleNotification(
-      id: notificationId,
-      dateTime: dateTime,
-      title: title,
-      body: body,
-      matchDateTimeComponents: scheduleReminder.dateTimeComponents,
-      payload: payload,
+      id: 998,
+      dateTime: scheduledTime,
+      title: "تنبيه مجدول تجريبي ($seconds ثانية) ⏰",
+      body: "الحمد لله.. تم إطلاق التنبيه المجدول بنجاح في موعده المحدد!",
+      payload: "test_scheduled_${seconds}s",
     );
+
+    try {
+      final pending =
+          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+      debugPrint(
+          "LocalNotificationService: Pending notification count after test schedule: ${pending.length}");
+      for (final req in pending) {
+        debugPrint("  -> Pending #id: ${req.id}, title: ${req.title}");
+      }
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: Error retrieving pending notifications in scheduleTestNotification: $e\n$s");
+    }
+    return canExact;
   }
 
   Future<void> cancel(int id) async {
-    await flutterLocalNotificationsPlugin.cancel(id);
+    try {
+      await flutterLocalNotificationsPlugin.cancel(id);
+    } catch (e, s) {
+      debugPrint("LocalNotificationService: Error cancelling #$id: $e\n$s");
+    }
   }
 
-  Future<void> cancelAll() async =>
+  Future<void> cancelAll() async {
+    try {
       await flutterLocalNotificationsPlugin.cancelAll();
-
-  Future<bool> checkPendingNotifications() async {
-    final pendingRequests =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    "Has Pending Notifications ? ${pendingRequests.isNotEmpty} (count: ${pendingRequests.length})"
-        .log();
-    return pendingRequests.isNotEmpty;
+      debugPrint("LocalNotificationService: cancelAll() called.");
+    } catch (e, s) {
+      debugPrint("LocalNotificationService: Error cancelling all: $e\n$s");
+    }
   }
 
   Future<int> getPendingNotificationCount() async {
-    final pendingRequests =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return pendingRequests.length;
-  }
-}
-
-enum ScheduleReminder {
-  monthly,
-  weekly,
-  daily;
-
-  DateTimeComponents get dateTimeComponents {
-    switch (this) {
-      case ScheduleReminder.monthly:
-        return DateTimeComponents.dayOfMonthAndTime;
-      case ScheduleReminder.weekly:
-        return DateTimeComponents.dayOfWeekAndTime;
-      case ScheduleReminder.daily:
-        return DateTimeComponents.time;
+    try {
+      final pendingRequests =
+          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+      return pendingRequests.length;
+    } catch (e, s) {
+      debugPrint(
+          "LocalNotificationService: Error getting pending count: $e\n$s");
+      return 0;
     }
   }
 }

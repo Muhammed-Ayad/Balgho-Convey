@@ -1,6 +1,6 @@
 import 'package:adhan/adhan.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/feature/azan/logic/repo/azan_repository.dart';
 import 'package:great_quran/feature/notifications/logic/models/notification_settings_model.dart';
@@ -50,23 +50,21 @@ class NotificationSchedulerService {
   static const int idTestNotification = 999;
 
   Future<void> sendTestNotification() async {
+    debugPrint("NotificationSchedulerService: sendTestNotification() invoked.");
     await _notificationService.showInstantNotification(
       id: idTestNotification,
       title: "تطبيق بلغوا 🌿",
       body:
-          "سبحان الله وبحمده، سبحان الله العظيم.. تم تفعيل وتأكيد عمل الإشعارات بنجاح!",
+          "سبحان الله وبحمده، سبحان الله العظيم.. تم التحقق من عمل الإشعار الفوري بنجاح!",
       payload: "test",
     );
+  }
 
-    try {
-      await _notificationService.scheduleNotification(
-        id: idTestNotification + 1,
-        dateTime: DateTime.now().add(const Duration(seconds: 5)),
-        title: "تنبيه مجدول تجريبي ⏰",
-        body: "تم التحقق من عمل جدولة التنبيهات في الخلفية بنجاح!",
-        payload: "test_scheduled",
-      );
-    } catch (_) {}
+  Future<bool> scheduleTestNotification({int seconds = 15}) async {
+    debugPrint(
+        "NotificationSchedulerService: scheduleTestNotification($seconds s) invoked.");
+    return await _notificationService.scheduleTestNotification(
+        seconds: seconds);
   }
 
   Future<void> syncSchedules(NotificationSettingsModel settings) async {
@@ -74,43 +72,51 @@ class NotificationSchedulerService {
       await _notificationService.cancelAll();
 
       if (!settings.allNotificationsEnabled) {
-        "All notifications are disabled by user.".log();
+        debugPrint(
+            "NotificationSchedulerService: All notifications are disabled by user.");
         return;
       }
 
       try {
         await _schedulePrayers(settings);
       } catch (e, s) {
-        "Failed to schedule prayers: $e\n$s".log();
+        debugPrint(
+            "NotificationSchedulerService: Failed to schedule prayers: $e\n$s");
       }
 
       try {
         await _scheduleAzkar(settings);
       } catch (e, s) {
-        "Failed to schedule azkar: $e\n$s".log();
+        debugPrint(
+            "NotificationSchedulerService: Failed to schedule azkar: $e\n$s");
       }
 
       try {
         await _scheduleDailyReminders(settings);
       } catch (e, s) {
-        "Failed to schedule daily reminders: $e\n$s".log();
+        debugPrint(
+            "NotificationSchedulerService: Failed to schedule daily reminders: $e\n$s");
       }
 
       try {
         await _scheduleSunan(settings);
       } catch (e, s) {
-        "Failed to schedule sunan: $e\n$s".log();
+        debugPrint(
+            "NotificationSchedulerService: Failed to schedule sunan: $e\n$s");
       }
 
       try {
         await _scheduleOccasions(settings);
       } catch (e, s) {
-        "Failed to schedule occasions: $e\n$s".log();
+        debugPrint(
+            "NotificationSchedulerService: Failed to schedule occasions: $e\n$s");
       }
 
-      "Notification schedules synced successfully.".log();
+      debugPrint(
+          "NotificationSchedulerService: Notification schedules synced successfully.");
     } catch (e, stack) {
-      "Error syncing notification schedules: $e\n$stack".log();
+      debugPrint(
+          "NotificationSchedulerService: Error syncing notification schedules: $e\n$stack");
     }
   }
 
@@ -132,7 +138,10 @@ class NotificationSchedulerService {
       asrTime = _parseTime(azan.data.timings.asr, now);
       maghribTime = _parseTime(azan.data.timings.maghrib, now);
       ishaTime = _parseTime(azan.data.timings.isha, now);
-    } catch (_) {}
+    } catch (e, s) {
+      debugPrint(
+          "NotificationSchedulerService: Error getting cached/initial azan: $e\n$s");
+    }
 
     if (fajrTime == null) {
       final coordinates = Coordinates(30.0444, 31.2357);

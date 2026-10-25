@@ -41,29 +41,40 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   Future<void> _reSyncNotifications() async {
     try {
       final notificationService = ref.read(LocalNotificationService.provider);
-      if (!notificationService.isInitSuccess) return;
+      if (!notificationService.isInitSuccess) {
+        await notificationService.init();
+      }
 
       final settingsRepo = ref.read(NotificationSettingsRepository.provider);
       final scheduler = ref.read(NotificationSchedulerService.provider);
       final settings = await settingsRepo.getSettings();
       if (settings.allNotificationsEnabled) {
+        debugPrint(
+            "MyApp: Resuming app -> resyncing notification schedules...");
         await scheduler.syncSchedules(settings);
       }
-    } catch (_) {}
+    } catch (e, s) {
+      debugPrint("MyApp: Error in _reSyncNotifications: $e\n$s");
+    }
   }
 
   Future<void> _initLocalNotification() async {
     final notificationService = ref.read(LocalNotificationService.provider);
-    final success = await notificationService.init();
-    if (success) {
-      try {
-        await notificationService.requestPermissions();
+    if (!notificationService.isInitSuccess) {
+      await notificationService.init();
+    }
+    try {
+      debugPrint("MyApp: Requesting notification permissions on app launch...");
+      await notificationService.requestPermissions();
 
-        final settingsRepo = ref.read(NotificationSettingsRepository.provider);
-        final scheduler = ref.read(NotificationSchedulerService.provider);
-        final settings = await settingsRepo.getSettings();
-        await scheduler.syncSchedules(settings);
-      } catch (_) {}
+      final settingsRepo = ref.read(NotificationSettingsRepository.provider);
+      final scheduler = ref.read(NotificationSchedulerService.provider);
+      final settings = await settingsRepo.getSettings();
+      debugPrint(
+          "MyApp: Initial syncSchedules on startup (allEnabled: ${settings.allNotificationsEnabled})...");
+      await scheduler.syncSchedules(settings);
+    } catch (e, s) {
+      debugPrint("MyApp: Error in _initLocalNotification: $e\n$s");
     }
   }
 
