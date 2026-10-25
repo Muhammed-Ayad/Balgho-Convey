@@ -1,14 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/widgets/custom_app_bar.dart';
 import 'package:great_quran/core/widgets/error_widget.dart';
 import 'package:great_quran/core/widgets/loading_widget.dart';
 import 'package:great_quran/feature/notifications/logic/models/notification_settings_model.dart';
 import 'package:great_quran/feature/notifications/logic/providers/notification_settings_provider.dart';
+import 'package:great_quran/feature/notifications/view/widgets/exact_alarm_rationale_dialog.dart';
+import 'package:great_quran/feature/notifications/view/widgets/exact_alarm_warning_banner.dart';
 import 'package:great_quran/feature/notifications/view/widgets/notification_category_container.dart';
+import 'package:great_quran/feature/notifications/view/widgets/notification_diagnostics_card.dart';
 import 'package:great_quran/feature/notifications/view/widgets/notification_master_card.dart';
 import 'package:great_quran/feature/notifications/view/widgets/notification_switch_item.dart';
-import 'package:great_quran/feature/notifications/view/widgets/notification_test_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NotificationsSettingsScreen extends ConsumerStatefulWidget {
@@ -20,15 +25,108 @@ class NotificationsSettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _NotificationsSettingsScreenState
-    extends ConsumerState<NotificationsSettingsScreen> {
+    extends ConsumerState<NotificationsSettingsScreen>
+    with WidgetsBindingObserver {
+  bool _canScheduleExact = true;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
           .read(NotificationSettingsNotifier.provider.notifier)
           .requestPermissions();
+      _checkExactStatus();
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkExactStatus(onResumed: true);
+    }
+  }
+
+  Future<void> _checkExactStatus({bool onResumed = false}) async {
+    try {
+      final notifService = ref.read(LocalNotificationService.provider);
+      final canExact = await notifService.canScheduleExactNotifications();
+      if (!mounted) return;
+
+      final previousCanExact = _canScheduleExact;
+      setState(() {
+        _canScheduleExact = canExact;
+      });
+
+      if (onResumed && !previousCanExact && canExact) {
+        Fluttertoast.showToast(
+          msg:
+              "تم تفعيل إذن المنبهات الدقيقة بنجاح! تم تحديث مواقيت الإشعارات ⏰",
+          backgroundColor: const Color(0xFF00695C),
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_LONG,
+        );
+        final notifier =
+            ref.read(NotificationSettingsNotifier.provider.notifier);
+        await notifier.requestPermissionsAndSync();
+        ref.invalidate(notificationDiagnosticsProvider);
+      }
+    } catch (e, stack) {
+      debugPrint(
+          "NotificationsSettingsScreen: Error checking exact alarm status: $e\n$stack");
+    }
+  }
+
+  Future<void> _promptExactAlarmDialog() async {
+    final shouldOpen = await ExactAlarmRationaleDialog.show(context);
+    if (!mounted) return;
+    if (shouldOpen == true) {
+      final notifier = ref.read(NotificationSettingsNotifier.provider.notifier);
+      await notifier.openExactAlarmSettings();
+    }
+  }
+
+  Future<void> _handleMasterToggle(bool val) async {
+    final notifier = ref.read(NotificationSettingsNotifier.provider.notifier);
+    if (val && !_canScheduleExact) {
+      final hasPrompted = await notifier.isExactAlarmPromptShown();
+      if (!hasPrompted) {
+        await notifier.setExactAlarmPromptShown(true);
+        await _promptExactAlarmDialog();
+      }
+    }
+    await notifier.toggleAllNotifications(val);
+  }
+
+  Future<void> _handlePrayerCategoryToggle(bool val) async {
+    final notifier = ref.read(NotificationSettingsNotifier.provider.notifier);
+    if (val && !_canScheduleExact) {
+      final hasPrompted = await notifier.isExactAlarmPromptShown();
+      if (!hasPrompted) {
+        await notifier.setExactAlarmPromptShown(true);
+        await _promptExactAlarmDialog();
+      }
+    }
+    await notifier.togglePrayerCategory(val);
+  }
+
+  Future<void> _handleAzkarCategoryToggle(bool val) async {
+    final notifier = ref.read(NotificationSettingsNotifier.provider.notifier);
+    if (val && !_canScheduleExact) {
+      final hasPrompted = await notifier.isExactAlarmPromptShown();
+      if (!hasPrompted) {
+        await notifier.setExactAlarmPromptShown(true);
+        await _promptExactAlarmDialog();
+      }
+    }
+    await notifier.toggleAzkarCategory(val);
   }
 
   @override
@@ -49,19 +147,23 @@ class _NotificationsSettingsScreenState
             children: [
               NotificationMasterCard(
                 isEnabled: isMasterOn,
-                onChanged: (val) => notifier.toggleAllNotifications(val),
+                onChanged: _handleMasterToggle,
               ),
               if (isMasterOn) ...[
-                NotificationTestCard(
-                  onSendTest: () => notifier.sendTestNotification(),
-                ),
+                if (kDebugMode) const NotificationDiagnosticsCard(),
+                if (!_canScheduleExact)
+                  ExactAlarmWarningBanner(
+                    onEnableExact: _promptExactAlarmDialog,
+                  ),
                 _PrayerNotificationsSection(
                   settings: settings,
                   notifier: notifier,
+                  onCategoryToggle: _handlePrayerCategoryToggle,
                 ),
                 _AzkarNotificationsSection(
                   settings: settings,
                   notifier: notifier,
+                  onCategoryToggle: _handleAzkarCategoryToggle,
                 ),
                 _DailyRemindersSection(
                   settings: settings,
@@ -93,10 +195,12 @@ class _NotificationsSettingsScreenState
 class _PrayerNotificationsSection extends StatelessWidget {
   final NotificationSettingsModel settings;
   final NotificationSettingsNotifier notifier;
+  final ValueChanged<bool> onCategoryToggle;
 
   const _PrayerNotificationsSection({
     required this.settings,
     required this.notifier,
+    required this.onCategoryToggle,
   });
 
   @override
@@ -108,7 +212,7 @@ class _PrayerNotificationsSection extends StatelessWidget {
       title: "مواقيت الصلوات الخمس",
       subtitle: "تنبيهات بدخول وقت كل صلاة وتذكير مسبق",
       isCategoryEnabled: enabled,
-      onCategoryToggle: (val) => notifier.togglePrayerCategory(val),
+      onCategoryToggle: onCategoryToggle,
       children: [
         NotificationSwitchItem(
           title: "صلاة الفجر",
@@ -162,10 +266,12 @@ class _PrayerNotificationsSection extends StatelessWidget {
 class _AzkarNotificationsSection extends StatelessWidget {
   final NotificationSettingsModel settings;
   final NotificationSettingsNotifier notifier;
+  final ValueChanged<bool> onCategoryToggle;
 
   const _AzkarNotificationsSection({
     required this.settings,
     required this.notifier,
+    required this.onCategoryToggle,
   });
 
   @override
@@ -177,7 +283,7 @@ class _AzkarNotificationsSection extends StatelessWidget {
       title: "الأذكار والتحصين اليومي",
       subtitle: "أذكار الصباح والمساء والنوم والاستيقاظ",
       isCategoryEnabled: enabled,
-      onCategoryToggle: (val) => notifier.toggleAzkarCategory(val),
+      onCategoryToggle: onCategoryToggle,
       children: [
         NotificationSwitchItem(
           title: "أذكار الصباح",
