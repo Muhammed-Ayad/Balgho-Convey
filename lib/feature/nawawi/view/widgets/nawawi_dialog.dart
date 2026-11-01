@@ -15,7 +15,9 @@ class NawawiDialog extends StatelessWidget {
       ),
       content: SelectableText(
         description,
-        style: context.textTheme.headlineSmall,
+        style: context.textTheme.headlineSmall?.copyWith(
+          color: context.colorScheme.onSurface,
+        ),
       ),
       actions: [
         TextButton(

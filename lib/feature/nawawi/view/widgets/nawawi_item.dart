@@ -156,7 +156,7 @@ class NawawiHadithCardWidget extends StatelessWidget {
             fontSize: 18,
             height: 2.0,
             fontWeight: FontWeight.w500,
-            color: const Color(0xFF2C3E50),
+            color: context.colorScheme.onSurface,
           ),
           textAlign: TextAlign.justify,
         ),
