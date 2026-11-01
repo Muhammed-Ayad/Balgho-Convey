@@ -55,7 +55,7 @@ class LocalNotificationService {
     if (voice == AzanVoice.silent) {
       return const NotificationDetails(
         android: AndroidNotificationDetails(
-          'convey_azan_silent_channel',
+          'convey_azan_silent_channel_v2',
           'أذان: إشعار صامت',
           channelDescription: 'تنبيهات مواقيت الصلاة بدون صوت الأذان',
           importance: Importance.max,
@@ -78,7 +78,7 @@ class LocalNotificationService {
     final soundName = 'azan_${voice.name}';
     return NotificationDetails(
       android: AndroidNotificationDetails(
-        'convey_azan_channel_${voice.name}',
+        'convey_azan_channel_${voice.name}_v2',
         'أذان (${voice.title})',
         channelDescription: 'صوت وتنبيه أذان ${voice.title}',
         importance: Importance.max,
@@ -176,9 +176,21 @@ class LocalNotificationService {
         debugPrint(
             "LocalNotificationService: Notification channel '$mainChannelId' created.");
 
-        // Silent azan channel
+        // Clean up legacy v1 channels so updated audio attributes take full effect
+        try {
+          await androidPlugin.deleteNotificationChannel('convey_azan_silent_channel');
+          for (final voice in AzanVoice.values) {
+            await androidPlugin
+                .deleteNotificationChannel('convey_azan_channel_${voice.name}');
+          }
+        } catch (e) {
+          debugPrint(
+              "LocalNotificationService: Error cleaning up legacy notification channels: $e");
+        }
+
+        // Silent azan channel v2
         const silentChannel = AndroidNotificationChannel(
-          'convey_azan_silent_channel',
+          'convey_azan_silent_channel_v2',
           'أذان: إشعار صامت',
           description: 'تنبيهات مواقيت الصلاة بدون صوت الأذان',
           importance: Importance.max,
@@ -188,12 +200,12 @@ class LocalNotificationService {
         );
         await androidPlugin.createNotificationChannel(silentChannel);
 
-        // Azan channels with audio for each muezzin voice
+        // Azan channels with audio for each muezzin voice (v2)
         for (final voice in AzanVoice.values) {
           if (voice == AzanVoice.silent) continue;
           final soundName = 'azan_${voice.name}';
           final azanChannel = AndroidNotificationChannel(
-            'convey_azan_channel_${voice.name}',
+            'convey_azan_channel_${voice.name}_v2',
             'أذان (${voice.title})',
             description: 'صوت وتنبيه أذان ${voice.title}',
             importance: Importance.max,
@@ -205,7 +217,7 @@ class LocalNotificationService {
           );
           await androidPlugin.createNotificationChannel(azanChannel);
           debugPrint(
-              "LocalNotificationService: Created azan channel: 'convey_azan_channel_${voice.name}'");
+              "LocalNotificationService: Created azan channel: 'convey_azan_channel_${voice.name}_v2'");
         }
       }
 
