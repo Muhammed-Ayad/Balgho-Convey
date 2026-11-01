@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2023 https://github.com/Muhammed-Ayad and https://github.com/salamaEnigma
+Copyright (c) 2023 [Muhammed-Ayad](https://github.com/Muhammed-Ayad) and [salamaEnigma](https://github.com/salamaEnigma)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
