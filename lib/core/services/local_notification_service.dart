@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:great_quran/feature/notifications/logic/models/notification_diagnostics_model.dart';
+import 'package:great_quran/feature/settings/logic/models/azan_sound_option.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -49,6 +50,56 @@ class LocalNotificationService {
       presentSound: true,
     ),
   );
+
+  static NotificationDetails getAzanNotificationDetails(AzanVoice voice) {
+    if (voice == AzanVoice.silent) {
+      return const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'convey_azan_silent_channel',
+          'أذان: إشعار صامت',
+          channelDescription: 'تنبيهات مواقيت الصلاة بدون صوت الأذان',
+          importance: Importance.max,
+          priority: Priority.high,
+          playSound: false,
+          enableVibration: true,
+          icon: '@mipmap/ic_launcher',
+          channelShowBadge: true,
+          category: AndroidNotificationCategory.reminder,
+          visibility: NotificationVisibility.public,
+        ),
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: false,
+        ),
+      );
+    }
+
+    final soundName = 'azan_${voice.name}';
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+        'convey_azan_channel_${voice.name}',
+        'أذان (${voice.title})',
+        channelDescription: 'صوت وتنبيه أذان ${voice.title}',
+        importance: Importance.max,
+        priority: Priority.max,
+        playSound: true,
+        sound: RawResourceAndroidNotificationSound(soundName),
+        enableVibration: true,
+        icon: '@mipmap/ic_launcher',
+        channelShowBadge: true,
+        category: AndroidNotificationCategory.alarm,
+        audioAttributesUsage: AudioAttributesUsage.alarm,
+        visibility: NotificationVisibility.public,
+      ),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        sound: '$soundName.mp3',
+      ),
+    );
+  }
 
   Future<bool> init() async {
     debugPrint("LocalNotificationService: Starting initialization...");
@@ -124,6 +175,38 @@ class LocalNotificationService {
         await androidPlugin.createNotificationChannel(mainChannel);
         debugPrint(
             "LocalNotificationService: Notification channel '$mainChannelId' created.");
+
+        // Silent azan channel
+        const silentChannel = AndroidNotificationChannel(
+          'convey_azan_silent_channel',
+          'أذان: إشعار صامت',
+          description: 'تنبيهات مواقيت الصلاة بدون صوت الأذان',
+          importance: Importance.max,
+          playSound: false,
+          enableVibration: true,
+          showBadge: true,
+        );
+        await androidPlugin.createNotificationChannel(silentChannel);
+
+        // Azan channels with audio for each muezzin voice
+        for (final voice in AzanVoice.values) {
+          if (voice == AzanVoice.silent) continue;
+          final soundName = 'azan_${voice.name}';
+          final azanChannel = AndroidNotificationChannel(
+            'convey_azan_channel_${voice.name}',
+            'أذان (${voice.title})',
+            description: 'صوت وتنبيه أذان ${voice.title}',
+            importance: Importance.max,
+            playSound: true,
+            sound: RawResourceAndroidNotificationSound(soundName),
+            enableVibration: true,
+            showBadge: true,
+            audioAttributesUsage: AudioAttributesUsage.alarm,
+          );
+          await androidPlugin.createNotificationChannel(azanChannel);
+          debugPrint(
+              "LocalNotificationService: Created azan channel: 'convey_azan_channel_${voice.name}'");
+        }
       }
 
       _isInitSuccess = true;
@@ -262,6 +345,7 @@ class LocalNotificationService {
     required String title,
     required String body,
     String? payload,
+    NotificationDetails? notificationDetails,
   }) async {
     debugPrint("LocalNotificationService: showInstantNotification (#$id)");
     try {
@@ -269,7 +353,7 @@ class LocalNotificationService {
         id,
         title,
         body,
-        _notificationDetails,
+        notificationDetails ?? _notificationDetails,
         payload: payload,
       );
       debugPrint("LocalNotificationService: Instant notification displayed.");
@@ -286,7 +370,9 @@ class LocalNotificationService {
     required String body,
     DateTimeComponents? matchDateTimeComponents,
     String? payload,
+    NotificationDetails? notificationDetails,
   }) async {
+    final details = notificationDetails ?? _notificationDetails;
     final now = tz.TZDateTime.now(tz.local);
     var scheduledDate = tz.TZDateTime(
       tz.local,
@@ -347,7 +433,7 @@ class LocalNotificationService {
         title,
         body,
         scheduledDate,
-        _notificationDetails,
+        details,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         androidScheduleMode: preferredMode,
@@ -366,7 +452,7 @@ class LocalNotificationService {
             title,
             body,
             scheduledDate,
-            _notificationDetails,
+            details,
             uiLocalNotificationDateInterpretation:
                 UILocalNotificationDateInterpretation.absoluteTime,
             androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
@@ -381,6 +467,27 @@ class LocalNotificationService {
         }
       }
     }
+  }
+
+  Future<void> scheduleAzanNotification({
+    required int id,
+    required DateTime dateTime,
+    required String title,
+    required String body,
+    required AzanVoice voice,
+    DateTimeComponents? matchDateTimeComponents,
+    String? payload,
+  }) async {
+    final details = getAzanNotificationDetails(voice);
+    await scheduleNotification(
+      id: id,
+      dateTime: dateTime,
+      title: title,
+      body: body,
+      matchDateTimeComponents: matchDateTimeComponents,
+      payload: payload,
+      notificationDetails: details,
+    );
   }
 
   Future<bool> scheduleTestNotification({int seconds = 15}) async {

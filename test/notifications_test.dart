@@ -158,7 +158,8 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
       expect(find.text("مركز الإشعارات والتنبيهات"), findsOneWidget);
       expect(find.text("تفعيل كافة الإشعارات"), findsOneWidget);
     });

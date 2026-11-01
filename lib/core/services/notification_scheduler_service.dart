@@ -4,6 +4,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/feature/azan/logic/repo/azan_repository.dart';
 import 'package:great_quran/feature/notifications/logic/models/notification_settings_model.dart';
+import 'package:great_quran/feature/settings/logic/models/azan_sound_option.dart';
+import 'package:great_quran/feature/settings/logic/repo/azan_settings_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NotificationSchedulerService {
@@ -11,13 +13,19 @@ class NotificationSchedulerService {
     return NotificationSchedulerService(
       ref.read(LocalNotificationService.provider),
       ref.read(AzanRepository.provider),
+      ref.read(AzanSettingsRepository.provider),
     );
   });
 
   final LocalNotificationService _notificationService;
   final IAzanRepository _azanRepository;
+  final IAzanSettingsRepository _azanSettingsRepository;
 
-  NotificationSchedulerService(this._notificationService, this._azanRepository);
+  NotificationSchedulerService(
+    this._notificationService,
+    this._azanRepository,
+    this._azanSettingsRepository,
+  );
 
   static const int idFajr = 101;
   static const int idDhuhr = 102;
@@ -51,20 +59,47 @@ class NotificationSchedulerService {
 
   Future<void> sendTestNotification() async {
     debugPrint("NotificationSchedulerService: sendTestNotification() invoked.");
+    AzanNotificationPreferences azanPrefs;
+    try {
+      azanPrefs = await _azanSettingsRepository.getPreferences();
+    } catch (_) {
+      azanPrefs = const AzanNotificationPreferences();
+    }
+
     await _notificationService.showInstantNotification(
       id: idTestNotification,
-      title: "تطبيق بلغوا 🌿",
+      title: "تطبيق بلغوا 🌿 (تجربة صوت الأذان)",
       body:
-          "سبحان الله وبحمده، سبحان الله العظيم.. تم التحقق من عمل الإشعار الفوري بنجاح!",
+          "حان الآن موعد الصلاة.. صوت المؤذن المختار: ${azanPrefs.selectedVoice.title}",
       payload: "test",
+      notificationDetails: LocalNotificationService.getAzanNotificationDetails(
+          azanPrefs.selectedVoice),
     );
   }
 
   Future<bool> scheduleTestNotification({int seconds = 15}) async {
     debugPrint(
         "NotificationSchedulerService: scheduleTestNotification($seconds s) invoked.");
-    return await _notificationService.scheduleTestNotification(
-        seconds: seconds);
+    AzanNotificationPreferences azanPrefs;
+    try {
+      azanPrefs = await _azanSettingsRepository.getPreferences();
+    } catch (_) {
+      azanPrefs = const AzanNotificationPreferences();
+    }
+
+    final canExact = await _notificationService.canScheduleExactNotifications();
+    final scheduledTime = DateTime.now().add(Duration(seconds: seconds));
+    await _notificationService.scheduleNotification(
+      id: 998,
+      dateTime: scheduledTime,
+      title: "تنبيه مجدول تجريبي ($seconds ثانية) ⏰",
+      body:
+          "الحمد لله.. موعد الأذان التجريبي! صوت المؤذن: ${azanPrefs.selectedVoice.title}",
+      payload: "test_scheduled_${seconds}s",
+      notificationDetails: LocalNotificationService.getAzanNotificationDetails(
+          azanPrefs.selectedVoice),
+    );
+    return canExact;
   }
 
   Future<void> syncSchedules(NotificationSettingsModel settings) async {
@@ -123,6 +158,19 @@ class NotificationSchedulerService {
   Future<void> _schedulePrayers(NotificationSettingsModel settings) async {
     if (!settings.prayerNotificationsEnabled) return;
 
+    AzanNotificationPreferences azanPrefs;
+    try {
+      azanPrefs = await _azanSettingsRepository.getPreferences();
+    } catch (_) {
+      azanPrefs = const AzanNotificationPreferences();
+    }
+
+    if (!azanPrefs.isEnabled) {
+      debugPrint(
+          "NotificationSchedulerService: Azan master switch is disabled.");
+      return;
+    }
+
     DateTime? fajrTime;
     DateTime? dhuhrTime;
     DateTime? asrTime;
@@ -163,45 +211,46 @@ class NotificationSchedulerService {
         preId: idFajrPre,
         name: "الفجر",
         time: fajrTime,
-        isEnabled: settings.fajr,
+        isEnabled: settings.fajr && azanPrefs.fajr,
       ),
       _PrayerScheduleItem(
         id: idDhuhr,
         preId: idDhuhrPre,
         name: "الظهر",
         time: dhuhrTime,
-        isEnabled: settings.dhuhr,
+        isEnabled: settings.dhuhr && azanPrefs.dhuhr,
       ),
       _PrayerScheduleItem(
         id: idAsr,
         preId: idAsrPre,
         name: "العصر",
         time: asrTime,
-        isEnabled: settings.asr,
+        isEnabled: settings.asr && azanPrefs.asr,
       ),
       _PrayerScheduleItem(
         id: idMaghrib,
         preId: idMaghribPre,
         name: "المغرب",
         time: maghribTime,
-        isEnabled: settings.maghrib,
+        isEnabled: settings.maghrib && azanPrefs.maghrib,
       ),
       _PrayerScheduleItem(
         id: idIsha,
         preId: idIshaPre,
         name: "العشاء",
         time: ishaTime,
-        isEnabled: settings.isha,
+        isEnabled: settings.isha && azanPrefs.isha,
       ),
     ];
 
     for (final prayer in prayers) {
       if (prayer.isEnabled && prayer.time != null) {
-        await _notificationService.scheduleNotification(
+        await _notificationService.scheduleAzanNotification(
           id: prayer.id,
           dateTime: prayer.time!,
           title: "حان الآن موعد صلاة ${prayer.name} 🕌",
           body: "حي على الصلاة، حي على الفلاح.. أقم صلاتك تنعم بحياتك.",
+          voice: azanPrefs.selectedVoice,
           matchDateTimeComponents: DateTimeComponents.time,
           payload: "prayer_${prayer.name}",
         );
