@@ -83,6 +83,20 @@ class AzanSettingsNotifier
     final current = state.value ?? const AzanNotificationPreferences();
     final updated = current.copyWith(selectedVoice: voice);
     await updatePreferences(updated);
+    try {
+      final settings = await _ref
+          .read(NotificationSettingsRepository.provider)
+          .getSettings();
+      await _ref
+          .read(NotificationSchedulerService.provider)
+          .syncSchedules(settings);
+    } catch (_) {}
+  }
+
+  Future<void> toggleFlipToMute(bool isEnabled) async {
+    final current = state.value ?? const AzanNotificationPreferences();
+    final updated = current.copyWith(flipToMute: isEnabled);
+    await updatePreferences(updated);
   }
 
   Future<void> toggleEnabled(bool isEnabled) async {
@@ -124,6 +138,16 @@ class AzanSettingsNotifier
           .read(NotificationSettingsNotifier.provider.notifier)
           .toggleSpecificPrayer(prayer, isEnabled);
     } catch (_) {}
+  }
+
+  Future<void> stopAudioPreview() async {
+    try {
+      await _audioPlayer.stop();
+    } catch (_) {}
+    _currentlyPlayingVoice = null;
+    if (mounted && state.hasValue) {
+      state = AsyncValue.data(state.value!);
+    }
   }
 
   Future<void> toggleVoicePreview(AzanVoice voice) async {

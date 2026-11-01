@@ -9,65 +9,140 @@ import 'package:great_quran/feature/settings/logic/providers/azan_settings_provi
 import 'package:great_quran/feature/settings/view/widgets/daylight_saving_sheet.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AzanSettingsScreen extends ConsumerWidget {
+class AzanSettingsScreen extends ConsumerStatefulWidget {
   const AzanSettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AzanSettingsScreen> createState() => _AzanSettingsScreenState();
+}
+
+class _AzanSettingsScreenState extends ConsumerState<AzanSettingsScreen> {
+  @override
+  void dispose() {
+    ref.read(AzanSettingsNotifier.provider.notifier).stopAudioPreview();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(AzanSettingsNotifier.provider);
     final notifier = ref.read(AzanSettingsNotifier.provider.notifier);
 
-    return Scaffold(
-      appBar: const CustomAppBar(
-        title: "تنبيهات وصوت الأذان",
-      ),
-      body: state.when(
-        data: (prefs) {
-          return ListView(
-            padding: const EdgeInsets.all(D.sizeMedium),
-            children: [
-              AzanMasterSwitchCard(
-                isEnabled: prefs.isEnabled,
-                onChanged: (val) => notifier.toggleEnabled(val),
-              ),
-              const SizedBox(height: D.sizeMedium),
-              AzanDaylightSavingCard(
-                currentMode: prefs.daylightSavingMode,
-                onTap: () {
-                  DaylightSavingBottomSheet.show(
-                      context, prefs.daylightSavingMode);
-                },
-              ),
-              const SizedBox(height: D.sizeMedium),
-              const AzanSectionTitle(title: "اختيار صوت المؤذن"),
-              ...AzanVoice.values.map((voice) {
-                final isSelected = prefs.selectedVoice == voice;
-                final isPlayingThis = notifier.currentlyPlayingVoice == voice;
-
-                return AzanVoiceOptionCard(
-                  voice: voice,
-                  isSelected: isSelected,
-                  isPlaying: isPlayingThis,
-                  onSelect: () => notifier.setVoice(voice),
-                  onTogglePreview: () => notifier.toggleVoicePreview(voice),
-                );
-              }),
-              const SizedBox(height: D.sizeMedium),
-              const AzanSectionTitle(title: "تفعيل التنبيه لكل صلاة"),
-              AzanPrayerTogglesCard(
-                prefs: prefs,
-                onTogglePrayer: (prayer, val) =>
-                    notifier.togglePrayer(prayer, val),
-              ),
-              const SizedBox(height: D.sizeXXLarge),
-            ],
-          );
-        },
-        loading: () => const LoadingWidget(),
-        error: (err, stack) => CustomErrorWidget(
-          errorMsg: err.toString(),
-          onRefresh: () => notifier.loadPreferences(),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        notifier.stopAudioPreview();
+      },
+      child: Scaffold(
+        appBar: const CustomAppBar(
+          title: "تنبيهات وصوت الأذان",
         ),
+        body: state.when(
+          data: (prefs) {
+            return ListView(
+              padding: const EdgeInsets.all(D.sizeMedium),
+              children: [
+                AzanMasterSwitchCard(
+                  isEnabled: prefs.isEnabled,
+                  onChanged: (val) => notifier.toggleEnabled(val),
+                ),
+                const SizedBox(height: D.sizeMedium),
+                AzanDaylightSavingCard(
+                  currentMode: prefs.daylightSavingMode,
+                  onTap: () {
+                    DaylightSavingBottomSheet.show(
+                        context, prefs.daylightSavingMode);
+                  },
+                ),
+                const SizedBox(height: D.sizeMedium),
+                AzanFlipToMuteCard(
+                  isEnabled: prefs.flipToMute,
+                  onChanged: (val) => notifier.toggleFlipToMute(val),
+                ),
+                const SizedBox(height: D.sizeMedium),
+                const AzanSectionTitle(title: "اختيار صوت المؤذن"),
+                ...AzanVoice.values.map((voice) {
+                  final isSelected = prefs.selectedVoice == voice;
+                  final isPlayingThis = notifier.currentlyPlayingVoice == voice;
+
+                  return AzanVoiceOptionCard(
+                    voice: voice,
+                    isSelected: isSelected,
+                    isPlaying: isPlayingThis,
+                    onSelect: () => notifier.setVoice(voice),
+                    onTogglePreview: () => notifier.toggleVoicePreview(voice),
+                  );
+                }),
+                const SizedBox(height: D.sizeMedium),
+                const AzanSectionTitle(title: "تفعيل التنبيه لكل صلاة"),
+                AzanPrayerTogglesCard(
+                  prefs: prefs,
+                  onTogglePrayer: (prayer, val) =>
+                      notifier.togglePrayer(prayer, val),
+                ),
+                const SizedBox(height: D.sizeXXLarge),
+              ],
+            );
+          },
+          loading: () => const LoadingWidget(),
+          error: (err, stack) => CustomErrorWidget(
+            errorMsg: err.toString(),
+            onRefresh: () => notifier.loadPreferences(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AzanFlipToMuteCard extends StatelessWidget {
+  final bool isEnabled;
+  final ValueChanged<bool> onChanged;
+
+  const AzanFlipToMuteCard({
+    super.key,
+    required this.isEnabled,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = context.colorScheme.primary;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface,
+        borderRadius: BorderRadius.circular(D.sizeLarge),
+        border: Border.all(
+          color: primary.withValues(alpha: 0.15),
+        ),
+      ),
+      child: SwitchListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(D.sizeLarge),
+        ),
+        secondary: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(
+            Icons.screen_rotation_alt_rounded,
+            color: primary,
+            size: 22,
+          ),
+        ),
+        title: const Text(
+          "كتم الأذان عند قلب الهاتف",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        ),
+        subtitle: const Text(
+          "إيقاف صوت الأذان تلقائياً بمجرد وضع الهاتف وشاشته للأسفل",
+          style: TextStyle(fontSize: 12),
+        ),
+        activeThumbColor: primary,
+        value: isEnabled,
+        onChanged: onChanged,
       ),
     );
   }

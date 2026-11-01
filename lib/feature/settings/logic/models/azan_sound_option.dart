@@ -34,6 +34,7 @@ class AzanNotificationPreferences {
   final AzanVoice selectedVoice;
   final DaylightSavingMode daylightSavingMode;
   final int minuteAdjustment;
+  final bool flipToMute;
   final bool fajr;
   final bool dhuhr;
   final bool asr;
@@ -45,6 +46,7 @@ class AzanNotificationPreferences {
     this.selectedVoice = AzanVoice.makkah,
     this.daylightSavingMode = DaylightSavingMode.auto,
     this.minuteAdjustment = 0,
+    this.flipToMute = true,
     this.fajr = true,
     this.dhuhr = true,
     this.asr = true,
@@ -57,6 +59,7 @@ class AzanNotificationPreferences {
     AzanVoice? selectedVoice,
     DaylightSavingMode? daylightSavingMode,
     int? minuteAdjustment,
+    bool? flipToMute,
     bool? fajr,
     bool? dhuhr,
     bool? asr,
@@ -68,6 +71,7 @@ class AzanNotificationPreferences {
       selectedVoice: selectedVoice ?? this.selectedVoice,
       daylightSavingMode: daylightSavingMode ?? this.daylightSavingMode,
       minuteAdjustment: minuteAdjustment ?? this.minuteAdjustment,
+      flipToMute: flipToMute ?? this.flipToMute,
       fajr: fajr ?? this.fajr,
       dhuhr: dhuhr ?? this.dhuhr,
       asr: asr ?? this.asr,
@@ -81,6 +85,7 @@ class AzanNotificationPreferences {
         'selectedVoice': selectedVoice.name,
         'daylightSavingMode': daylightSavingMode.name,
         'minuteAdjustment': minuteAdjustment,
+        'flipToMute': flipToMute,
         'fajr': fajr,
         'dhuhr': dhuhr,
         'asr': asr,
@@ -100,6 +105,7 @@ class AzanNotificationPreferences {
           orElse: () => DaylightSavingMode.auto,
         ),
         minuteAdjustment: json['minuteAdjustment'] as int? ?? 0,
+        flipToMute: json['flipToMute'] as bool? ?? true,
         fajr: json['fajr'] as bool? ?? true,
         dhuhr: json['dhuhr'] as bool? ?? true,
         asr: json['asr'] as bool? ?? true,

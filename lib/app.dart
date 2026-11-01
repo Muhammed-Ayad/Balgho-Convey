@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:great_quran/core/routes/routes_manager.dart';
+import 'package:great_quran/core/services/flip_to_mute_service.dart';
 import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/core/services/notification_scheduler_service.dart';
 import 'package:great_quran/core/theme/theme_provider.dart';
@@ -23,6 +24,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _initLocalNotification();
+    ref.read(FlipToMuteService.provider).initialize();
   }
 
   @override
