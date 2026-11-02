@@ -65,7 +65,7 @@ class FlipToMuteService {
       } catch (_) {}
 
       // 2. Dismiss active prayer azan notifications from notification tray
-      final prayerIds = [
+      final basePrayerIds = [
         NotificationSchedulerService.idFajr,
         NotificationSchedulerService.idDhuhr,
         NotificationSchedulerService.idAsr,
@@ -74,8 +74,11 @@ class FlipToMuteService {
         NotificationSchedulerService.idTestNotification,
       ];
 
-      for (final id in prayerIds) {
-        await _notificationService.cancel(id);
+      for (int d = 0; d < NotificationSchedulerService.daysToSchedule; d++) {
+        final idOffset = d * NotificationSchedulerService.dayOffsetMultiplier;
+        for (final id in basePrayerIds) {
+          await _notificationService.cancel(id + idOffset);
+        }
       }
     } catch (e, s) {
       debugPrint("FlipToMuteService: Error handling flip: $e\n$s");

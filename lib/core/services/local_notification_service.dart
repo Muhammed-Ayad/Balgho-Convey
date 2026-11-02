@@ -396,19 +396,22 @@ class LocalNotificationService {
       dateTime.second,
     );
 
-    if (scheduledDate.isBefore(now)) {
+    // Buffer to avoid past-due or instantaneous alarm race conditions
+    final threshold = now.add(const Duration(seconds: 10));
+
+    if (scheduledDate.isBefore(threshold)) {
       if (matchDateTimeComponents == DateTimeComponents.time) {
-        while (scheduledDate.isBefore(now)) {
+        while (scheduledDate.isBefore(threshold)) {
           scheduledDate = scheduledDate.add(const Duration(days: 1));
         }
       } else if (matchDateTimeComponents ==
           DateTimeComponents.dayOfWeekAndTime) {
-        while (scheduledDate.isBefore(now)) {
+        while (scheduledDate.isBefore(threshold)) {
           scheduledDate = scheduledDate.add(const Duration(days: 7));
         }
       } else if (matchDateTimeComponents ==
           DateTimeComponents.dayOfMonthAndTime) {
-        while (scheduledDate.isBefore(now)) {
+        while (scheduledDate.isBefore(threshold)) {
           final nextMonth =
               scheduledDate.month == 12 ? 1 : scheduledDate.month + 1;
           final nextYear = scheduledDate.month == 12
@@ -426,7 +429,7 @@ class LocalNotificationService {
         }
       } else {
         debugPrint(
-            "LocalNotificationService: Skipping non-recurring notification #$id in past: $scheduledDate");
+            "LocalNotificationService: Skipping non-recurring notification #$id in past/immediate: $scheduledDate (threshold: $threshold)");
         return;
       }
     }
