@@ -28,7 +28,7 @@ void main() {
           final soundResource =
               (android.sound as RawResourceAndroidNotificationSound).sound;
           expect(soundResource, 'azan_${voice.name}');
-          expect(android.channelId, 'convey_azan_channel_${voice.name}');
+          expect(android.channelId, 'convey_azan_channel_${voice.name}_v2');
           expect(android.audioAttributesUsage, AudioAttributesUsage.alarm);
         }
       }

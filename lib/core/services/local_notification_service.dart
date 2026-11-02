@@ -55,7 +55,7 @@ class LocalNotificationService {
     if (voice == AzanVoice.silent) {
       return const NotificationDetails(
         android: AndroidNotificationDetails(
-          'convey_azan_silent_channel',
+          'convey_azan_silent_channel_v2',
           'أذان: إشعار صامت',
           channelDescription: 'تنبيهات مواقيت الصلاة بدون صوت الأذان',
           importance: Importance.max,
@@ -78,7 +78,7 @@ class LocalNotificationService {
     final soundName = 'azan_${voice.name}';
     return NotificationDetails(
       android: AndroidNotificationDetails(
-        'convey_azan_channel_${voice.name}',
+        'convey_azan_channel_${voice.name}_v2',
         'أذان (${voice.title})',
         channelDescription: 'صوت وتنبيه أذان ${voice.title}',
         importance: Importance.max,
@@ -176,9 +176,21 @@ class LocalNotificationService {
         debugPrint(
             "LocalNotificationService: Notification channel '$mainChannelId' created.");
 
-        // Silent azan channel
+        // Clean up legacy v1 channels so updated audio attributes take full effect
+        try {
+          await androidPlugin.deleteNotificationChannel('convey_azan_silent_channel');
+          for (final voice in AzanVoice.values) {
+            await androidPlugin
+                .deleteNotificationChannel('convey_azan_channel_${voice.name}');
+          }
+        } catch (e) {
+          debugPrint(
+              "LocalNotificationService: Error cleaning up legacy notification channels: $e");
+        }
+
+        // Silent azan channel v2
         const silentChannel = AndroidNotificationChannel(
-          'convey_azan_silent_channel',
+          'convey_azan_silent_channel_v2',
           'أذان: إشعار صامت',
           description: 'تنبيهات مواقيت الصلاة بدون صوت الأذان',
           importance: Importance.max,
@@ -188,12 +200,12 @@ class LocalNotificationService {
         );
         await androidPlugin.createNotificationChannel(silentChannel);
 
-        // Azan channels with audio for each muezzin voice
+        // Azan channels with audio for each muezzin voice (v2)
         for (final voice in AzanVoice.values) {
           if (voice == AzanVoice.silent) continue;
           final soundName = 'azan_${voice.name}';
           final azanChannel = AndroidNotificationChannel(
-            'convey_azan_channel_${voice.name}',
+            'convey_azan_channel_${voice.name}_v2',
             'أذان (${voice.title})',
             description: 'صوت وتنبيه أذان ${voice.title}',
             importance: Importance.max,
@@ -205,7 +217,7 @@ class LocalNotificationService {
           );
           await androidPlugin.createNotificationChannel(azanChannel);
           debugPrint(
-              "LocalNotificationService: Created azan channel: 'convey_azan_channel_${voice.name}'");
+              "LocalNotificationService: Created azan channel: 'convey_azan_channel_${voice.name}_v2'");
         }
       }
 
@@ -384,19 +396,22 @@ class LocalNotificationService {
       dateTime.second,
     );
 
-    if (scheduledDate.isBefore(now)) {
+    // Buffer to avoid past-due or instantaneous alarm race conditions
+    final threshold = now.add(const Duration(seconds: 10));
+
+    if (scheduledDate.isBefore(threshold)) {
       if (matchDateTimeComponents == DateTimeComponents.time) {
-        while (scheduledDate.isBefore(now)) {
+        while (scheduledDate.isBefore(threshold)) {
           scheduledDate = scheduledDate.add(const Duration(days: 1));
         }
       } else if (matchDateTimeComponents ==
           DateTimeComponents.dayOfWeekAndTime) {
-        while (scheduledDate.isBefore(now)) {
+        while (scheduledDate.isBefore(threshold)) {
           scheduledDate = scheduledDate.add(const Duration(days: 7));
         }
       } else if (matchDateTimeComponents ==
           DateTimeComponents.dayOfMonthAndTime) {
-        while (scheduledDate.isBefore(now)) {
+        while (scheduledDate.isBefore(threshold)) {
           final nextMonth =
               scheduledDate.month == 12 ? 1 : scheduledDate.month + 1;
           final nextYear = scheduledDate.month == 12
@@ -414,7 +429,7 @@ class LocalNotificationService {
         }
       } else {
         debugPrint(
-            "LocalNotificationService: Skipping non-recurring notification #$id in past: $scheduledDate");
+            "LocalNotificationService: Skipping non-recurring notification #$id in past/immediate: $scheduledDate (threshold: $threshold)");
         return;
       }
     }

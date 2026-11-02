@@ -19,6 +19,8 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
+  DateTime? _lastSyncTime;
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +44,21 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
   Future<void> _reSyncNotifications() async {
     try {
+      final now = DateTime.now();
+      // Throttle: Don't resync on resume if synced recently (within 30 mins)
+      // UNLESS the calendar day changed.
+      if (_lastSyncTime != null) {
+        final sameDay = _lastSyncTime!.year == now.year &&
+            _lastSyncTime!.month == now.month &&
+            _lastSyncTime!.day == now.day;
+        final difference = now.difference(_lastSyncTime!);
+        if (sameDay && difference < const Duration(minutes: 30)) {
+          debugPrint(
+              "MyApp: Resumed -> Skipping resync, synced recently: ${difference.inMinutes}m ago");
+          return;
+        }
+      }
+
       final notificationService = ref.read(LocalNotificationService.provider);
       if (!notificationService.isInitSuccess) {
         await notificationService.init();
@@ -51,6 +68,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       final scheduler = ref.read(NotificationSchedulerService.provider);
       final settings = await settingsRepo.getSettings();
       if (settings.allNotificationsEnabled) {
+        _lastSyncTime = now;
         debugPrint(
             "MyApp: Resuming app -> resyncing notification schedules...");
         await scheduler.syncSchedules(settings);
@@ -72,6 +90,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       final settingsRepo = ref.read(NotificationSettingsRepository.provider);
       final scheduler = ref.read(NotificationSchedulerService.provider);
       final settings = await settingsRepo.getSettings();
+      _lastSyncTime = DateTime.now();
       debugPrint(
           "MyApp: Initial syncSchedules on startup (allEnabled: ${settings.allNotificationsEnabled})...");
       await scheduler.syncSchedules(settings);
