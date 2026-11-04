@@ -127,6 +127,32 @@
 
 ---
 
+## 🏛️ EGM Architecture Blueprint
+
+### Subdirectories & System Boundaries
+- `lib`: [./lib/README.md](./lib/README.md) - Application source tree containing core infrastructure, domain features, localization catalogs, and app lifecycle entries.
+  - `core`: [./lib/core/README.md](./lib/core/README.md) - Foundational services, networking, routing, design tokens, and shared UI components.
+  - `feature`: [./lib/feature/README.md](./lib/feature/README.md) - 15 self-contained clean architecture features (`logic/` and `view/`).
+  - `l10n`: [./lib/l10n/README.md](./lib/l10n/README.md) - Localization delegates and translations (`ar`, `en`).
+
+### Global Invariants
+- **Offline-First Resilience**: All core features (Quran, Hisn al-Muslim Azkar, Nawawi Hadiths, Prayer time calculation, Tasbih) execute strictly offline using embedded assets and mathematical astronomical models (`adhan`). External networking is isolated exclusively to online radio streaming and Adhan MP3 audio caching.
+- **Unidirectional Architecture Flow**: Strict boundary isolation enforced per project rules:
+  $$\text{UI (Screens \& Widgets)} \longrightarrow \text{Providers (Riverpod)} \longrightarrow \text{Repositories} \longrightarrow \text{Data Sources}$$
+- **State Management Exclusivity**: Application state is managed exclusively using `hooks_riverpod`. Repositories never depend on `BuildContext` or UI elements.
+- **Widget Composition Integrity**: No custom UI-building methods returning `Widget` or `List<Widget>` are permitted; all visual sections are encapsulated in dedicated widget classes.
+
+### Global Side Effects
+- **Hardware & OS Alarms**: Zone-aware background alarm scheduling via `flutter_local_notifications` and Android exact alarm triggers.
+- **Audio Playback**: Background audio session controls, lock-screen media notifications via `audio_service`, and hardware flip-to-mute accelerometer listening.
+- **Local Persistence**: User preferences, bookmarking positions, completion streaks, and cached coordinates persisted in `SharedPreferences` and local file app storage (`path_provider`).
+- **Platform Channels**: Bidirectional communication with native Android `AppWidgetProvider` via `MethodChannel` (`com.convey.ayah.mohamed.ayad/widget_sync` and `flip_to_mute`).
+
+### System Verification
+- Run: `flutter test`
+
+---
+
 ## 📬 تواصل معنا (Contact & Support)
 
 لأي استفسارات، اقتراحات، أو للإبلاغ عن أي خطأ، يسعدنا تواصلكم عبر البريد الإلكتروني:  
