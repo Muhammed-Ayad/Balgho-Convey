@@ -4,6 +4,7 @@ mixin AppEndpoints {
  
   static const radiosApi = '$_baseUrl/radios_new.json';
   static const nawawiApi = '$_baseUrl/nawawi.json';
+  static const feelingsVersesApi = '$_baseUrl/feelings_verses.json';
 
   static const mailTo = "mailto:mohamedayaddev@gmail.com";
 

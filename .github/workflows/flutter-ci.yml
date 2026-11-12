@@ -1,0 +1,73 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Flutter CI — Balgho-Convey (great_quran)
+#
+# Triggers:
+#   • Every push to the default branch (dev)
+#   • Every Pull Request targeting the default branch (dev)
+#
+# Pipeline steps:
+#   1. Checkout source code
+#   2. Set up Flutter SDK (stable channel, pinned to project-compatible version)
+#   3. Install Dart/Flutter dependencies
+#   4. Run static analysis (flutter analyze)
+#   5. Run automated tests (flutter test)
+# ──────────────────────────────────────────────────────────────────────────────
+
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+# Least-privilege: read-only access to the repository contents.
+# No write permissions are granted to any GitHub resource.
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Step 1: Checkout ────────────────────────────────────────────────────
+      # Clones the repository at the commit that triggered this workflow run.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Step 2: Set up Flutter ───────────────────────────────────────────────
+      # Installs the Flutter SDK using the official subosito/flutter-action.
+      # Channel is pinned to "stable" and the version is locked to 3.35.3,
+      # which matches the Dart 3.35.3 / pub 3.9.2 toolchain used locally.
+      # cache: true speeds up subsequent runs by caching the SDK download.
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.35.3"
+          channel: "stable"
+          cache: true
+
+      # ── Step 3: Install dependencies ────────────────────────────────────────
+      # Downloads all packages declared in pubspec.yaml and resolves them
+      # according to pubspec.lock. The lock file guarantees reproducible builds.
+      - name: Install dependencies
+        run: flutter pub get
+
+      # ── Step 4: Static analysis ─────────────────────────────────────────────
+      # Runs the Dart analyzer against the full lib/ tree using the rules
+      # defined in analysis_options.yaml (flutter_lints/flutter.yaml).
+      # The job fails if any error or warning is emitted.
+      - name: Run flutter analyze
+        run: flutter analyze --fatal-infos
+
+      # ── Step 5: Automated tests ──────────────────────────────────────────────
+      # Executes all test files found under test/.
+      # Tests run on the host (no Android/iOS emulator required) which is
+      # sufficient for the unit, provider, and widget tests in this project.
+      # --coverage is omitted intentionally; add it once a coverage gate is set.
+      - name: Run flutter test
+        run: flutter test

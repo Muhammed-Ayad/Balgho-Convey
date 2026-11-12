@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FontFamilyNames {
-  static const String messiriFont = "UthmanicHafs";
+  static const String messiriFont = "ElMessiri";
+  static const String uthmanicFont = "UthmanicHafs";
 }
 
 class FontWeightManager {
