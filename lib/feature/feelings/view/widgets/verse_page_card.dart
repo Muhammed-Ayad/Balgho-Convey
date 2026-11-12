@@ -120,7 +120,7 @@ class VersePageCard extends StatelessWidget {
                 child: Text(
                   verse.ayahText,
                   style: TextStyle(
-                    fontFamily: FontFamilyNames.messiriFont,
+                    fontFamily: FontFamilyNames.uthmanicFont,
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
                     height: 2.1,
