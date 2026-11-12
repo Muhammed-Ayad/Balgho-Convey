@@ -60,6 +60,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/feelings/
     - assets/json/
     - assets/fonts/
     - assets/new_logo.png
