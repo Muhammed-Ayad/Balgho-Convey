@@ -4,12 +4,14 @@ class FeelingItemModel {
   final String id;
   final String title;
   final String icon;
+  final String? disclaimer;
   final List<FeelingVerseModel> verses;
 
   const FeelingItemModel({
     required this.id,
     required this.title,
     required this.icon,
+    this.disclaimer,
     required this.verses,
   });
 
@@ -24,6 +26,7 @@ class FeelingItemModel {
       id: json['id'] as String,
       title: json['title'] as String,
       icon: json['icon'] as String,
+      disclaimer: json['disclaimer'] as String?,
       verses: versesList,
     );
   }
@@ -33,6 +36,7 @@ class FeelingItemModel {
       'id': id,
       'title': title,
       'icon': icon,
+      if (disclaimer != null) 'disclaimer': disclaimer,
       'verses': verses.map((v) => v.toJson()).toList(),
     };
   }

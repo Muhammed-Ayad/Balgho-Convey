@@ -4,6 +4,7 @@ import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/widgets/custom_app_bar.dart';
 import 'package:great_quran/feature/feelings/logic/models/feeling_item_model.dart';
 import 'package:great_quran/feature/feelings/logic/providers/feelings_provider.dart';
+import 'package:great_quran/feature/feelings/view/widgets/feeling_disclaimer_widget.dart';
 import 'package:great_quran/feature/feelings/view/widgets/verse_page_card.dart';
 import 'package:great_quran/feature/feelings/view/widgets/verse_progress_indicator_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -73,6 +74,12 @@ class _FeelingVersesScreenState extends ConsumerState<FeelingVersesScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            if (widget.feeling.disclaimer != null) ...[
+              const SizedBox(height: D.sizeSmall),
+              FeelingDisclaimerWidget(
+                disclaimer: widget.feeling.disclaimer!,
+              ),
+            ],
             const SizedBox(height: D.sizeMedium),
             VerseProgressIndicatorWidget(
               itemCount: widget.feeling.versesCount,

@@ -119,12 +119,25 @@ void main() {
       }
     });
 
-    test('Every verse has a non-empty comfort message and surah name', () {
+    test('Every verse has a non-empty comfort message, context, tags and valid id', () {
+      final allIds = <String>{};
       for (final feeling in feelingsJson) {
+        final feelingId = feeling['id'] as String;
         final verses = feeling['verses'] as List<dynamic>;
+        if (feelingId == 'illness') {
+          expect(feeling['disclaimer'], isNotNull);
+          expect((feeling['disclaimer'] as String).trim(), isNotEmpty);
+        }
         for (final verse in verses) {
+          final id = verse['id'] as String;
+          expect(allIds.contains(id), isFalse, reason: 'Duplicate ID $id');
+          allIds.add(id);
+          expect(id.startsWith('$feelingId-'), isTrue);
           expect((verse['surahName'] as String).trim(), isNotEmpty);
           expect((verse['comfortMessage'] as String).trim(), isNotEmpty);
+          expect((verse['context'] as String).trim(), isNotEmpty);
+          expect(verse['tags'], isA<List>());
+          expect((verse['tags'] as List).isNotEmpty, isTrue);
           expect(verse['surahNumber'], isPositive);
           expect(verse['ayahNumber'], isPositive);
         }

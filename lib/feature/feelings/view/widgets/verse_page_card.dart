@@ -4,6 +4,7 @@ import 'package:great_quran/core/theme/dimensions.dart';
 import 'package:great_quran/core/theme/font_manager.dart';
 import 'package:great_quran/feature/feelings/logic/models/feeling_verse_model.dart';
 import 'package:great_quran/feature/feelings/view/widgets/verse_audio_player_bar.dart';
+import 'package:great_quran/feature/feelings/view/widgets/verse_context_widget.dart';
 
 class VersePageCard extends StatelessWidget {
   final FeelingVerseModel verse;
@@ -45,7 +46,7 @@ class VersePageCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // 1. Surah Badge
+   
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: D.sizeMedium,
@@ -77,7 +78,7 @@ class VersePageCard extends StatelessWidget {
               ),
               const SizedBox(height: D.sizeLarge),
 
-              // 2. Comforting / Reflection Message
+             
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
@@ -103,9 +104,17 @@ class VersePageCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: D.sizeXLarge),
 
-              // 3. Quranic Ayah Text in Uthmanic Font
+              if (verse.context != null || verse.tags.isNotEmpty) ...[
+                const SizedBox(height: D.sizeSmall),
+                VerseContextWidget(
+                  contextText: verse.context ?? '',
+                  tags: verse.tags,
+                ),
+              ],
+              const SizedBox(height: D.sizeLarge),
+
+            
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: D.sizeSmall),
                 child: Text(
@@ -122,7 +131,7 @@ class VersePageCard extends StatelessWidget {
               ),
               const SizedBox(height: D.sizeXLarge),
 
-              // 4. Audio Player Control Bar
+            
               VerseAudioPlayerBar(
                 verse: verse,
                 index: index,

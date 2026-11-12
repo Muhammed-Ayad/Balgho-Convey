@@ -17,7 +17,7 @@ void main() {
     icon: "assets/images/feelings/anxiety.png",
     verses: [
       FeelingVerseModel(
-        id: 1,
+        id: 'anxiety-1',
         surahNumber: 9,
         surahName: "التوبة",
         ayahNumber: 51,
@@ -25,7 +25,7 @@ void main() {
         comfortMessage: "لن يصيبك إلا ما كتب الله لك، فألقِ حمولك عليه.",
       ),
       FeelingVerseModel(
-        id: 2,
+        id: 'anxiety-2',
         surahNumber: 13,
         surahName: "الرعد",
         ayahNumber: 28,

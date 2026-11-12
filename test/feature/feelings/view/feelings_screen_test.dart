@@ -47,7 +47,7 @@ void main() {
       icon: "assets/images/feelings/anxiety.png",
       verses: [
         FeelingVerseModel(
-          id: 1,
+          id: 'anxiety-1',
           surahNumber: 9,
           surahName: "التوبة",
           ayahNumber: 51,
@@ -62,7 +62,7 @@ void main() {
       icon: "assets/images/feelings/sadness.png",
       verses: [
         FeelingVerseModel(
-          id: 2,
+          id: 'sadness-1',
           surahNumber: 9,
           surahName: "التوبة",
           ayahNumber: 40,
