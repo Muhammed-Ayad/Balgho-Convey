@@ -18,7 +18,7 @@ class FeelingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: const CustomAppBar(
-        title: "ما هو شعورك الآن؟",
+        title: "ما الذي تشعر به الآن؟",
       ),
       body: feelingsAsync.when(
         data: (feelings) {
@@ -62,7 +62,7 @@ class FeelingsScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "اختر شعورك، ودع القرآن يجيبك",
+                                "اختر حالتك، ودع القرآن يمنحك السكينة",
                                 style: context.textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: primary,

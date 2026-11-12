@@ -91,8 +91,8 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text("ما هو شعورك الآن؟"), findsOneWidget);
-      expect(find.text("اختر شعورك، ودع القرآن يجيبك"), findsOneWidget);
+      expect(find.text("ما الذي تشعر به الآن؟"), findsOneWidget);
+      expect(find.text("اختر حالتك، ودع القرآن يمنحك السكينة"), findsOneWidget);
       expect(find.byType(FeelingGridCard), findsNWidgets(2));
       expect(find.text("قلق"), findsOneWidget);
       expect(find.text("حزن"), findsOneWidget);

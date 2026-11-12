@@ -617,7 +617,7 @@ class FeelingsWideCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "ما هو شعورك الآن؟",
+                        "ما الذي تشعر به الآن؟",
                         style: context.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -625,7 +625,7 @@ class FeelingsWideCardWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        "اختر شعورك ودع القرآن الكريم يجيبك",
+                        "اختر حالتك، ودع القرآن يمنحك السكينة",
                         style: context.textTheme.bodySmall?.copyWith(
                           fontSize: 12,
                           color: Colors.grey.shade600,

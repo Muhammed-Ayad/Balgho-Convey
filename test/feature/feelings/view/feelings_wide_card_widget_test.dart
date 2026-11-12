@@ -15,8 +15,8 @@ void main() {
       ),
     );
 
-    expect(find.text("ما هو شعورك الآن؟"), findsOneWidget);
-    expect(find.text("اختر شعورك ودع القرآن الكريم يجيبك"), findsOneWidget);
+    expect(find.text("ما الذي تشعر به الآن؟"), findsOneWidget);
+    expect(find.text("اختر حالتك، ودع القرآن يمنحك السكينة"), findsOneWidget);
     expect(find.text("تدبّر"), findsOneWidget);
     expect(find.byIcon(Icons.auto_awesome_rounded), findsOneWidget);
   });
