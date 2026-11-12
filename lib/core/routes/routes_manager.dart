@@ -23,6 +23,9 @@ import 'package:great_quran/feature/radios/view/screens/audio_page.dart';
 import 'package:great_quran/feature/radios/view/screens/radio_categories_screen.dart';
 import 'package:great_quran/feature/radios/view/screens/radios_screen.dart';
 import 'package:great_quran/feature/settings/view/screens/settings_screen.dart';
+import 'package:great_quran/feature/feelings/logic/models/feeling_item_model.dart';
+import 'package:great_quran/feature/feelings/view/screens/feelings_screen.dart';
+import 'package:great_quran/feature/feelings/view/screens/feeling_verses_screen.dart';
 import 'package:great_quran/feature/tasbih/view/screens/tasbih_screen.dart';
 
 class Routes {
@@ -47,6 +50,8 @@ class Routes {
   static const String surahRoute = "/surah";
   static const String prophetRoute = "/prophet";
   static const String prophetDetailRoute = "/prophetDetail";
+  static const String feelingsRoute = "/feelings";
+  static const String feelingVersesRoute = "/feelingVerses";
 }
 
 final appRouter = GoRouter(
@@ -168,6 +173,17 @@ final appRouter = GoRouter(
       builder: (context, state) {
         final topic = state.extra as ProphetTopic;
         return ProphetDetailScreen(topic: topic);
+      },
+    ),
+    GoRoute(
+      path: Routes.feelingsRoute,
+      builder: (context, state) => const FeelingsScreen(),
+    ),
+    GoRoute(
+      path: Routes.feelingVersesRoute,
+      builder: (context, state) {
+        final feeling = state.extra as FeelingItemModel;
+        return FeelingVersesScreen(feeling: feeling);
       },
     ),
   ],

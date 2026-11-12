@@ -60,6 +60,8 @@ class MainFeaturesGridWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: D.sizeMedium),
+          const FeelingsWideCardWidget(),
+          const SizedBox(height: D.sizeMedium),
           const TasbihWideCardWidget(),
           const SizedBox(height: D.sizeMedium),
           const HabitsWideCardWidget(),
@@ -561,3 +563,109 @@ class TasbihWideCardWidget extends StatelessWidget {
     );
   }
 }
+
+class FeelingsWideCardWidget extends StatelessWidget {
+  const FeelingsWideCardWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = context.colorScheme.primary;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface,
+        borderRadius: BorderRadius.circular(D.sizeLarge),
+        border: Border.all(
+          color: primary.withValues(alpha: 0.12),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(D.sizeLarge),
+          onTap: () {
+            context.push(Routes.feelingsRoute);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(D.sizeMedium),
+            child: Row(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: primary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.auto_awesome_rounded,
+                    color: primary,
+                    size: 26,
+                  ),
+                ),
+                const SizedBox(width: D.sizeMedium),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "ما هو شعورك الآن؟",
+                        style: context.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        "اختر شعورك ودع القرآن الكريم يجيبك",
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 12,
+                          color: Colors.grey.shade600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: primary.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    "تدبّر",
+                    style: TextStyle(
+                      color: primary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: primary.withValues(alpha: 0.7),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
