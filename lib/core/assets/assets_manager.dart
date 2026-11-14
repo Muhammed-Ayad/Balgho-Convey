@@ -18,4 +18,5 @@ class FeelingImageAssets {
   static const String indecision = "$_base/indecision.png";
   static const String illness = "$_base/illness.png";
   static const String loneliness = "$_base/loneliness.png";
+  static const String distress = "$_base/anxiety.png";
 }

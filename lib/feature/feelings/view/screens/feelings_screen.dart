@@ -74,7 +74,8 @@ class FeelingsScreen extends ConsumerWidget {
                                 "آيات مختارة تواسي قلبك وتبث فيك الطمأنينة والسكينة",
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.grey.shade600,
+                                  color: context.colorScheme.onSurface
+                                      .withValues(alpha: 0.65),
                                 ),
                               ),
                             ],

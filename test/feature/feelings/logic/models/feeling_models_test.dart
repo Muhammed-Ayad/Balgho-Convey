@@ -20,7 +20,8 @@ void main() {
       );
     });
 
-    test('Calculates audioUrl correctly for 3-digit Surah and Ayah numbers', () {
+    test('Calculates audioUrl correctly for 3-digit Surah and Ayah numbers',
+        () {
       const verse = FeelingVerseModel(
         id: 'sadness-3',
         surahName: 'سورة البقرة',

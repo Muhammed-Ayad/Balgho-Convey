@@ -2,7 +2,7 @@ name: great_quran
 description: Great Quran.
 
 publish_to: "none"
-version: 1.5.6+12
+version: 1.5.8+14
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
