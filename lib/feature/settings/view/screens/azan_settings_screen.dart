@@ -17,16 +17,24 @@ class AzanSettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _AzanSettingsScreenState extends ConsumerState<AzanSettingsScreen> {
+  late final AzanSettingsNotifier _notifier;
+
+  @override
+  void initState() {
+    super.initState();
+    _notifier = ref.read(AzanSettingsNotifier.provider.notifier);
+  }
+
   @override
   void dispose() {
-    ref.read(AzanSettingsNotifier.provider.notifier).stopAudioPreview();
+    _notifier.stopAudioPreview();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(AzanSettingsNotifier.provider);
-    final notifier = ref.read(AzanSettingsNotifier.provider.notifier);
+    final notifier = _notifier;
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
