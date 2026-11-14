@@ -421,7 +421,7 @@ class AppInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "الإصدار 1.5.7\nجعلها الله في ميزان حسنات الجميع",
+        "الإصدار 1.5.8\nجعلها الله في ميزان حسنات الجميع",
         style: context.textTheme.bodySmall?.copyWith(
           fontSize: 12,
           color: Colors.grey.shade500,
