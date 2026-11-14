@@ -11,8 +11,7 @@ class LocalTestFeelingsRepository extends FeelingsRepository {
     final jsonString = await file.readAsString();
     final List<dynamic> jsonList = jsonDecode(jsonString) as List<dynamic>;
     return jsonList
-        .map((item) =>
-            FeelingItemModel.fromJson(item as Map<String, dynamic>))
+        .map((item) => FeelingItemModel.fromJson(item as Map<String, dynamic>))
         .toList();
   }
 }
@@ -27,12 +26,13 @@ void main() {
       repository = LocalTestFeelingsRepository();
     });
 
-    test('getFeelings returns all 8 feelings parsed correctly', () async {
+    test('getFeelings returns all 9 feelings parsed correctly', () async {
       final feelings = await repository.getFeelings();
-      expect(feelings.length, 8);
+      expect(feelings.length, 9);
       expect(feelings.any((f) => f.id == 'anxiety'), isTrue);
       expect(feelings.any((f) => f.id == 'sadness'), isTrue);
       expect(feelings.any((f) => f.id == 'illness'), isTrue);
+      expect(feelings.any((f) => f.id == 'distress'), isTrue);
     });
 
     test('getFeelingById returns correct feeling or null if not found',
@@ -42,6 +42,12 @@ void main() {
       expect(feeling!.id, 'anxiety');
       expect(feeling.title, 'قلق');
       expect(feeling.verses.isNotEmpty, isTrue);
+
+      final distressFeeling = await repository.getFeelingById('distress');
+      expect(distressFeeling, isNotNull);
+      expect(distressFeeling!.id, 'distress');
+      expect(distressFeeling.title, 'ضيق وكرب');
+      expect(distressFeeling.verses.length, 5);
 
       final nonExistent = await repository.getFeelingById('non_existent_id');
       expect(nonExistent, isNull);

@@ -27,9 +27,8 @@ class FeelingVerseModel {
 
   factory FeelingVerseModel.fromJson(Map<String, dynamic> json) {
     final rawTags = json['tags'];
-    final List<String> parsedTags = rawTags is List
-        ? rawTags.map((e) => e.toString()).toList()
-        : const [];
+    final List<String> parsedTags =
+        rawTags is List ? rawTags.map((e) => e.toString()).toList() : const [];
 
     return FeelingVerseModel(
       id: json['id']?.toString() ?? '',

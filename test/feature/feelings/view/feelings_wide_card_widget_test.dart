@@ -5,7 +5,8 @@ import 'package:great_quran/feature/home/view/widgets/feature_grid_card.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('FeelingsWideCardWidget renders title, subtitle, and badge correctly',
+  testWidgets(
+      'FeelingsWideCardWidget renders title, subtitle, and badge correctly',
       (tester) async {
     await tester.pumpWidget(
       const MaterialApp(

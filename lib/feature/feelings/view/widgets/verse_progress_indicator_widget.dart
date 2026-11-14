@@ -27,9 +27,8 @@ class VerseProgressIndicatorWidget extends StatelessWidget {
             width: i == currentIndex ? 24 : 8,
             height: 6,
             decoration: BoxDecoration(
-              color: i == currentIndex
-                  ? primary
-                  : primary.withValues(alpha: 0.2),
+              color:
+                  i == currentIndex ? primary : primary.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(D.sizeXXSmall),
             ),
           ),

@@ -105,15 +105,15 @@ class VerseAudioPlayerBar extends ConsumerWidget {
                             ? "جاري التحميل..."
                             : "استمع للتلاوة",
                 style: TextStyle(
-                  color: isError ? Colors.red.shade700 : primary,
+                  color: isError ? context.colorScheme.error : primary,
                   fontWeight: FontWeight.bold,
                   fontSize: 13,
                 ),
               ),
               Text(
-                "بصوت الشيخ مشاري العفاسي",
+                "بصوت الشيخ محمود خليل الحصري",
                 style: TextStyle(
-                  color: Colors.grey.shade600,
+                  color: context.colorScheme.onSurface.withValues(alpha: 0.65),
                   fontSize: 10,
                 ),
               ),

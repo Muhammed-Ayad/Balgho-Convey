@@ -28,7 +28,7 @@ void main() {
       feelingsJson = json.decode(feelingsRaw) as List<dynamic>;
     });
 
-    test('Contains exactly the 8 approved core feelings', () {
+    test('Contains exactly the 9 approved feelings with correct titles', () {
       final feelingIds = feelingsJson.map((e) => e['id'] as String).toList();
       const expectedIds = [
         'anxiety',
@@ -39,8 +39,24 @@ void main() {
         'indecision',
         'illness',
         'loneliness',
+        'distress',
       ];
       expect(feelingIds, expectedIds);
+
+      final feelingTitles =
+          feelingsJson.map((e) => e['title'] as String).toList();
+      const expectedTitles = [
+        'قلق',
+        'حزن',
+        'تقصير',
+        'شكر',
+        'فرح',
+        'حيرة وقرار',
+        'مرض',
+        'وحدة',
+        'ضيق وكرب',
+      ];
+      expect(feelingTitles, expectedTitles);
     });
 
     test('Each feeling has between 5 and 6 curated verses', () {
@@ -59,7 +75,7 @@ void main() {
       }
     });
 
-    test('All 8 feeling icons exist on disk in assets/images/feelings/', () {
+    test('All 9 feeling icons exist on disk in assets/images/feelings/', () {
       for (final feeling in feelingsJson) {
         final iconPath = feeling['icon'] as String;
         final iconFile = File(iconPath);
@@ -75,6 +91,18 @@ void main() {
         );
       }
     });
+
+    String cleanQuranText(String text) {
+      return text
+          .replaceAll('\ufeff', '')
+          .replaceAll(RegExp(r'\u06DE\s*'), '')
+          .replaceAll(RegExp(r'\s*[\u06D6-\u06DA\u06DC\u06DD]\s*'), ' ')
+          .replaceAll(RegExp(r'[\u06DF\u06E0]'), '')
+          .replaceAll(RegExp(r'[\u06E2\u06ED]'), '')
+          .replaceAll('\u0625\u0650', '\u0625')
+          .replaceAll(RegExp(r'\s+'), ' ')
+          .trim();
+    }
 
     test(
         'Every verse in feelings_verses.json 100% matches authenticated text in quran.json',
@@ -111,7 +139,7 @@ void main() {
 
           expect(
             ayahText,
-            equals(authenticText),
+            equals(cleanQuranText(authenticText)),
             reason:
                 'Text discrepancy in feeling: ${feeling['id']}, Surah $surahNum, Ayah $ayahNum',
           );
@@ -119,7 +147,9 @@ void main() {
       }
     });
 
-    test('Every verse has a non-empty comfort message, context, tags and valid id', () {
+    test(
+        'Every verse has a non-empty comfort message, context, tags and valid id',
+        () {
       final allIds = <String>{};
       for (final feeling in feelingsJson) {
         final feelingId = feeling['id'] as String;

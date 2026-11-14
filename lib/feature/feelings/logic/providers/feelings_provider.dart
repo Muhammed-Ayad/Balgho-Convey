@@ -172,7 +172,8 @@ class FeelingAudioNotifier extends StateNotifier<VerseAudioState> {
   }
 }
 
-final feelingAudioNotifierProvider = StateNotifierProvider.autoDispose<
-    FeelingAudioNotifier, VerseAudioState>((ref) {
+final feelingAudioNotifierProvider =
+    StateNotifierProvider.autoDispose<FeelingAudioNotifier, VerseAudioState>(
+        (ref) {
   return FeelingAudioNotifier(ref);
 });
