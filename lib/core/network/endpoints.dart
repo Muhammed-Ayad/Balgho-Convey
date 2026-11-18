@@ -10,4 +10,7 @@ mixin AppEndpoints {
 
   static const linkPlayGoogle =
       "https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad";
+
+  static const appStoreId = "6836274914";
+  static const linkAppStore = "https://apps.apple.com/app/id$appStoreId";
 }

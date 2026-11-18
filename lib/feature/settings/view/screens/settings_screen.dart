@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:great_quran/core/helpers/extensions.dart';
@@ -36,7 +37,6 @@ class SettingsScreen extends StatelessWidget {
           AzanSettingsTileWidget(),
           SizedBox(height: D.sizeSmall),
           WidgetsGuideTileWidget(),
-          SizedBox(height: D.sizeSmall),
           ContactUsTileWidget(),
           SizedBox(height: D.sizeSmall),
           ShareAppTileWidget(),
@@ -193,13 +193,20 @@ class WidgetsGuideTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsActionCardWidget(
-      icon: Icons.widgets_rounded,
-      title: "ودجت الشاشة الرئيسية",
-      subtitle: "عرض موعد الصلاة وذكر اليوم على شاشة هاتفك",
-      onTap: () {
-        context.push(Routes.widgetsGuideRoute);
-      },
+    // Home screen widgets exist only in the Android app.
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: D.sizeSmall),
+      child: SettingsActionCardWidget(
+        icon: Icons.widgets_rounded,
+        title: "ودجت الشاشة الرئيسية",
+        subtitle: "عرض موعد الصلاة وذكر اليوم على شاشة هاتفك",
+        onTap: () {
+          context.push(Routes.widgetsGuideRoute);
+        },
+      ),
     );
   }
 }
@@ -321,7 +328,11 @@ class ShareAppTileWidget extends StatelessWidget {
       title: context.l10n.titleShare,
       subtitle: "شارك التطبيق ليعم الخير ولك الأجر",
       onTap: () {
-        Share.share(AppEndpoints.linkPlayGoogle);
+        Share.share(
+          defaultTargetPlatform == TargetPlatform.iOS
+              ? AppEndpoints.linkAppStore
+              : AppEndpoints.linkPlayGoogle,
+        );
       },
     );
   }
@@ -341,7 +352,7 @@ class RateAppTileWidget extends StatelessWidget {
         if (await inAppReview.isAvailable()) {
           inAppReview.requestReview();
         }
-        inAppReview.openStoreListing();
+        inAppReview.openStoreListing(appStoreId: AppEndpoints.appStoreId);
       },
     );
   }

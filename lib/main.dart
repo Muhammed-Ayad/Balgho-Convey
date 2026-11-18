@@ -5,9 +5,15 @@ import 'package:great_quran/app.dart';
 import 'package:great_quran/core/services/local_notification_service.dart';
 import 'package:great_quran/feature/radios/logic/providers/radio_audio_handler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // The UI is Arabic only, so times read "2:37 م" instead of "2:37 PM".
+  Intl.defaultLocale = 'ar';
+  await initializeDateFormatting('ar');
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.grey,

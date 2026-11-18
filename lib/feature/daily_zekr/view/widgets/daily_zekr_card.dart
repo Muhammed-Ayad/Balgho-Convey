@@ -5,6 +5,7 @@ import 'package:great_quran/core/helpers/extensions.dart';
 import 'package:great_quran/core/helpers/ui_helpers.dart';
 import 'package:great_quran/core/services/home_widget_sync_service.dart';
 import 'package:great_quran/core/theme/dimensions.dart';
+import 'package:great_quran/core/theme/font_manager.dart';
 import 'package:great_quran/feature/daily_zekr/logic/models/daily_zekr.dart';
 import 'package:great_quran/feature/daily_zekr/logic/providers/daily_zekr_provider.dart';
 import 'package:great_quran/feature/favorites/logic/models/favorite_item.dart';
@@ -56,11 +57,20 @@ class DailyZekrCard extends ConsumerWidget {
             const SizedBox(height: D.sizeMedium),
             SelectableText(
               dailyItem.text,
-              style: context.textTheme.headlineSmall?.copyWith(
-                fontSize: 18,
-                height: 1.8,
-                fontWeight: FontWeight.w600,
-              ),
+              // Quranic duas use the Uthmani font so stacked marks (shadda
+              // with kasra) render correctly; hadiths keep the UI font.
+              style: dailyItem.isHadith
+                  ? context.textTheme.headlineSmall?.copyWith(
+                      fontSize: 18,
+                      height: 1.8,
+                      fontWeight: FontWeight.w600,
+                    )
+                  : context.textTheme.headlineSmall?.copyWith(
+                      fontFamily: FontFamilyNames.uthmanicFont,
+                      fontSize: 22,
+                      height: 1.9,
+                      fontWeight: FontWeight.w400,
+                    ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: D.sizeMedium),
