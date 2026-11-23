@@ -12,7 +12,9 @@
 [![Google Play](https://img.shields.io/badge/Google_Play-Available-green?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad)
 [![App Store](https://img.shields.io/badge/App_Store-Available-black?logo=apple&logoColor=white)](https://apps.apple.com/eg/app/%D8%A8%D9%84-%D8%BA%D9%88%D8%A7-%D8%B9%D9%86-%D9%8A-%D9%82%D8%B1%D8%A2%D9%86-%D9%88%D8%A3%D8%B0%D9%83%D8%A7%D8%B1/id6836274914)
 [![Downloads](https://playbadges.pavi2410.com/badge/downloads?id=com.convey.ayah.mohamed.ayad)](https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad)
-[![Ratings](https://playbadges.pavi2410.com/badge/ratings?id=com.convey.ayah.mohamed.ayad)](https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad)
+[![Google Play rating (Egypt)](https://img.shields.io/badge/Google_Play_(Egypt)-4.8%2F5_%C2%B7_31_reviews-brightgreen?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad&hl=en&gl=EG)
+
+<sub>تقييم Google Play في مصر: 4.8/5 من 31 مراجعة، كما يظهر في المتجر بتاريخ 23 نوفمبر 2026. قد يختلف التقييم حسب البلد.</sub>
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.convey.ayah.mohamed.ayad">
